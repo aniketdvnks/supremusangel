@@ -26,7 +26,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/supremusangel/css/supremusangel.css"
-# app_include_js = "/assets/supremusangel/js/supremusangel.js"
+app_include_js = "/assets/supremusangel/js/policy_ack.bundle.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/supremusangel/css/supremusangel.css"
@@ -241,4 +241,5 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-
+# boot_session = "supremusangel.supremus_angel.boot.boot_session"
+# on_login = "supremusangel.auth_hooks.on_login"
