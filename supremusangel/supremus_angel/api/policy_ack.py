@@ -48,6 +48,15 @@ def get_pending_policies():
     return pending
 
 @frappe.whitelist()
+def get_employee_for_user():
+    """
+    Return employee linked to current user, or None.
+    """
+    user = frappe.session.user
+    emp = frappe.db.get_value("Employee", {"user_id": user}, ["name", "employee_name"], as_dict=True)
+    return emp
+
+@frappe.whitelist()
 def acknowledge_policies(policy_names: str):
     """
     policy_names: JSON list or comma-separated names of Company Policy docs.
@@ -55,6 +64,7 @@ def acknowledge_policies(policy_names: str):
     import json
 
     user = _get_current_user()
+    emp = get_employee_for_user()
     if user in ("Guest", "Administrator"):
         frappe.throw("Not allowed")
 
@@ -84,6 +94,7 @@ def acknowledge_policies(policy_names: str):
         doc = frappe.get_doc({
             "doctype": "Company Policy Acknowledgement",
             "user": user,
+            "employee":emp,
             "policy": policy,
             "acknowledged_on": now_datetime(),
             "ip_address": ip,
