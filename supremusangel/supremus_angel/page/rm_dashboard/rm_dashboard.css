@@ -346,3 +346,54 @@
     }
   }
   
+  .rm-dashboard {
+    max-height: 700px;
+    overflow-y: auto;
+  }
+  
+  /* Tabs */
+  .rm-tabs .nav-link {
+    cursor: pointer;
+    border-radius: 999px 999px 0 0;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+  }
+  .rm-tabs .nav-link.active {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(148, 163, 184, 0.6);
+    color: #f9fafb;
+  }
+  
+  /* Scrollable tables */
+  .rm-table-wrapper {
+    max-height: 220px;
+    overflow-y: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(55, 65, 81, 0.7);
+    background: rgba(15, 23, 42, 0.96);
+  }
+  .rm-history-table {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+  }
+  .rm-history-table thead th {
+    position: sticky;
+    top: 0;
+    background: rgba(15, 23, 42, 1);
+  }
+  
+  /* Mode bar */
+  .rm-mode-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .rm-mode-label {
+    font-size: 0.8rem;
+    color: #9ca3af;
+  }
+  .rm-mode-btn {
+    border-radius: 999px;
+  }
+  

@@ -18,76 +18,126 @@ frappe.pages['rm-dashboard'].on_page_load = function(wrapper) {
 	  this.storage_key = 'rm_current_lead'; // localStorage key
   
 	  this.bind_events();
-	  this.check_persistent_lead(); // NEW: Check localStorage first
+	  this.init_mode_and_entity();
+	//   this.check_persistent_lead(); // NEW: Check localStorage first
 	}
   
 	// NEW: Check localStorage for persistent lead
-	check_persistent_lead() {
-	  const saved_lead = localStorage.getItem(this.storage_key);
-	  if (saved_lead) {
-		frappe.xcall('frappe.client.get', {
-			doctype: 'Lead',
-			name: saved_lead,
-		}).then(r => {
-		  if (r.message) {
-			// Valid lead found in storage → auto-load
-			this.load_lead_by_name(saved_lead);
-		  } else {
-			// Invalid/removed lead → clear storage & show selector
-			localStorage.removeItem(this.storage_key);
-			this.show_lead_selector();
+	// check_persistent_lead() {
+	//   const saved_lead = localStorage.getItem(this.storage_key);
+	//   if (saved_lead) {
+	// 	frappe.xcall('frappe.client.get', {
+	// 		doctype: 'Lead',
+	// 		name: saved_lead,
+	// 	}).then(r => {
+	// 	  if (r.message) {
+	// 		// Valid lead found in storage → auto-load
+	// 		this.load_lead_by_name(saved_lead);
+	// 	  } else {
+	// 		// Invalid/removed lead → clear storage & show selector
+	// 		localStorage.removeItem(this.storage_key);
+	// 		this.show_lead_selector();
+	// 	  }
+	// 	});
+	//   } else {
+	// 	// No saved lead → show selector
+	// 	this.show_lead_selector();
+	//   }
+	// }
+	  // initial decision: lead or customer
+	  init_mode_and_entity() {
+		const saved_customer = localStorage.getItem(this.cust_key);
+		const saved_lead = localStorage.getItem(this.lead_key);
+	
+		if (saved_customer) {
+		  this.mode = 'customer';
+		  this.highlight_mode();
+		  this.load_customer_by_name(saved_customer, true);
+		} else if (saved_lead) {
+		  this.mode = 'lead';
+		  this.highlight_mode();
+		  this.load_lead_by_name(saved_lead);
+		} else {
+		  // nothing saved → ask what to work with
+		  this.ask_mode_choice();
+		}
+	  }
+	  ask_mode_choice() {
+		const dialog = new frappe.ui.Dialog({
+		  title: 'Start With',
+		  fields: [
+			{
+			  fieldtype: 'Select',
+			  label: 'Work with',
+			  fieldname: 'mode',
+			  options: ['Lead', 'Customer'],
+			  default: 'Lead',
+			  reqd: 1
+			}
+		  ],
+		  primary_action_label: 'Continue',
+		  primary_action: (values) => {
+			this.mode = values.mode.toLowerCase();
+			this.highlight_mode();
+			dialog.hide();
+			if (this.mode === 'lead') {
+			  this.show_lead_selector();
+			} else {
+			  this.show_customer_selector();
+			}
 		  }
 		});
-	  } else {
-		// No saved lead → show selector
-		this.show_lead_selector();
+		dialog.show();
 	  }
-	}
-  
 	// NEW: Show lead selector dialog (modal instead of inline for better UX)
-	show_lead_selector() {
-	  const dialog = new frappe.ui.Dialog({
-		title: 'Select Assigned Lead',
-		fields: [
-		  {
-			fieldtype: 'Link',
-			label: 'Lead',
-			fieldname: 'lead',
-			options: 'Lead',
-			reqd: 1,
-		  }
-		],
-		primary_action_label: 'Load Lead',
-		primary_action: (values) => {
-		  this.set_current_lead(values.lead);
-		  dialog.hide();
-		}
-	  });
-	  dialog.show();
-	}
-  
+	// show_lead_selector() {
+	//   const dialog = new frappe.ui.Dialog({
+	// 	title: 'Select Assigned Lead',
+	// 	fields: [
+	// 	  {
+	// 		fieldtype: 'Link',
+	// 		label: 'Lead',
+	// 		fieldname: 'lead',
+	// 		options: 'Lead',
+	// 		reqd: 1,
+	// 	  }
+	// 	],
+	// 	primary_action_label: 'Load Lead',
+	// 	primary_action: (values) => {
+	// 	  this.set_current_lead(values.lead);
+	// 	  dialog.hide();
+	// 	}
+	//   });
+	//   dialog.show();
+	// }
+	highlight_mode() {
+		$('.rm-mode-btn').removeClass('btn-primary').addClass('btn-outline-secondary');
+		$(`.rm-mode-btn[data-mode="${this.mode}"]`)
+		  .removeClass('btn-outline-secondary')
+		  .addClass('btn-primary');
+	  }
 	// NEW: Load lead by name (used for persistent load)
-	load_lead_by_name(lead_name) {
-	  frappe.call({
-		method: 'frappe.client.get',
-		args: { doctype: 'Lead', name: lead_name }
-	  }).then(r => {
-		this.current_lead = r.message;
-		this.render_lead_page();
-	  });
-	}
+	// load_lead_by_name(lead_name) {
+	//   frappe.call({
+	// 	method: 'frappe.client.get',
+	// 	args: { doctype: 'Lead', name: lead_name }
+	//   }).then(r => {
+	// 	this.current_lead = r.message;
+	// 	this.render_lead_page();
+	//   });
+	// }
   
 	// NEW: Set current lead & persist
-	set_current_lead(lead_name) {
-	  this.current_lead = { name: lead_name };
-	  localStorage.setItem(this.storage_key, lead_name);
-	  this.load_lead_by_name(lead_name);
-	}
+	// set_current_lead(lead_name) {
+	//   this.current_lead = { name: lead_name };
+	//   localStorage.setItem(this.storage_key, lead_name);
+	//   this.load_lead_by_name(lead_name);
+	// }
   
 	// UPDATED: Load assigned leads (for reference, not primary UI)
-	load_assigned_leads() {
-	  // Optional: Keep for "Switch Lead" dropdown if needed
-	}
+	// load_assigned_leads() {
+	//   // Optional: Keep for "Switch Lead" dropdown if needed
+	// }
   
 	// NEW: Render full lead page after selection
 	render_lead_page() {
@@ -313,7 +363,266 @@ frappe.pages['rm-dashboard'].on_page_load = function(wrapper) {
 		});
 	  }
 	
-	bind_events() {
+	  bind_events() {
+		// mode buttons
+		$(document).on('click', '.rm-mode-btn', (e) => {
+		  const mode = $(e.currentTarget).data('mode');
+		  this.mode = mode;
+		  this.highlight_mode();
+		  if (mode === 'lead') {
+			this.show_lead_selector();
+		  } else {
+			this.show_customer_selector();
+		  }
+		});
+	
+		// tabs: Lead / Customer context
+		$(document).on('click', '#rm-main-tabs .nav-link', function () {
+		  $('#rm-main-tabs .nav-link').removeClass('active');
+		  $(this).addClass('active');
+		  const target = $(this).data('target');
+		  $('#lead-context, #customer-context').hide();
+		  $(`#${target}`).show();
+		});
+	
+		// existing: meetings, onboarding, navigation, etc.
+		$(document).on('click', '#new-meeting', () => this.create_activity('Meeting'));
+		$(document).on('click', '#update-meeting', () => this.create_activity('Meeting Status Update'));
+		$(document).on('click', '#upload-selfie', () => this.upload_proof());
+		$(document).on('click', '#onboard-customer', () => this.goto_step('customer'));
+	
+		$(document).on('click', '#customer-back', () => this.goto_step('lead'));
+		$(document).on('click', '#save-customer', () => this.save_customer());
+		$(document).on('click', '#payment-back', () => this.goto_step('customer'));
+		$(document).on('click', '#save-payment', () => this.save_payment());
+		$(document).on('click', '#so-back', () => this.goto_step('payment'));
+		$(document).on('click', '#save-so', () => this.save_sales_order());
+		$(document).on('click', '#add-item', () => this.add_item_row());
+	  }
+	
+	  /* ---------- LEAD FLOW ---------- */
+	
+	  show_lead_selector() {
+		const dialog = new frappe.ui.Dialog({
+		  title: 'Select Lead',
+		  fields: [
+			{
+			  fieldtype: 'Link',
+			  fieldname: 'lead',
+			  label: 'Lead',
+			  options: 'Lead',
+			  reqd: 1,
+			  get_query: () => ({
+				filters: { lead_owner: frappe.session.user }
+			  })
+			}
+		  ],
+		  primary_action_label: 'Load',
+		  primary_action: (values) => {
+			dialog.hide();
+			this.set_current_lead(values.lead);
+		  }
+		});
+		dialog.show();
+	  }
+	
+	  set_current_lead(lead_name) {
+		this.current_lead = { name: lead_name };
+		localStorage.setItem(this.lead_key, lead_name);
+		this.load_lead_by_name(lead_name);
+	  }
+	
+	  load_lead_by_name(lead_name) {
+		frappe.call({
+		  method: 'frappe.client.get',
+		  args: { doctype: 'Lead', name: lead_name }
+		}).then(r => {
+		  this.current_lead = r.message;
+		  this.render_lead_page();
+		});
+	  }
+	
+	  render_lead_page() {
+		this.populate_lead_details();
+		this.load_timeline();
+		$('#lead-title').text(`Lead: ${this.current_lead.lead_name}`);
+		this.goto_step('lead'); // for wizard
+	  }
+	
+	  /* ---------- CUSTOMER FLOW ---------- */
+	
+	  show_customer_selector() {
+		const dialog = new frappe.ui.Dialog({
+		  title: 'Select Customer',
+		  fields: [
+			{
+			  fieldtype: 'Link',
+			  fieldname: 'customer',
+			  label: 'Customer',
+			  options: 'Customer',
+			  reqd: 1
+			}
+		  ],
+		  primary_action_label: 'Load',
+		  primary_action: (values) => {
+			dialog.hide();
+			this.set_current_customer(values.customer, true);
+		  }
+		});
+		dialog.show();
+	  }
+	
+	  set_current_customer(customer_name, jump_to_customer_section=false) {
+		this.customer_name = customer_name;
+		localStorage.setItem(this.cust_key, customer_name);
+		this.load_customer_by_name(customer_name, jump_to_customer_section);
+	  }
+	
+	  load_customer_by_name(customer_name, jump_to_customer_section=false) {
+		frappe.call({
+		  method: 'frappe.client.get',
+		  args: { doctype: 'Customer', name: customer_name }
+		}).then(r => {
+		  const cust = r.message;
+		  this.customer_name = cust.name;
+	
+		  // snapshot fields
+		  $('#cust_name').text(cust.customer_name || cust.name);
+		  $('#cust_demat').text(cust.demat_account || '-');   // custom fields
+		  $('#cust_bank').text(cust.bank_account || '-');
+	
+		  // pre-fill payment/customer sections
+		  $('#payment-form [name="party"]').val(cust.name);
+		  $('#payment-form [name="customer_bank"]').val(cust.bank_account || '');
+		  $('#sales-order-form [name="customer"]').val(cust.name);
+	
+		  // purchase history + events
+		  this.load_customer_history(cust.name);
+		  this.load_customer_events(cust.name);
+	
+		  // show Customer context tab
+		  $('#rm-main-tabs .nav-link').removeClass('active');
+		  $('#rm-main-tabs .nav-link[data-target="customer-context"]').addClass('active');
+		  $('#lead-context').hide();
+		  $('#customer-context').show();
+	
+		  if (jump_to_customer_section) {
+			this.goto_step('customer'); // wizard starts from Customer
+		  }
+		});
+	  }
+	
+	  /* ---------- PURCHASE HISTORY ---------- */
+	
+	  load_customer_history(customer_name) {
+		// get recent sales invoice items for this customer
+		frappe.call({
+		  method: 'frappe.client.get_list',
+		  args: {
+			doctype: 'Sales Invoice',
+			filters: { customer: customer_name },
+			fields: ['items', 'grand_total', 'posting_date'],
+			order_by: 'posting_date desc',
+			limit: 20
+		  }
+		}).then(r => {
+		  const body = $('#cust_history_body').empty();
+		  (r.message || []).forEach(row => {
+			const url = `/app/sales-invoice/${row.parent}`;
+			body.append(`
+			  <tr>
+				<td>${row.item_code}</td>
+				<td>${frappe.datetime.str_to_user(row.posting_date)}</td>
+				<td>${format_currency(row.rate)}</td>
+				<td><a href="${url}" target="_blank">${row.parent}</a></td>
+			  </tr>
+			`);
+		  });
+		});
+	  }
+	
+	  /* ---------- UPCOMING EVENTS ---------- */
+	
+	  load_customer_events(customer_name) {
+		frappe.call({
+		  method: 'frappe.client.get_list',
+		  args: {
+			doctype: 'Event',
+			filters: {
+			  reference_doctype: 'Customer',
+			  reference_docname: customer_name,
+			  starts_on: ['>=', frappe.datetime.get_today()]
+			},
+			fields: ['name', 'subject', 'starts_on'],
+			order_by: 'starts_on asc',
+			limit: 10
+		  }
+		}).then(r => {
+		  const body = $('#cust_events_body').empty();
+		  (r.message || []).forEach(ev => {
+			body.append(`
+			  <tr>
+				<td>${frappe.datetime.str_to_user(ev.starts_on)}</td>
+				<td>${ev.subject}</td>
+			  </tr>
+			`);
+		  });
+		});
+	  }
+	
+	  /* ---------- WIZARD STEP HANDLING ---------- */
+	
+	  goto_step(step) {
+		$('.section').removeClass('active');
+		$(`#${step}-section`).addClass('active');
+	
+		// wizard indicator
+		const map = {
+		  'lead': 'lead',
+		  'customer': 'customer',
+		  'payment': 'payment',
+		  'sales-order': 'sales-order'
+		};
+		const current = map[step];
+	
+		$('.rm-step').removeClass('rm-step-active rm-step-complete');
+		let reached = false;
+		$('.rm-step').each(function () {
+		  const s = $(this).data('step');
+		  if (!reached && s !== current) {
+			$(this).addClass('rm-step-complete');
+		  } else if (s === current) {
+			$(this).addClass('rm-step-active');
+			reached = true;
+		  }
+		});
+	  }
+	
+	  /* ---------- SAVE CUSTOMER: also persist ---------- */
+	
+	  save_customer() {
+		const $form = $('#customer-form');
+		const doc = {
+		  doctype: 'Customer',
+		  customer_name: $form.find('[name="customer_name"]').val(),
+		  mobile_no: $form.find('[name="phone"]').val(),
+		  email_id: $form.find('[name="email_id"]').val(),
+		  address_line1: $form.find('[name="address_line1"]').val(),
+		  demat_account: $form.find('[name="demat_account"]').val(),
+		  bank_account: $form.find('[name="bank_account"]').val(),
+		  pan_card: $form.find('[name="pan_card"]').val(),
+		  aadhar_card: $form.find('[name="aadhar_card"]').val(),
+		  bank_ifsc: $form.find('[name="bank_ifsc"]').val(),
+		  customer_group: 'Individual'
+		};
+		frappe.call({
+			method: 'frappe.client.insert',
+			args: { doc },
+			freeze: true
+		  }).then(r => {
+			this.set_current_customer(r.message.name, true); // store in localStorage & jump to customer step
+		  });
+		
 	  const me = this;
 	  // Activities
 	  $(document).on('click', '#new-meeting', () => this.create_activity('Meeting'));
