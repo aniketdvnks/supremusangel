@@ -1,307 +1,230 @@
-<div class="rm-dashboard">
-  <div class="rm-mode-bar">
-    <span class="rm-mode-label">Work with:</span>
-    <button class="btn btn-sm btn-primary rm-mode-btn" data-mode="lead">Lead</button>
-    <button class="btn btn-sm btn-outline-secondary rm-mode-btn" data-mode="customer">
-      Customer
-    </button>
-  </div>
-  
-    <!-- Step Wizard -->
-    <div class="rm-step-wizard">
-      <div class="rm-step rm-step-active" data-step="lead">
-        <div class="rm-step-badge">1</div>
-        <div class="rm-step-label">Lead</div>
-      </div>
-      <div class="rm-step" data-step="customer">
-        <div class="rm-step-line"></div>
-        <div class="rm-step-badge">2</div>
-        <div class="rm-step-label">Customer KYC</div>
-      </div>
-      <div class="rm-step" data-step="payment">
-        <div class="rm-step-line"></div>
-        <div class="rm-step-badge">3</div>
-        <div class="rm-step-label">Payment</div>
-      </div>
-      <div class="rm-step" data-step="sales-order">
-        <div class="rm-step-line"></div>
-        <div class="rm-step-badge">4</div>
-        <div class="rm-step-label">Sales Order</div>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-md-12">
-        <ul class="nav nav-tabs rm-tabs" id="rm-main-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" data-target="lead-context">Lead</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-target="customer-context">Customer</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+<div class="layout-main-section">
+          <div class="rm-dashboard" id="rm-dashboard-root">
+            <div class="rm-step-wizard rm-mode-bar">
+                <span class="rm-mode-label">Start with:</span>
+                <button class="btn btn-sm rm-mode-btn" data-mode="lead">Lead</button>
+                <button class="btn btn-sm rm-mode-btn" data-mode="customer">Customer</button>
+              </div>
     
-    <div class="row mt-2" id="lead-context">
-      <!-- existing timeline + activities already here, so no change -->
-    </div>
-    
-    <div class="row mt-2" id="customer-context" style="display:none;">
-      <div class="col-md-7">
-        <h5>Customer Snapshot</h5>
-        <div class="lead-details">
-          <div class="form-group"><label>Customer:</label> <span id="cust_name">-</span></div>
-          <div class="form-group"><label>Demat Account:</label> <span id="cust_demat">-</span></div>
-          <div class="form-group"><label>Bank Account:</label> <span id="cust_bank">-</span></div>
-        </div>
-    
-        <h6 class="mt-3">Item-wise Purchase History</h6>
-        <div class="rm-table-wrapper">
-          <table class="table table-sm table-dark rm-history-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Posting Date</th>
-                <th>Rate</th>
-                <th>Invoice</th>
-              </tr>
-            </thead>
-            <tbody id="cust_history_body">
-              <!-- rows injected -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    
-      <div class="col-md-5">
-        <h5>Upcoming Meetings / Events</h5>
-        <div class="rm-table-wrapper">
-          <table class="table table-sm table-dark rm-history-table">
-            <thead>
-              <tr>
-                <th>When</th>
-                <th>Subject</th>
-              </tr>
-            </thead>
-            <tbody id="cust_events_body">
-              <!-- rows injected -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    
-  <!-- Lead Details + Timeline (Step 1) -->
-  <div class="section active" id="lead-section">
-    <div class="row">
-      <div class="col-md-7">
-        <h4 id="lead-title">Lead Details</h4>
-
-        <div class="lead-details">
-          <div class="form-group">
-            <label>Lead Name:</label>
-            <span id="lead_name">-</span>
-          </div>
-          <div class="form-group">
-            <label>Phone:</label>
-            <span id="phone">-</span>
-          </div>
-          <div class="form-group">
-            <label>WhatsApp:</label>
-            <span id="whatsapp">-</span>
-          </div>
-          <div class="form-group">
-            <label>Email:</label>
-            <span id="email_id">-</span>
-          </div>
-          <div class="form-group">
-            <label>Address:</label>
-            <span id="address">-</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-5">
-        <h5>Timeline</h5>
-        <div id="timeline" class="timeline-list"></div>
-      </div>
-    </div>
-
-    <div class="activities">
-      <!-- Switch Lead button will be injected here by JS (id="switch-lead-btn") -->
-      <button class="btn btn-outline-primary" id="new-meeting">New Meeting</button>
-      <button class="btn btn-outline-primary" id="update-meeting">Update Meeting Status</button>
-      <button class="btn btn-outline-primary" id="upload-selfie">Upload Selfie/Signboard</button>
-      <button class="btn btn-primary" id="onboard-customer">Onboard as Customer</button>
-    </div>
-  </div>
-
-  <!-- Step 2: Customer Onboarding -->
-  <div class="section" id="customer-section">
-    <h4>Onboard Customer</h4>
-  
-    <form id="customer-form">
-      <h6>Basic Info (from Lead)</h6>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Name:</label>
-            <input type="text" class="form-control" name="customer_name" readonly>
-          </div>
-          <div class="form-group">
-            <label>Phone:</label>
-            <input type="text" class="form-control" name="phone">
-          </div>
-          <div class="form-group">
-            <label>WhatsApp:</label>
-            <input type="text" class="form-control" name="whatsapp_no">
-          </div>
-        </div>
-  
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Email:</label>
-            <input type="email" class="form-control" name="email_id">
-          </div>
-          <div class="form-group">
-            <label>Address:</label>
-            <textarea class="form-control" name="address_line1" rows="2"></textarea>
-          </div>
-        </div>
-      </div>
-  
-      <h6>KYC Details</h6>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Demat Account:</label>
-            <input type="text" class="form-control" name="demat_account">
-          </div>
-          <div class="form-group">
-            <label>PAN Card:</label>
-            <input type="text" class="form-control" name="pan_card">
-          </div>
-          <div class="form-group">
-            <label>Aadhar Card:</label>
-            <input type="text" class="form-control" name="aadhar_card">
-          </div>
-        </div>
-  
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Bank Account:</label>
-            <input type="text" class="form-control" name="bank_account">
-          </div>
-          <div class="form-group">
-            <label>Bank IFSC:</label>
-            <input type="text" class="form-control" name="bank_ifsc">
-          </div>
-        </div>
-      </div>
-  
-      <div class="wizard-actions">
-        <button type="button" class="btn btn-secondary" id="customer-back">Back</button>
-        <button type="button" class="btn btn-primary" id="save-customer">
-          Save &amp; Submit for Verification
-        </button>
-      </div>
-    </form>
-  </div>
-  
-
-  <!-- Step 3: Payment Entry -->
-  <div class="section" id="payment-section">
-    <h4>Create Payment (Wire Transfer)</h4>
-  
-    <form id="payment-form">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Customer:</label>
-            <input type="text" class="form-control" name="party" readonly>
-          </div>
-          <div class="form-group">
-            <label>Paid Amount:</label>
-            <input type="number" class="form-control" name="paid_amount" step="0.01" required>
-          </div>
-        </div>
-  
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Bank Account (Customer):</label>
-            <input type="text" class="form-control" name="customer_bank" readonly>
-          </div>
-          <div class="form-group">
-            <label>Transaction Reference:</label>
-            <input type="text" class="form-control" name="reference_no">
-          </div>
-        </div>
-      </div>
-  
-      <div class="wizard-actions">
-        <button type="button" class="btn btn-secondary" id="payment-back">Back</button>
-        <button type="button" class="btn btn-primary" id="save-payment">
-          Save &amp; Submit for Verification
-        </button>
-      </div>
-    </form>
-  </div>
-  
-
-  <!-- Step 4: Sales Order -->
-  <div class="section" id="sales-order-section">
-    <h4>Sales Order</h4>
-  
-    <form id="sales-order-form">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Customer:</label>
-            <input type="text" class="form-control" name="customer" readonly>
-          </div>
-          <div class="form-group">
-            <label>Total:</label>
-            <span id="so-total">0</span>
-          </div>
-        </div>
-  
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Items</label>
-            <div id="item-table">
-              <!-- Dynamic item rows -->
+            <!-- Step Wizard -->
+            <div class="rm-step-wizard">
+              <div class="rm-step rm-step-active" data-step="lead">
+                <div class="rm-step-badge">1</div>
+                <div class="rm-step-label">Lead</div>
+              </div>
+              <div class="rm-step" data-step="customer">
+                <div class="rm-step-line"></div>
+                <div class="rm-step-badge">2</div>
+                <div class="rm-step-label">Customer KYC</div>
+              </div>
+              <div class="rm-step" data-step="payment">
+                <div class="rm-step-line"></div>
+                <div class="rm-step-badge">3</div>
+                <div class="rm-step-label">Payment</div>
+              </div>
+              <div class="rm-step" data-step="sales-order">
+                <div class="rm-step-line"></div>
+                <div class="rm-step-badge">4</div>
+                <div class="rm-step-label">Sales Order</div>
+              </div>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary" id="add-item">
-              Add Item
-            </button>
+    
+            <!-- VIEW: LEAD -->
+            <div class="rm-section" id="view-lead">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 id="lead-title">Lead</h4>
+                <button class="btn btn-sm btn-outline-secondary" id="btn-switch-lead">Switch Lead</button>
+              </div>
+    
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="form-group"><label>Lead Name:</label> <span id="lead_name">-</span></div>
+                  <div class="form-group"><label>Phone:</label> <span id="lead_phone">-</span></div>
+                  <div class="form-group"><label>WhatsApp:</label> <span id="lead_whatsapp">-</span></div>
+                  <div class="form-group"><label>Email:</label> <span id="lead_email">-</span></div>
+                  <div class="form-group"><label>Address:</label> <span id="lead_address">-</span></div>
+                  <div class="form-group"><label>Assigned To:</label> <span id="lead_owner">-</span></div>
+                  <div class="form-group">
+                    <label>Linked Customer:</label>
+                    <span id="lead_customer_link">No</span>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <h6>Timeline</h6>
+                  <div id="lead_timeline" class="rm-timeline"></div>
+                </div>
+              </div>
+    
+              <div class="rm-activities mt-3">
+                <button class="btn btn-outline-primary" id="btn-new-meeting">New Meeting</button>
+                <button class="btn btn-outline-primary" id="btn-update-meeting">Update Meeting Status</button>
+                <button class="btn btn-outline-primary" id="btn-upload-selfie">Upload Selfie/Signboard</button>
+                <button class="btn btn-primary" id="btn-onboard-customer">
+                  Onboard as Customer
+                </button>
+              </div>
+            </div>
+    
+            <!-- VIEW: CUSTOMER (KYC + status + purchase history) -->
+            <div class="rm-section" id="view-customer" style="display:none;">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <h4 id="customer-title">Customer</h4>
+                  <div class="mt-1">
+                    <span id="customer-state-badge"></span>
+                  </div>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary" id="btn-switch-customer">
+                  Switch Customer
+                </button>
+              </div>
+    
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="form-group"><label>Customer Name:</label> <span id="cust_name_view">-</span></div>
+                  <div class="form-group"><label>Demat Account:</label> <span id="cust_demat_view">-</span></div>
+                  <div class="form-group"><label>Bank Account:</label> <span id="cust_bank_view">-</span></div>
+                </div>
+                <div class="col-md-5">
+                  <h6>Upcoming Meetings / Events</h6>
+                  <div class="rm-table-wrapper">
+                    <table class="table table-sm table-light rm-history-table">
+                      <thead>
+                        <tr>
+                          <th>When</th>
+                          <th>Subject</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cust_events_body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+    
+              <hr>
+    
+              <div class="row">
+                <div class="col-md-7">
+                  <h6>KYC Details</h6>
+                  <form id="customer-kyc-form">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group"><label>Phone:</label>
+                          <input type="text" class="form-control" name="phone">
+                        </div>
+                        <div class="form-group"><label>WhatsApp:</label>
+                          <input type="text" class="form-control" name="whatsapp_no">
+                        </div>
+                        <div class="form-group"><label>PAN Card:</label>
+                          <input type="text" class="form-control" name="pan_card">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group"><label>Aadhar Card:</label>
+                          <input type="text" class="form-control" name="aadhar_card">
+                        </div>
+                        <div class="form-group"><label>Bank Account:</label>
+                          <input type="text" class="form-control" name="bank_account">
+                        </div>
+                        <div class="form-group"><label>Bank IFSC:</label>
+                          <input type="text" class="form-control" name="bank_ifsc">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="rm-wizard-actions">
+                      <button type="button" class="btn btn-primary" id="btn-save-kyc">Update KYC</button>
+                    </div>
+                  </form>
+                </div>
+    
+                <div class="col-md-5">
+                  <h6>Purchase History</h6>
+                  <div class="rm-table-wrapper" id="cust-history-wrapper">
+                    <table class="table table-sm table-light rm-history-table">
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Posting Date</th>
+                          <th>Rate</th>
+                          <th>Invoice</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cust_history_body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            <!-- VIEW: PAYMENT -->
+            <div class="rm-section" id="view-payment" style="display:none;">
+              <h4>Payment (Wire Transfer)</h4>
+              <form id="payment-form">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group"><label>Customer:</label>
+                      <input type="text" class="form-control" name="party" readonly>
+                    </div>
+                    <div class="form-group"><label>Paid Amount:</label>
+                      <input type="number" class="form-control" name="paid_amount" step="0.01" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"><label>Customer Bank Account:</label>
+                      <input type="text" class="form-control" name="customer_bank" readonly>
+                    </div>
+                    <div class="form-group"><label>Transaction Reference:</label>
+                      <input type="text" class="form-control" name="reference_no">
+                    </div>
+                  </div>
+                </div>
+                <div class="rm-wizard-actions">
+                  <button type="button" class="btn btn-secondary" id="btn-payment-back">Back</button>
+                  <button type="button" class="btn btn-primary" id="btn-save-payment">
+                    Save &amp; Submit for Verification
+                  </button>
+                </div>
+              </form>
+            </div>
+    
+            <!-- VIEW: SALES ORDER -->
+            <div class="rm-section" id="view-sales-order" style="display:none;">
+              <h4>Sales Order</h4>
+              <form id="sales-order-form">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group"><label>Customer:</label>
+                      <input type="text" class="form-control" name="customer" readonly>
+                    </div>
+                    <div class="form-group"><label>Total:</label> <span id="so-total">0</span></div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Items</label>
+                      <div id="item-table"></div>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-add-item">
+                        Add Item
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="rm-wizard-actions">
+                  <button type="button" class="btn btn-secondary" id="btn-so-back">Back</button>
+                  <button type="button" class="btn btn-primary" id="btn-save-so">Save &amp; Submit</button>
+                </div>
+              </form>
+            </div>
+    
           </div>
-        </div>
-      </div>
-  
-      <div class="wizard-actions">
-        <button type="button" class="btn btn-secondary" id="so-back">Back</button>
-        <button type="button" class="btn btn-primary" id="save-so">
-          Save &amp; Submit
-        </button>
-      </div>
-    </form>
-  </div>
-  
-
-  <!-- Complete Modal -->
-  <div class="modal fade" id="complete-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Process Complete</h5>
-        </div>
-        <div class="modal-body">
-          <p>
-            Share Transfer Team will verify Payment &amp; KYC, then create Delivery Note.
-            You will be notified via email.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+        
+    
+        <!-- Sidebar -->
+        <!-- <div class="col-lg-3">
+          <div class="rm-sidebar">
+            <h5>Item Prices</h5>
+            <div id="sidebar-item-prices"></div>
+          </div>
+        </div> -->
+      
 </div>
+  
