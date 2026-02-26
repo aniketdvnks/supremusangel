@@ -1,0 +1,115 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:question_title",
+ "creation": "2026-02-26 16:16:18.412256",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "question_title",
+  "question",
+  "question_type",
+  "yes_or_no",
+  "select",
+  "select_options",
+  "numeric",
+  "free_text",
+  "weightage",
+  "is_must_have",
+  "sequence"
+ ],
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Small Text",
+   "label": "Question"
+  },
+  {
+   "fieldname": "question_type",
+   "fieldtype": "Select",
+   "label": "Question Type",
+   "options": "Yes/No\nSingle Select\nMulti Select\nNumeric\nFree Text"
+  },
+  {
+   "depends_on": "eval:doc.question_type===\"Yes/No\"",
+   "fieldname": "yes_or_no",
+   "fieldtype": "Select",
+   "label": "Yes or No",
+   "options": "Yes\nNo"
+  },
+  {
+   "depends_on": "eval:doc.question_type===\"Single Select\"",
+   "fieldname": "select",
+   "fieldtype": "Select",
+   "label": "Select"
+  },
+  {
+   "depends_on": "eval:doc.question_type===\"Numeric\"",
+   "fieldname": "numeric",
+   "fieldtype": "Int",
+   "label": "Numeric"
+  },
+  {
+   "depends_on": "eval:doc.question_type===\"Free Text\"",
+   "fieldname": "free_text",
+   "fieldtype": "Small Text",
+   "label": "Free Text"
+  },
+  {
+   "fieldname": "weightage",
+   "fieldtype": "Int",
+   "label": "Weightage"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_must_have",
+   "fieldtype": "Check",
+   "label": "Is Must Have"
+  },
+  {
+   "fieldname": "sequence",
+   "fieldtype": "Int",
+   "label": "Sequence"
+  },
+  {
+   "depends_on": "eval:doc.question_type===\"Single Select\"",
+   "fieldname": "select_options",
+   "fieldtype": "Small Text",
+   "label": "Select Options"
+  },
+  {
+   "fieldname": "question_title",
+   "fieldtype": "Data",
+   "label": "Question Title",
+   "unique": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-26 16:32:45.121183",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "Screening Questions",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

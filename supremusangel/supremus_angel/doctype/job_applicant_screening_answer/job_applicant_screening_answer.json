@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-02-26 16:34:47.966823",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "screening_question",
+  "question_type",
+  "question",
+  "is_must_have",
+  "expected_answer",
+  "applicants_answer"
+ ],
+ "fields": [
+  {
+   "fieldname": "screening_question",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Screening Question",
+   "options": "Screening Questions"
+  },
+  {
+   "fetch_from": "screening_question.question_type",
+   "fieldname": "question_type",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Question Type",
+   "options": "Yes/No\nSingle Select\nMulti Select\nNumeric\nFree Text"
+  },
+  {
+   "fetch_from": "screening_question.question",
+   "fieldname": "question",
+   "fieldtype": "Small Text",
+   "label": "Question"
+  },
+  {
+   "default": "0",
+   "fetch_from": "screening_question.is_must_have",
+   "fieldname": "is_must_have",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Must Have"
+  },
+  {
+   "fieldname": "expected_answer",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expected Answer"
+  },
+  {
+   "fieldname": "applicants_answer",
+   "fieldtype": "Small Text",
+   "label": "Applicants Answer"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-26 17:07:39.701384",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "Job Applicant Screening Answer",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
