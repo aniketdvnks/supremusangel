@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal - Careers</title>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-teal-800: rgba(41, 150, 161, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-slate-500-rgb: 98, 108, 113;
+            --color-red-500-rgb: 192, 21, 47;
+            --color-red-400-rgb: 255, 84, 89;
+            --color-orange-500-rgb: 168, 75, 47;
+            --color-orange-400-rgb: 230, 129, 97;
+
+            --color-bg-1: rgba(59, 130, 246, 0.08);
+            --color-bg-2: rgba(245, 158, 11, 0.08);
+            --color-bg-3: rgba(34, 197, 94, 0.08);
+            --color-bg-4: rgba(239, 68, 68, 0.08);
+            --color-bg-5: rgba(147, 51, 234, 0.08);
+            --color-bg-6: rgba(249, 115, 22, 0.08);
+            --color-bg-7: rgba(236, 72, 153, 0.08);
+            --color-bg-8: rgba(6, 182, 212, 0.08);
+
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-primary-active: var(--color-teal-700);
+            --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-btn-primary-text: var(--color-cream-50);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-error: var(--color-red-500);
+            --color-success: var(--color-teal-500);
+            --color-warning: var(--color-orange-500);
+            --color-info: var(--color-slate-500);
+            --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+            --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+            --focus-ring: 0 0 0 3px var(--color-focus-ring);
+            --focus-outline: 2px solid var(--color-primary);
+
+            --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-size-xs: 11px;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-md: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-size-4xl: 30px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            --line-height-tight: 1.2;
+            --line-height-normal: 1.5;
+
+            --space-4: 4px;
+            --space-6: 6px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+
+            --radius-sm: 6px;
+            --radius-base: 8px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
+            --duration-fast: 150ms;
+            --duration-normal: 250ms;
+            --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-gray-400-rgb: 119, 124, 124;
+                --color-teal-300-rgb: 50, 184, 198;
+                --color-gray-300-rgb: 167, 169, 169;
+                --color-gray-200-rgb: 245, 245, 245;
+                --color-bg-1: rgba(29, 78, 216, 0.15);
+                --color-bg-2: rgba(180, 83, 9, 0.15);
+                --color-bg-3: rgba(21, 128, 61, 0.15);
+                --color-bg-4: rgba(185, 28, 28, 0.15);
+                --color-bg-5: rgba(107, 33, 168, 0.15);
+                --color-bg-6: rgba(194, 65, 12, 0.15);
+                --color-bg-7: rgba(190, 24, 93, 0.15);
+                --color-bg-8: rgba(8, 145, 178, 0.15);
+                --color-background: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+                --color-primary: var(--color-teal-300);
+                --color-primary-hover: var(--color-teal-400);
+                --color-primary-active: var(--color-teal-800);
+                --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+                --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+                --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-error: var(--color-red-400);
+                --color-success: var(--color-teal-300);
+                --color-warning: var(--color-orange-400);
+                --color-info: var(--color-gray-300);
+                --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+                --color-btn-primary-text: var(--color-slate-900);
+                --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+                --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+                --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+                --color-success-rgb: var(--color-teal-300-rgb);
+                --color-error-rgb: var(--color-red-400-rgb);
+                --color-warning-rgb: var(--color-orange-400-rgb);
+                --color-info-rgb: var(--color-gray-300-rgb);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: var(--font-size-base);
+            font-family: var(--font-family-base);
+            line-height: var(--line-height-normal);
+            color: var(--color-text);
+            background-color: var(--color-background);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-32);
+        }
+
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-16) 0;
+            margin-bottom: var(--space-32);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-32);
+        }
+
+        .logo {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-24);
+            color: var(--color-text);
+        }
+
+        h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-16);
+            color: var(--color-text);
+        }
+
+        h3 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-8);
+            color: var(--color-text);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--space-12);
+            margin-bottom: var(--space-32);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--space-12) var(--space-16);
+            font-size: var(--font-size-md);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-surface);
+            color: var(--color-text);
+        }
+
+        .search-input:focus {
+            outline: var(--focus-outline);
+            border-color: var(--color-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-12) var(--space-24);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: var(--color-text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--space-24);
+            margin-bottom: var(--space-32);
+        }
+
+        .job-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .job-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .job-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin-bottom: var(--space-8);
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-16);
+            margin-bottom: var(--space-16);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .job-description {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-16);
+        }
+
+        .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-8);
+        }
+
+        .tag {
+            padding: var(--space-4) var(--space-12);
+            background: var(--color-secondary);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+
+        .wizard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-32);
+            box-shadow: var(--shadow-md);
+        }
+
+        .wizard-header {
+            margin-bottom: var(--space-32);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-32);
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-border);
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 16px;
+            left: 0;
+            height: 2px;
+            background: var(--color-primary);
+            z-index: 1;
+            transition: width var(--duration-normal) var(--ease-standard);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-8);
+            z-index: 2;
+            position: relative;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-sm);
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .step.active .step-number {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-btn-primary-text);
+        }
+
+        .step.completed .step-number {
+            background: var(--color-success);
+            border-color: var(--color-success);
+            color: var(--color-btn-primary-text);
+        }
+
+        .step-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+            text-align: center;
+        }
+
+        .step.active .step-label {
+            color: var(--color-text);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: var(--space-20);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-8);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+            color: var(--color-text);
+        }
+
+        .form-label.required::after {
+            content: '*';
+            color: var(--color-error);
+            margin-left: var(--space-4);
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: var(--space-12);
+            font-size: var(--font-size-md);
+            line-height: 1.5;
+            color: var(--color-text);
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            transition: border-color var(--duration-fast) var(--ease-standard);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-control:focus {
+            border-color: var(--color-primary);
+            outline: var(--focus-outline);
+        }
+
+        .form-control.error {
+            border-color: var(--color-error);
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: var(--font-size-xs);
+            margin-top: var(--space-4);
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-32);
+            text-align: center;
+            background: var(--color-background);
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--color-primary);
+            background: var(--color-secondary);
+        }
+
+        .file-upload-area.active {
+            border-color: var(--color-primary);
+            background: var(--color-secondary);
+        }
+
+        .file-info {
+            margin-top: var(--space-12);
+            padding: var(--space-12);
+            background: var(--color-surface);
+            border-radius: var(--radius-base);
+            border: 1px solid var(--color-card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .salary-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+        }
+
+        .question-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-20);
+            margin-bottom: var(--space-16);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--space-32);
+            padding-top: var(--space-24);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .success-container {
+            text-align: center;
+            padding: var(--space-32);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--space-24);
+            border-radius: 50%;
+            background: rgba(var(--color-teal-500-rgb), 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-8);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--space-24);
+        }
+
+        .back-link:hover {
+            color: var(--color-primary-hover);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-16);
+            }
+
+            .job-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wizard-container {
+                padding: var(--space-20);
+            }
+
+            .progress-bar {
+                font-size: var(--font-size-xs);
+            }
+
+            .step-label {
+                font-size: 10px;
+            }
+
+            .salary-input-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">Company Name</div>
+        </div>
+    </div>
+
+    <div id="applicationView" class="container">
+        <a href="/jobs" class="back-link">
+            <span>←</span> Back to Job Listings
+        </a>
+
+        <div class="wizard-container">
+            <div class="wizard-header">
+                <h2 id="jobTitleHeader">Application Form</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-line" id="progressLine" style="width: 0%"></div>
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Basic Details</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Upload Resume</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Salary</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Screening</div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="applicationForm">
+                <div id="step1" class="form-section active">
+                    <h3>Basic Details</h3>
+                    <div class="form-group">
+                        <label class="form-label required">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" required>
+                        <div class="error-message hidden" id="fullNameError">Please enter your full name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Email Address</label>
+                        <input type="email" class="form-control" id="email" required>
+                        <div class="error-message hidden" id="emailError">Please enter a valid email address</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" required>
+                        <div class="error-message hidden" id="phoneError">Please enter a valid phone number</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Current Location</label>
+                        <input type="text" class="form-control" id="location" required>
+                        <div class="error-message hidden" id="locationError">Please enter your location</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Total Years of Experience</label>
+                        <input type="number" class="form-control" id="experience" min="0" required>
+                        <div class="error-message hidden" id="experienceError">Please enter your experience</div>
+                    </div>
+                </div>
+
+                <div id="step2" class="form-section">
+                    <h3>Upload Your Resume</h3>
+                    <div class="form-group">
+                        <label class="form-label required">Resume (PDF, DOC, DOCX - Max 5MB)</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" style="display: none;">
+                            <div>
+                                <div style="font-size: 40px; margin-bottom: var(--space-12);">📄</div>
+                                <p style="color: var(--color-text); font-weight: var(--font-weight-medium);">
+                                    Click to upload or drag and drop
+                                </p>
+                                <p style="color: var(--color-text-secondary); font-size: var(--font-size-xs);">
+                                    PDF, DOC or DOCX (max. 5MB)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="error-message hidden" id="resumeError">Please upload your resume</div>
+                        <div class="file-info hidden" id="fileInfo">
+                            <span id="fileName"></span>
+                            <button type="button" class="btn btn-secondary" style="padding: var(--space-6) var(--space-12); font-size: var(--font-size-xs);" onclick="removeFile()">Remove</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn Profile (Optional)</label>
+                        <input type="url" class="form-control" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Portfolio/Website (Optional)</label>
+                        <input type="url" class="form-control" id="portfolio" placeholder="https://yourwebsite.com">
+                    </div>
+                </div>
+
+                <div id="step3" class="form-section">
+                    <h3>Salary Expectations</h3>
+                    <div class="form-group">
+                        <label class="form-label required">Expected Salary Range (Annual)</label>
+                        <div class="salary-input-group">
+                            <div>
+                                <input type="number" class="form-control" id="salaryMin" placeholder="Minimum (₹)" required>
+                            </div>
+                            <div>
+                                <input type="number" class="form-control" id="salaryMax" placeholder="Maximum (₹)" required>
+                            </div>
+                        </div>
+                        <div class="error-message hidden" id="salaryError">Please enter valid salary range</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Currency</label>
+                        <select class="form-control" id="currency" required>
+                            <option value="INR">INR (₹)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Notice Period</label>
+                        <select class="form-control" id="noticePeriod" required>
+                            <option value="">Select notice period</option>
+                            <option value="immediate">Immediate</option>
+                            <option value="15days">15 Days</option>
+                            <option value="1month">1 Month</option>
+                            <option value="2months">2 Months</option>
+                            <option value="3months">3 Months</option>
+                        </select>
+                        <div class="error-message hidden" id="noticePeriodError">Please select your notice period</div>
+                    </div>
+                </div>
+
+                <div id="step4" class="form-section">
+                    <h3>Screening Questions</h3>
+                    <div id="screeningQuestions">
+                        <!-- Questions will be rendered here -->
+                    </div>
+                </div>
+
+                <div id="step5" class="form-section">
+                    <div class="success-container">
+                        <div class="success-icon">✓</div>
+                        <h2>Application Submitted Successfully!</h2>
+                        <p style="color: var(--color-text-secondary); margin: var(--space-24) 0;">
+                            Thank you for your interest in joining our team. We have received your application and will review it shortly.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-32);">
+                            You will receive an email confirmation at <strong id="confirmEmail"></strong>
+                        </p>
+                        <a href="/jobs" class="btn btn-primary">
+                            Browse More Jobs
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-actions" id="formActions">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" style="display: none;">
+                        Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        Next
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentJob = null;
+        let screeningQuestions = [];
+
+        async function fetchJobOpening(jobName) {
+            try {
+                const response = await frappe.call({
+                    method: 'frappe.client.get',
+                    args: {
+                        doctype: 'Job Opening',
+                        name: jobName,
+                        fields: ['name', 'job_title', 'location', 'employment_type', 'description', 'company', 'department']
+                    }
+                });
+                return response.message;
+            } catch (error) {
+                console.error('Error fetching job opening:', error);
+                frappe.msgprint('Failed to load job opening details');
+                return null;
+            }
+        }
+
+        async function fetchScreeningQuestions(jobName) {
+            try {
+                const response = await frappe.call({
+                    method: 'frappe.client.get',
+                    args: {
+                        doctype: 'Job Opening',
+                        name: jobName,
+                        fields: ['job_screening_questions']
+                    }
+                });
+                return response.message.job_screening_questions || [];
+            } catch (error) {
+                console.error('Error fetching screening questions:', error);
+                return [];
+            }
+        }
+
+        async function initializeApplication() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobName = urlParams.get('job');
+            
+            if (!jobName) {
+                frappe.msgprint('Job opening not specified. Please select a job from the jobs page.');
+                window.location.href = '/jobs';
+                return;
+            }
+
+            currentJob = await fetchJobOpening(jobName);
+            if (!currentJob) {
+                window.location.href = '/jobs';
+                return;
+            }
+
+            screeningQuestions = await fetchScreeningQuestions(jobName);
+            
+            document.getElementById('jobTitleHeader').textContent = `Apply for ${currentJob.job_title}`;
+            
+            const jobInfoHtml = `
+                <div style="background: var(--color-background); border: 1px solid var(--color-card-border); border-radius: var(--radius-base); padding: var(--space-16); margin-bottom: var(--space-24);">
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-16); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                        <span>🏢 ${currentJob.company}</span>
+                        ${currentJob.department ? `<span>📁 ${currentJob.department}</span>` : ''}
+                        ${currentJob.location ? `<span>📍 ${currentJob.location}</span>` : ''}
+                        ${currentJob.employment_type ? `<span>💼 ${currentJob.employment_type}</span>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            document.querySelector('.wizard-header').insertAdjacentHTML('afterbegin', jobInfoHtml);
+            
+            renderScreeningQuestions(screeningQuestions);
+        }
+
+        const jobs = [
+            {
+                id: 1,
+                title: 'Senior Software Engineer',
+                department: 'Engineering',
+                location: 'Mumbai, India',
+                type: 'Full-time',
+                experience: '5+ years',
+                description: 'We are looking for an experienced software engineer to join our growing team. You will work on challenging projects using modern technologies.',
+                skills: ['Python', 'JavaScript', 'React', 'Node.js'],
+                questions: [
+                    'Why are you interested in this position?',
+                    'Describe a challenging project you worked on and how you overcame obstacles.',
+                    'What are your career goals for the next 3-5 years?'
+                ]
+            },
+            {
+                id: 2,
+                title: 'Product Manager',
+                department: 'Product',
+                location: 'Bangalore, India',
+                type: 'Full-time',
+                experience: '3-5 years',
+                description: 'Join our product team to define and execute product strategy. Work closely with engineering, design, and business teams.',
+                skills: ['Product Strategy', 'User Research', 'Data Analysis', 'Agile'],
+                questions: [
+                    'How do you prioritize features in a product roadmap?',
+                    'Describe a successful product launch you managed.',
+                    'How do you handle conflicting stakeholder requirements?'
+                ]
+            },
+            {
+                id: 3,
+                title: 'UX Designer',
+                department: 'Design',
+                location: 'Remote',
+                type: 'Full-time',
+                experience: '2-4 years',
+                description: 'Create exceptional user experiences for our products. Collaborate with product and engineering teams to bring designs to life.',
+                skills: ['Figma', 'User Research', 'Prototyping', 'Design Systems'],
+                questions: [
+                    'Walk us through your design process.',
+                    'How do you incorporate user feedback into your designs?',
+                    'What is your experience with design systems?'
+                ]
+            },
+            {
+                id: 4,
+                title: 'DevOps Engineer',
+                department: 'Engineering',
+                location: 'Pune, India',
+                type: 'Full-time',
+                experience: '4+ years',
+                description: 'Build and maintain our infrastructure. Implement CI/CD pipelines and ensure system reliability and security.',
+                skills: ['AWS', 'Docker', 'Kubernetes', 'Terraform'],
+                questions: [
+                    'Describe your experience with container orchestration.',
+                    'How do you approach infrastructure as code?',
+                    'What monitoring and alerting tools have you used?'
+                ]
+            },
+            {
+                id: 5,
+                title: 'Data Analyst',
+                department: 'Analytics',
+                location: 'Delhi, India',
+                type: 'Full-time',
+                experience: '2-3 years',
+                description: 'Turn data into actionable insights. Work with stakeholders across the organization to drive data-informed decisions.',
+                skills: ['SQL', 'Python', 'Tableau', 'Statistics'],
+                questions: [
+                    'How do you ensure data quality in your analysis?',
+                    'Describe a time when your analysis influenced a business decision.',
+                    'What tools do you prefer for data visualization and why?'
+                ]
+            },
+            {
+                id: 6,
+                title: 'Marketing Manager',
+                department: 'Marketing',
+                location: 'Mumbai, India',
+                type: 'Full-time',
+                experience: '5+ years',
+                description: 'Lead marketing initiatives to grow our brand and customer base. Develop and execute comprehensive marketing strategies.',
+                skills: ['Digital Marketing', 'Content Strategy', 'SEO', 'Analytics'],
+                questions: [
+                    'What is your approach to developing a marketing strategy?',
+                    'How do you measure the success of marketing campaigns?',
+                    'Describe a successful campaign you led from start to finish.'
+                ]
+            }
+        ];
+
+        let currentStep = 1;
+        let selectedJob = null;
+
+        function renderJobs(jobsToRender = jobs) {
+            const jobGrid = document.getElementById('jobGrid');
+            jobGrid.innerHTML = '';
+            
+            jobsToRender.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                jobCard.onclick = () => openJobApplication(job);
+                
+                jobCard.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-meta">
+                        <span>📍 ${job.location}</span>
+                        <span>💼 ${job.type}</span>
+                        <span>⏱️ ${job.experience}</span>
+                    </div>
+                    <div class="job-description">${job.description}</div>
+                    <div class="job-tags">
+                        ${job.skills.map(skill => `<span class="tag">${skill}</span>`).join('')}
+                    </div>
+                `;
+                
+                jobGrid.appendChild(jobCard);
+            });
+        }
+
+        function searchJobs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredJobs = jobs.filter(job => 
+                job.title.toLowerCase().includes(searchTerm) ||
+                job.department.toLowerCase().includes(searchTerm) ||
+                job.location.toLowerCase().includes(searchTerm) ||
+                job.description.toLowerCase().includes(searchTerm)
+            );
+            renderJobs(filteredJobs);
+        }
+
+        function openJobApplication(job) {
+            selectedJob = job;
+            document.getElementById('jobListView').classList.add('hidden');
+            document.getElementById('applicationView').classList.remove('hidden');
+            document.getElementById('jobTitleHeader').textContent = `Apply for ${job.title}`;
+            renderScreeningQuestions(job.questions);
+            resetForm();
+        }
+
+        function showJobList() {
+            document.getElementById('jobListView').classList.remove('hidden');
+            document.getElementById('applicationView').classList.add('hidden');
+            resetForm();
+        }
+
+        function renderScreeningQuestions(questions) {
+            const container = document.getElementById('screeningQuestions');
+            container.innerHTML = '';
+            
+            if (!questions || questions.length === 0) {
+                container.innerHTML = '<p style="color: var(--color-text-secondary);">No screening questions for this position.</p>';
+                return;
+            }
+            
+            questions.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                let inputHTML = '';
+                const required = q.required ? 'required' : '';
+                const requiredClass = q.required ? 'required' : '';
+                
+                if (q.questiontype === 'Short Answer') {
+                    inputHTML = `<input type="text" class="form-control" id="question${index}" placeholder="${q.placeholdertext || ''}" ${required}>`;
+                } else if (q.questiontype === 'Long Answer') {
+                    inputHTML = `<textarea class="form-control" id="question${index}" placeholder="${q.placeholdertext || ''}" ${required}></textarea>`;
+                } else if (q.questiontype === 'MCQ - Single Answer') {
+                    const options = q.options ? q.options.split('\n') : [];
+                    inputHTML = '<div class="radio-group">' + options.map((opt, i) => `
+                        <div class="form-group">
+                            <input type="radio" id="question${index}_opt${i}" name="question${index}" value="${opt}" ${required}>
+                            <label for="question${index}_opt${i}" style="margin-left: var(--space-8); cursor: pointer;">${opt}</label>
+                        </div>
+                    `).join('') + '</div>';
+                } else if (q.questiontype === 'MCQ - Multiple Answers') {
+                    const options = q.options ? q.options.split('\n') : [];
+                    inputHTML = '<div class="checkbox-group">' + options.map((opt, i) => `
+                        <div class="form-group">
+                            <input type="checkbox" id="question${index}_opt${i}" name="question${index}" value="${opt}" class="question-checkbox" data-question-index="${index}">
+                            <label for="question${index}_opt${i}" style="margin-left: var(--space-8); cursor: pointer;">${opt}</label>
+                        </div>
+                    `).join('') + '</div>';
+                    if (q.minallowedanswers || q.maxallowedanswers) {
+                        inputHTML += `<small style="color: var(--color-text-secondary);">Select ${q.minallowedanswers || 1} to ${q.maxallowedanswers || options.length} options</small>`;
+                    }
+                }
+                
+                questionCard.innerHTML = `
+                    <div class="form-group">
+                        <label class="form-label ${requiredClass}">Question ${index + 1}: ${q.question}</label>
+                        ${inputHTML}
+                        <div class="error-message hidden" id="question${index}Error">Please answer this question</div>
+                    </div>
+                `;
+                container.appendChild(questionCard);
+            });
+        }
+
+        function resetForm() {
+            currentStep = 1;
+            document.getElementById('applicationForm').reset();
+            updateStepDisplay();
+            
+            document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+            
+            const fileInfo = document.getElementById('fileInfo');
+            fileInfo.classList.add('hidden');
+        }
+
+        function updateStepDisplay() {
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const currentSection = document.getElementById(`step${currentStep}`);
+            if (currentSection) {
+                currentSection.classList.add('active');
+            }
+            
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    step.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+            
+            const progressPercent = currentStep === 5 ? 100 : ((currentStep - 1) / 3) * 100;
+            document.getElementById('progressLine').style.width = progressPercent + '%';
+            
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const formActions = document.getElementById('formActions');
+            
+            if (currentStep === 5) {
+                formActions.style.display = 'none';
+            } else {
+                formActions.style.display = 'flex';
+                prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-flex';
+                nextBtn.textContent = currentStep === 4 ? 'Submit Application' : 'Next';
+            }
+        }
+
+        function validateStep(step) {
+            let isValid = true;
+            
+            if (step === 1) {
+                const fields = ['fullName', 'email', 'phone', 'location', 'experience'];
+                fields.forEach(field => {
+                    const input = document.getElementById(field);
+                    const error = document.getElementById(field + 'Error');
+                    
+                    if (!input.value.trim()) {
+                        input.classList.add('error');
+                        error.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('error');
+                        error.classList.add('hidden');
+                        
+                        if (field === 'email' && !isValidEmail(input.value)) {
+                            input.classList.add('error');
+                            error.classList.remove('hidden');
+                            isValid = false;
+                        }
+                    }
+                });
+            }
+            
+            if (step === 2) {
+                const resumeFile = document.getElementById('resumeFile');
+                const resumeError = document.getElementById('resumeError');
+                
+                if (!resumeFile.files.length) {
+                    resumeError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    resumeError.classList.add('hidden');
+                }
+            }
+            
+            if (step === 3) {
+                const salaryMin = document.getElementById('salaryMin');
+                const salaryMax = document.getElementById('salaryMax');
+                const noticePeriod = document.getElementById('noticePeriod');
+                const salaryError = document.getElementById('salaryError');
+                const noticePeriodError = document.getElementById('noticePeriodError');
+                
+                if (!salaryMin.value || !salaryMax.value || parseFloat(salaryMin.value) > parseFloat(salaryMax.value)) {
+                    salaryError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    salaryError.classList.add('hidden');
+                }
+                
+                if (!noticePeriod.value) {
+                    noticePeriodError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    noticePeriodError.classList.add('hidden');
+                }
+            }
+            
+            if (step === 4) {
+                screeningQuestions.forEach((q, index) => {
+                    const error = document.getElementById(`question${index}Error`);
+                    let hasAnswer = false;
+                    
+                    if (q.questiontype === 'Short Answer' || q.questiontype === 'Long Answer') {
+                        const answer = document.getElementById(`question${index}`);
+                        hasAnswer = answer && answer.value.trim();
+                        if (!hasAnswer && q.required) {
+                            answer.classList.add('error');
+                            error.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            answer.classList.remove('error');
+                            error.classList.add('hidden');
+                        }
+                    } else if (q.questiontype === 'MCQ - Single Answer') {
+                        const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                        hasAnswer = !!selected;
+                        if (!hasAnswer && q.required) {
+                            error.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            error.classList.add('hidden');
+                        }
+                    } else if (q.questiontype === 'MCQ - Multiple Answers') {
+                        const selected = document.querySelectorAll(`input[name="question${index}"]:checked`);
+                        const count = selected.length;
+                        hasAnswer = count > 0;
+                        
+                        if (q.required && !hasAnswer) {
+                            error.textContent = 'Please select at least one option';
+                            error.classList.remove('hidden');
+                            isValid = false;
+                        } else if (q.minallowedanswers && count < q.minallowedanswers) {
+                            error.textContent = `Please select at least ${q.minallowedanswers} options`;
+                            error.classList.remove('hidden');
+                            isValid = false;
+                        } else if (q.maxallowedanswers && count > q.maxallowedanswers) {
+                            error.textContent = `Please select maximum ${q.maxallowedanswers} options`;
+                            error.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            error.classList.add('hidden');
+                        }
+                    }
+                });
+            }
+            
+            return isValid;
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function nextStep() {
+            if (!validateStep(currentStep)) {
+                return;
+            }
+            
+            if (currentStep === 4) {
+                submitApplication();
+            } else {
+                currentStep++;
+                updateStepDisplay();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        async function submitApplication() {
+            try {
+                const screeningAnswers = [];
+                
+                screeningQuestions.forEach((q, index) => {
+                    let answer = '';
+                    
+                    if (q.questiontype === 'Short Answer' || q.questiontype === 'Long Answer') {
+                        answer = document.getElementById(`question${index}`).value;
+                    } else if (q.questiontype === 'MCQ - Single Answer') {
+                        const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                        answer = selected ? selected.value : '';
+                    } else if (q.questiontype === 'MCQ - Multiple Answers') {
+                        const selected = document.querySelectorAll(`input[name="question${index}"]:checked`);
+                        answer = Array.from(selected).map(s => s.value).join(', ');
+                    }
+                    
+                    if (answer) {
+                        screeningAnswers.push({
+                            questionlink: q.name,
+                            question: q.question,
+                            answer: answer
+                        });
+                    }
+                });
+
+                const resumeFile = document.getElementById('resumeFile').files[0];
+                let resumeAttachment = null;
+
+                if (resumeFile) {
+                    const fileData = await uploadFile(resumeFile);
+                    resumeAttachment = fileData.file_url;
+                }
+
+                const notesData = {
+                    location: document.getElementById('location').value,
+                    experience: `${document.getElementById('experience').value} years`,
+                    linkedin: document.getElementById('linkedin').value || 'N/A',
+                    portfolio: document.getElementById('portfolio').value || 'N/A',
+                    expected_salary: `${document.getElementById('currency').value} ${document.getElementById('salaryMin').value} - ${document.getElementById('salaryMax').value}`,
+                    notice_period: document.getElementById('noticePeriod').value
+                };
+
+                const applicantData = {
+                    doctype: 'Job Applicant',
+                    applicant_name: document.getElementById('fullName').value,
+                    email_id: document.getElementById('email').value,
+                    phone_number: document.getElementById('phone').value,
+                    job_title: currentJob.name,
+                    status: 'Open',
+                    source: 'Website Listing',
+                    notes: JSON.stringify(notesData, null, 2),
+                    job_screening_answers: screeningAnswers
+                };
+
+                if (resumeAttachment) {
+                    applicantData.resume_attachment = resumeAttachment;
+                }
+
+                const response = await frappe.call({
+                    method: 'frappe.client.insert',
+                    args: {
+                        doc: applicantData
+                    }
+                });
+
+                console.log('Application submitted successfully:', response);
+                
+                document.getElementById('confirmEmail').textContent = applicantData.email_id;
+                
+                currentStep = 5;
+                updateStepDisplay();
+
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                frappe.msgprint('Failed to submit application. Please try again.');
+            }
+        }
+
+        async function uploadFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    try {
+                        const response = await frappe.call({
+                            method: 'frappe.client.attach_file',
+                            args: {
+                                filename: file.name,
+                                filedata: e.target.result,
+                                doctype: 'Job Applicant',
+                                docname: 'temp'
+                            }
+                        });
+                        resolve(response.message);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const resumeFile = document.getElementById('resumeFile');
+
+        fileUploadArea.addEventListener('click', () => {
+            resumeFile.click();
+        });
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('active');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('active');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('active');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                resumeFile.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        resumeFile.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            const maxSize = 5 * 1024 * 1024;
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            
+            if (!allowedTypes.includes(file.type)) {
+                alert('Please upload a PDF, DOC, or DOCX file');
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+            
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileInfo').classList.remove('hidden');
+            document.getElementById('resumeError').classList.add('hidden');
+        }
+
+        function removeFile() {
+            document.getElementById('resumeFile').value = '';
+            document.getElementById('fileInfo').classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApplication();
+        });
+    </script>
+
+</body>
+</html>
+

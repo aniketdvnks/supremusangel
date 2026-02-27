@@ -28,6 +28,20 @@ app_license = "mit"
 # app_include_css = "/assets/supremusangel/css/supremusangel.css"
 app_include_js = "/assets/supremusangel/js/policy_ack.bundle.js"
 
+# Web Routes
+website_route_rules = [
+    {"from_route": "/apply", "to_route": "apply"},
+]
+
+# Web includes (CSS/JS bundles)
+web_include_css = [
+    "/assets/supremusangel/css/job_application.bundle.css"
+]
+
+web_include_js = [
+    "/assets/supremusangel/js/job_application.bundle.js"
+]
+
 # include js, css files in header of web template
 # web_include_css = "/assets/supremusangel/css/supremusangel.css"
 # web_include_js = "/assets/supremusangel/js/supremusangel.js"

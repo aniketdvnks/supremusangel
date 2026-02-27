@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-02-27 08:05:12.082562",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "question_link",
+  "question",
+  "answer",
+  "column_break_4",
+  "earned_points",
+  "max_points"
+ ],
+ "fields": [
+  {
+   "fieldname": "question_link",
+   "fieldtype": "Link",
+   "label": "Question Link",
+   "options": "Screening Questions",
+   "read_only": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "columns": 4,
+   "fetch_from": "question_link.question",
+   "fieldname": "question",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Question",
+   "read_only": 1
+  },
+  {
+   "fieldname": "answer",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Answer",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "earned_points",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Earned Points"
+  },
+  {
+   "fetch_from": "question_link.points",
+   "fieldname": "max_points",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max. Points",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-27 15:13:21.500896",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "Job Screening Answers",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
