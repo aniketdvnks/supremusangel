@@ -44,20 +44,29 @@ def get_context(context):
 	# Fetch screening questions from custom child table
 	questions = []
 	if hasattr(job_opening, 'custom_job_applicant_screening_answer') and job_opening.custom_job_applicant_screening_answer:
+		keys_to_include = [
+			'name', 
+			'question', 
+			'required', 
+			'question_type',           # snake_case
+			'correct_answer',          # this contains the options
+			'placeholder_text',        # snake_case
+			'min_allowed_answers',     # snake_case
+			'max_allowed_answers',     # snake_case
+			'points',
+			'options'
+		]
+		
 		for q in job_opening.custom_job_applicant_screening_answer:
-			question_data = {}
-			question_data['name'] = q.name
-			question_data['question'] = q.question
-			question_data['required'] = q.required
-			question_data['questiontype'] = q.question_type
-			question_data['options'] = q.options or ''
-			question_data['placeholdertext'] = q.placeholder_text or ''
-			question_data['minallowedanswers'] = q.min_allowed_answers or 1
-			question_data['maxallowedanswers'] = q.max_allowed_answers or 1
+			question_data = {key: q.get(key) for key in keys_to_include if q.get(key) is not None}
 			questions.append(question_data)
+
+	context.update({
+		'questions': questions,
+		'questions_json': json.dumps(questions),
+		'questions_json_2' : frappe.as_json(job_opening.custom_job_applicant_screening_answer)
+	})
 	
-	context.questions = questions
-	context.questions_json = json.dumps(questions)
 	context.has_applied = False
 
 

@@ -1,276 +1,414 @@
-{% extends "templates/web.html" %}
-
-{% block title %}Job Application - {{ job_title }}{% endblock %}
-
+{% extends "templates/web.html" %} {% block title %}Job Application - {{ job_title }}{% endblock %}
 {% block head_include %}
-    <link rel="stylesheet" href="/assets/supremusangel/css/job_application.bundle.css">
-{% endblock %}
+<link rel="stylesheet" href="/assets/supremusangel/css/job_application.bundle.css" />
+{% endblock %} {% block page_content %} {% if has_applied %}
+<div class="container" style="max-width: 800px; margin: 60px auto; text-align: center">
+	<div
+		class="success-icon"
+		style="
+			width: 80px;
+			height: 80px;
+			margin: 0 auto 24px;
+			border-radius: 50%;
+			background: rgba(33, 128, 141, 0.15);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 40px;
+		"
+	>
+		✓
+	</div>
+	<h2>You have already applied for this position</h2>
+	<p style="opacity: 0.7; margin: 24px 0">
+		We have your application on file and will contact you if your profile matches our
+		requirements.
+	</p>
+	<a href="/jobs" class="btn btn-primary">Browse More Jobs</a>
+</div>
+{% else %}
+<div id="applicationView" class="container">
+	<a href="/jobs" class="back-link"> <span>←</span> Back to Job Listings </a>
+	<div></div>
+	<div class="wizard-container">
+		<div class="wizard-header">
+			<h2>Apply for {{ job_title }}</h2>
 
-{% block page_content %}
-    {% if has_applied %}
-    <div class="container" style="max-width: 800px; margin: 60px auto; text-align: center;">
-        <div class="success-icon" style="width: 80px; height: 80px; margin: 0 auto 24px; border-radius: 50%; background: rgba(33, 128, 141, 0.15); display: flex; align-items: center; justify-content: center; font-size: 40px;">✓</div>
-        <h2>You have already applied for this position</h2>
-        <p style="opacity: 0.7; margin: 24px 0;">We have your application on file and will contact you if your profile matches our requirements.</p>
-        <a href="/jobs" class="btn btn-primary">Browse More Jobs</a>
-    </div>
-    {% else %}
-    <div id="applicationView" class="container">
-        <a href="/jobs" class="back-link">
-            <span>←</span> Back to Job Listings
-        </a>
+			<div class="job-info-card">
+				<div class="job-meta">
+					<span>🏢 {{ company }}</span>
+					{% if department %}<span>📁 {{ department }}</span>{% endif %} {% if location
+					%}<span>📍 {{ location }}</span>{% endif %} {% if employment_type %}<span
+						>💼 {{ employment_type }}</span
+					>{% endif %}
+				</div>
+			</div>
 
-        <div class="wizard-container">
-            <div class="wizard-header">
-                <h2>Apply for {{ job_title }}</h2>
-                
-                <div class="job-info-card">
-                    <div class="job-meta">
-                        <span>🏢 {{ company }}</span>
-                        {% if department %}<span>📁 {{ department }}</span>{% endif %}
-                        {% if location %}<span>📍 {{ location }}</span>{% endif %}
-                        {% if employment_type %}<span>💼 {{ employment_type }}</span>{% endif %}
-                    </div>
-                </div>
-                
-                <div class="c-progress-bar">
-                    <div class="progress-line" id="progressLine" style="width: 0%"></div>
-                    <div class="step active" data-step="1">
-                        <div class="step-number">1</div>
-                        <div class="step-label">Basic Details</div>
-                    </div>
-                    <div class="step" data-step="2">
-                        <div class="step-number">2</div>
-                        <div class="step-label">Upload Resume</div>
-                    </div>
-                    <div class="step" data-step="3">
-                        <div class="step-number">3</div>
-                        <div class="step-label">Salary</div>
-                    </div>
-                    <div class="step" data-step="4">
-                        <div class="step-number">4</div>
-                        <div class="step-label">Screening</div>
-                    </div>
-                </div>
-            </div>
+			<div class="c-progress-bar">
+				<div class="progress-line" id="progressLine" style="width: 0%"></div>
+				<div class="step active" data-step="1">
+					<div class="step-number">1</div>
+					<div class="step-label">Basic Details</div>
+				</div>
+				<div class="step" data-step="2">
+					<div class="step-number">2</div>
+					<div class="step-label">Upload Resume</div>
+				</div>
+				<div class="step" data-step="3">
+					<div class="step-number">3</div>
+					<div class="step-label">Salary</div>
+				</div>
+				<div class="step" data-step="4">
+					<div class="step-number">4</div>
+					<div class="step-label">Screening</div>
+				</div>
+			</div>
+		</div>
 
-            <form id="applicationForm" method="POST">
-                <div id="step1" class="form-section active">
-                    <h3>Basic Details</h3>
-                    <div class="form-group">
-                        <label class="form-label required">Full Name</label>
-                        <input type="text" class="form-control" name="fullName" id="fullName" required>
-                        <div class="error-message hidden" id="fullNameError">Please enter your full name</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Email Address</label>
-                        <input type="email" class="form-control" name="email" id="email" required>
-                        <div class="error-message hidden" id="emailError">Please enter a valid email address</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Phone Number</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" required>
-                        <div class="error-message hidden" id="phoneError">Please enter a valid phone number</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Current Location</label>
-                        <input type="text" class="form-control" name="location" id="location" required>
-                        <div class="error-message hidden" id="locationError">Please enter your location</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Total Years of Experience</label>
-                        <input type="number" class="form-control" name="experience" id="experience" min="0" step="0.5" required>
-                        <div class="error-message hidden" id="experienceError">Please enter your experience</div>
-                    </div>
-                </div>
+		<form id="applicationForm" method="POST">
+			<div id="step1" class="form-section active">
+				<h3>Basic Details</h3>
+				<div class="form-group">
+					<label class="form-label required">Full Name</label>
+					<input
+						type="text"
+						class="form-control"
+						name="fullName"
+						id="fullName"
+						required
+					/>
+					<div class="error-message hidden" id="fullNameError">
+						Please enter your full name
+					</div>
+				</div>
 
-                <div id="step2" class="form-section">
-                    <h3>Upload Your Resume</h3>
-                    <div class="form-group">
-                        <label class="form-label required">Resume (PDF, DOC, DOCX - Max 5MB)</label>
-                        <div class="file-upload-area" id="fileUploadArea">
-                            <input type="file" name="resume" id="resumeFile" accept=".pdf,.doc,.docx" style="display: none;">
-                            <div>
-                                <div style="font-size: 40px; margin-bottom: 12px;">📄</div>
-                                <p style="font-weight: 500;">Click to upload or drag and drop</p>
-                                <p style="font-size: 11px; opacity: 0.7;">PDF, DOC or DOCX (max. 5MB)</p>
-                            </div>
-                        </div>
-                        <div class="error-message hidden" id="resumeError">Please upload your resume</div>
-                        <div class="file-info hidden" id="fileInfo">
-                            <span id="fileName"></span>
-                            <button type="button" class="btn btn-secondary btn-sm" onclick="window.JobApplication.removeFile()">Remove</button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">LinkedIn Profile (Optional)</label>
-                        <input type="url" class="form-control" name="linkedin" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Portfolio/Website (Optional)</label>
-                        <input type="url" class="form-control" name="portfolio" id="portfolio" placeholder="https://yourwebsite.com">
-                    </div>
-                </div>
+				<div class="form-group">
+					<label class="form-label required">Email Address</label>
+					<input type="email" class="form-control" name="email" id="email" required />
+					<div class="error-message hidden" id="emailError">
+						Please enter a valid email address
+					</div>
+				</div>
 
-                <div id="step3" class="form-section">
-                    <h3>Salary Expectations</h3>
-                    <div class="form-group">
-                        <label class="form-label required">Expected Salary Range (Annual)</label>
-                        <div class="salary-input-group">
-                            <input type="number" class="form-control" name="salaryMin" id="salaryMin" placeholder="Minimum" required>
-                            <input type="number" class="form-control" name="salaryMax" id="salaryMax" placeholder="Maximum" required>
-                        </div>
-                        <div class="error-message hidden" id="salaryError">Please enter valid salary range</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Currency</label>
-                        <select class="form-control" name="currency" id="currency" required>
-                            <option value="INR">INR (₹)</option>
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="GBP">GBP (£)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label required">Notice Period</label>
-                        <select class="form-control" name="noticePeriod" id="noticePeriod" required>
-                            <option value="">Select notice period</option>
-                            <option value="Immediate">Immediate</option>
-                            <option value="15 Days">15 Days</option>
-                            <option value="1 Month">1 Month</option>
-                            <option value="2 Months">2 Months</option>
-                            <option value="3 Months">3 Months</option>
-                        </select>
-                        <div class="error-message hidden" id="noticePeriodError">Please select your notice period</div>
-                    </div>
-                </div>
+				<div class="form-group">
+					<label class="form-label required">Phone Number</label>
+					<input type="tel" class="form-control" name="phone" id="phone" required />
+					<div class="error-message hidden" id="phoneError">
+						Please enter a valid phone number
+					</div>
+				</div>
 
-                <div id="step4" class="form-section">
-                    <h3>Screening Questions</h3>
-                    <div id="screeningQuestions">
-                        {% if questions %}
-                            {% for question in questions %}
-                            <div class="question-card">
-                                <div class="form-group">
-                                    <label class="form-label {% if question.required %}required{% endif %}">
-                                        Question {{ loop.index }}: {{ question.question }}
-                                    </label>
-                                    
-                                    {% if question.questiontype == 'Short Answer' %}
-                                    <input type="text" class="form-control" 
-                                           id="question{{ loop.index0 }}" 
-                                           name="question{{ loop.index0 }}"
-                                           data-question-name="{{ question.name }}"
-                                           data-question-type="{{ question.questiontype }}"
-                                           placeholder="{{ question.placeholdertext or '' }}" 
-                                           {% if question.required %}required{% endif %}>
-                                    
-                                    {% elif question.questiontype == 'Long Answer' %}
-                                    <textarea class="form-control" 
-                                              id="question{{ loop.index0 }}" 
-                                              name="question{{ loop.index0 }}"
-                                              data-question-name="{{ question.name }}"
-                                              data-question-type="{{ question.questiontype }}"
-                                              placeholder="{{ question.placeholdertext or '' }}"
-                                              {% if question.required %}required{% endif %}></textarea>
-                                    
-                                    {% elif question.questiontype == 'MCQ - Single Answer' %}
-                                    <div class="radio-group">
-                                        {% for option in question.options.split('\n') %}
-                                        <div class="form-check">
-                                            <input type="radio" 
-                                                   class="form-check-input" 
-                                                   id="question{{ loop.index0 }}_opt{{ loop.index0 }}" 
-                                                   name="question{{ loop.index0 }}"
-                                                   data-question-name="{{ question.name }}"
-                                                   data-question-type="{{ question.questiontype }}"
-                                                   value="{{ option }}" 
-                                                   {% if question.required %}required{% endif %}>
-                                            <label class="form-check-label" for="question{{ loop.index0 }}_opt{{ loop.index0 }}">
-                                                {{ option }}
-                                            </label>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                    
-                                    {% elif question.questiontype == 'MCQ - Multiple Answers' %}
-                                    <div class="checkbox-group">
-                                        {% for option in question.options.split('\n') %}
-                                        <div class="form-check">
-                                            <input type="checkbox" 
-                                                   class="form-check-input question-checkbox" 
-                                                   id="question{{ loop.index0 }}_opt{{ loop.index0 }}" 
-                                                   name="question{{ loop.index0 }}"
-                                                   data-question-name="{{ question.name }}"
-                                                   data-question-type="{{ question.questiontype }}"
-                                                   data-question-index="{{ loop.index0 }}"
-                                                   value="{{ option }}">
-                                            <label class="form-check-label" for="question{{ loop.index0 }}_opt{{ loop.index0 }}">
-                                                {{ option }}
-                                            </label>
-                                        </div>
-                                        {% endfor %}
-                                        {% if question.minallowedanswers or question.maxallowedanswers %}
-                                        <small style="opacity: 0.7; display: block; margin-top: 8px;">
-                                            Select {{ question.minallowedanswers or 1 }} to {{ question.maxallowedanswers or question.options.split('\n')|length }} options
-                                        </small>
-                                        {% endif %}
-                                    </div>
-                                    {% endif %}
-                                    
-                                    <div class="error-message hidden" id="question{{ loop.index0 }}Error">Please answer this question</div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                        <p style="opacity: 0.7;">No screening questions for this position.</p>
-                        {% endif %}
-                    </div>
-                </div>
+				<div class="form-group">
+					<label class="form-label required">Current Location</label>
+					<input
+						type="text"
+						class="form-control"
+						name="location"
+						id="location"
+						required
+					/>
+					<div class="error-message hidden" id="locationError">
+						Please enter your location
+					</div>
+				</div>
 
-                <div id="step5" class="form-section">
-                    <div class="success-container">
-                        <div class="success-icon">✓</div>
-                        <h2>Application Submitted Successfully!</h2>
-                        <p style="opacity: 0.7; margin: 24px 0;">
-                            Thank you for your interest in joining our team. We have received your application and will review it shortly.
-                        </p>
-                        <p style="opacity: 0.7; margin-bottom: 32px;">
-                            You will receive an email confirmation at <strong id="confirmEmail"></strong>
-                        </p>
-                        <a href="/jobs" class="btn btn-primary">Browse More Jobs</a>
-                    </div>
-                </div>
+				<div class="form-group">
+					<label class="form-label required">Total Years of Experience</label>
+					<input
+						type="number"
+						class="form-control"
+						name="experience"
+						id="experience"
+						min="0"
+						step="0.5"
+						required
+					/>
+					<div class="error-message hidden" id="experienceError">
+						Please enter your experience
+					</div>
+				</div>
+			</div>
 
-                <div class="form-actions" id="formActions">
-                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="window.JobApplication.previousStep()" style="display: none;">
-                        Previous
-                    </button>
-                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="window.JobApplication.nextStep()">
-                        Next
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    {% endif %}
-{% endblock %}
+			<div id="step2" class="form-section">
+				<h3>Upload Your Resume</h3>
+				<div class="form-group">
+					<label class="form-label required">Resume (PDF, DOC, DOCX - Max 5MB)</label>
+					<div class="file-upload-area" id="fileUploadArea">
+						<input
+							type="file"
+							name="resume"
+							id="resumeFile"
+							accept=".pdf,.doc,.docx"
+							style="display: none"
+						/>
+						<div>
+							<div style="font-size: 40px; margin-bottom: 12px">📄</div>
+							<p style="font-weight: 500">Click to upload or drag and drop</p>
+							<p style="font-size: 11px; opacity: 0.7">
+								PDF, DOC or DOCX (max. 5MB)
+							</p>
+						</div>
+					</div>
+					<div class="error-message hidden" id="resumeError">
+						Please upload your resume
+					</div>
+					<div class="file-info hidden" id="fileInfo">
+						<span id="fileName"></span>
+						<button
+							type="button"
+							class="btn btn-secondary btn-sm"
+							onclick="window.JobApplication.removeFile()"
+						>
+							Remove
+						</button>
+					</div>
+				</div>
 
-{% block script %}
-    <script>
-        frappe.provide('frappe.job_application');
-        frappe.job_application.job_opening = "{{ job_opening or '' }}";
-        frappe.job_application.job_title = "{{ job_title or '' }}";
-        frappe.job_application.company = "{{ company or '' }}";
-        frappe.job_application.questions = {{ questions_json or '[]' }};
-    </script>
-    <script type="text/javascript" src="assets/supremusangel/js/job_application.bundle.js"></script>
+				<div class="form-group">
+					<label class="form-label">LinkedIn Profile (Optional)</label>
+					<input
+						type="url"
+						class="form-control"
+						name="linkedin"
+						id="linkedin"
+						placeholder="https://linkedin.com/in/yourprofile"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label">Portfolio/Website (Optional)</label>
+					<input
+						type="url"
+						class="form-control"
+						name="portfolio"
+						id="portfolio"
+						placeholder="https://yourwebsite.com"
+					/>
+				</div>
+			</div>
+
+			<div id="step3" class="form-section">
+				<h3>Salary Expectations</h3>
+				<div class="form-group">
+					<label class="form-label required">Expected Salary Range (Annual)</label>
+					<div class="salary-input-group">
+						<input
+							type="number"
+							class="form-control"
+							name="salaryMin"
+							id="salaryMin"
+							placeholder="Minimum"
+							required
+						/>
+						<input
+							type="number"
+							class="form-control"
+							name="salaryMax"
+							id="salaryMax"
+							placeholder="Maximum"
+							required
+						/>
+					</div>
+					<div class="error-message hidden" id="salaryError">
+						Please enter valid salary range
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label required">Currency</label>
+					<select class="form-control" name="currency" id="currency" required>
+						<option value="INR">INR (₹)</option>
+						<option value="USD">USD ($)</option>
+						<option value="EUR">EUR (€)</option>
+						<option value="GBP">GBP (£)</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label required">Notice Period</label>
+					<select class="form-control" name="noticePeriod" id="noticePeriod" required>
+						<option value="">Select notice period</option>
+						<option value="Immediate">Immediate</option>
+						<option value="15 Days">15 Days</option>
+						<option value="1 Month">1 Month</option>
+						<option value="2 Months">2 Months</option>
+						<option value="3 Months">3 Months</option>
+					</select>
+					<div class="error-message hidden" id="noticePeriodError">
+						Please select your notice period
+					</div>
+				</div>
+			</div>
+
+			<div id="step4" class="form-section">
+				<h3>Screening Questions</h3>
+				<div id="screeningQuestions">
+					{% if questions %} {% for question in questions %} {% set question_idx =
+					loop.index0 %}
+					<div class="question-card">
+						<div class="form-group">
+							<label
+								class="form-label {% if question.required %}required{% endif %}"
+							>
+								Question {{ loop.index }}: {{ question.question }}
+							</label>
+
+							{% if question.question_type == 'Short Answer' %}
+							<input
+								type="text"
+								class="form-control"
+								id="question{{ question_idx }}"
+								name="question{{ question_idx }}"
+								data-question-name="{{ question.name }}"
+								data-question-type="{{ question.question_type }}"
+								placeholder="{{ question.placeholder_text|default('', true) }}"
+								{%
+								if
+								question.required
+								%}required{%
+								endif
+								%}
+							/>
+
+							{% elif question.question_type == 'Long Answer' %}
+							<textarea
+								class="form-control"
+								id="question{{ question_idx }}"
+								name="question{{ question_idx }}"
+								data-question-name="{{ question.name }}"
+								data-question-type="{{ question.question_type }}"
+								rows="4"
+								placeholder="{{ question.placeholder_text|default('', true) }}"
+								{%
+								if
+								question.required
+								%}required{%
+								endif
+								%}
+							></textarea>
+
+							{% elif question.question_type == 'MCQ - Single Answer' %}
+							<div class="radio-group">
+								{% for option in question.options.split('\n') %} {% set option_text
+								= option.strip() %} {% if option_text %}
+								<div class="form-check">
+									<input
+										type="radio"
+										class="form-check-input"
+										id="question{{ question_idx }}_opt{{ loop.index0 }}"
+										name="question{{ question_idx }}"
+										data-question-name="{{ question.name }}"
+										data-question-type="{{ question.question_type }}"
+										value="{{ option_text }}"
+										{%
+										if
+										question.required
+										%}required{%
+										endif
+										%}
+									/>
+									<label
+										class="form-check-label"
+										for="question{{ question_idx }}_opt{{ loop.index0 }}"
+									>
+										{{ option_text }}
+									</label>
+								</div>
+								{% endif %} {% endfor %}
+							</div>
+
+							{% elif question.question_type == 'MCQ - Multiple Answers' %}
+							<div class="checkbox-group">
+								{% for option in question.correct_answer.split('\n') %} {% set
+								option_text = option.strip() %} {% if option_text %}
+								<div class="form-check">
+									<input
+										type="checkbox"
+										class="form-check-input question-checkbox"
+										id="question{{ question_idx }}_opt{{ loop.index0 }}"
+										name="question{{ question_idx }}"
+										data-question-name="{{ question.name }}"
+										data-question-type="{{ question.question_type }}"
+										data-question-index="{{ question_idx }}"
+										data-min-answers="{{ question.min_allowed_answers|default(1, true) }}"
+										data-max-answers="{{ question.max_allowed_answers|default(10, true) }}"
+										value="{{ option_text }}"
+									/>
+									<label
+										class="form-check-label"
+										for="question{{ question_idx }}_opt{{ loop.index0 }}"
+									>
+										{{ option_text }}
+									</label>
+								</div>
+								{% endif %} {% endfor %} {% if question.min_allowed_answers or
+								question.max_allowed_answers %}
+								<small style="opacity: 0.7; display: block; margin-top: 8px">
+									Select {{ question.min_allowed_answers|default(1, true) }} to
+									{{
+									question.max_allowed_answers|default(question.correct_answer.split('\n')|length,
+									true) }} options
+								</small>
+								{% endif %}
+							</div>
+							{% endif %}
+
+							<div class="error-message hidden" id="question{{ question_idx }}Error">
+								Please answer this question
+							</div>
+						</div>
+					</div>
+					{% endfor %} {% else %}
+					<p style="opacity: 0.7">No screening questions for this position.</p>
+					{% endif %}
+				</div>
+			</div>
+
+			<div id="step5" class="form-section">
+				<div class="success-container">
+					<div class="success-icon">✓</div>
+					<h2>Application Submitted Successfully!</h2>
+					<p style="opacity: 0.7; margin: 24px 0">
+						Thank you for your interest in joining our team. We have received your
+						application and will review it shortly.
+					</p>
+					<p style="opacity: 0.7; margin-bottom: 32px">
+						You will receive an email confirmation at
+						<strong id="confirmEmail"></strong>
+					</p>
+					<a href="/jobs" class="btn btn-primary">Browse More Jobs</a>
+				</div>
+			</div>
+
+			<div class="form-actions" id="formActions">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					id="prevBtn"
+					onclick="window.JobApplication.previousStep()"
+					style="display: none"
+				>
+					Previous
+				</button>
+				<button
+					type="button"
+					class="btn btn-primary"
+					id="nextBtn"
+					onclick="window.JobApplication.nextStep()"
+				>
+					Next
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %} {% endblock %} {% block script %}
+<script>
+	frappe.provide('frappe.job_application');
+	frappe.job_application.job_opening = "{{ job_opening or '' }}";
+	frappe.job_application.job_title = "{{ job_title or '' }}";
+	frappe.job_application.company = "{{ company or '' }}";
+	frappe.job_application.questions = {{ questions_json or '[]' }};
+</script>
+<script type="text/javascript" src="assets/supremusangel/js/job_application.bundle.js"></script>
 {% endblock %}

@@ -711,7 +711,10 @@ window.JobApplication = window.JobApplication || {};
                         error.classList.add('hidden');
                     }
                 } else if (q.questiontype === 'MCQ - Single Answer') {
-                    const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                    // When validating MCQ - Multiple Answers
+                    const questionIdx = checkbox.dataset.questionIndex;
+                    const selected = document.querySelectorAll(`input[name="question${questionIdx}"]:checked`);
+                    // const selected = document.querySelector(`input[name="question${index}"]:checked`);
                     hasAnswer = !!selected;
                     if (!hasAnswer && q.required) {
                         error.classList.remove('hidden');

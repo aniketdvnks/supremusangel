@@ -42,6 +42,8 @@ web_include_js = [
     "/assets/supremusangel/js/job_application.bundle.js"
 ]
 
+website_generators = ["Job Opening"]
+
 # include js, css files in header of web template
 # web_include_css = "/assets/supremusangel/css/supremusangel.css"
 # web_include_js = "/assets/supremusangel/js/supremusangel.js"
