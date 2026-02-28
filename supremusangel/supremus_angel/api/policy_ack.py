@@ -29,7 +29,7 @@ def get_pending_policies():
     policies = frappe.get_all(
         "Company Policy",
         filters=filters,
-        fields=["name", "policy_title", "policy_content", "effective_from"],
+        fields=["name", "policy_title", "policy_content", "effective_from","policy_pdf"],
         order_by="effective_from asc, creation asc",
     )
 

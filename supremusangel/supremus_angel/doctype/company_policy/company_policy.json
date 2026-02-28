@@ -8,6 +8,7 @@
  "field_order": [
   "policy_title",
   "policy_code",
+  "policy_pdf",
   "policy_content",
   "effective_from",
   "active",
@@ -46,6 +47,11 @@
    "fieldname": "mandatory_for_new_joinee",
    "fieldtype": "Check",
    "label": "Mandatory For New Joinee"
+  },
+  {
+   "fieldname": "policy_pdf",
+   "fieldtype": "Attach",
+   "label": "Policy PDF"
   }
  ],
  "grid_page_length": 50,
@@ -56,7 +62,7 @@
    "link_fieldname": "policy"
   }
  ],
- "modified": "2026-02-11 16:43:56.539317",
+ "modified": "2026-02-28 11:01:46.097520",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Company Policy",
