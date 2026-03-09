@@ -24,7 +24,7 @@
 				{%- if status == "Open" -%}
 					<a
 						class="btn btn-primary btn-lg"
-						href="/{{ job_application_route if job_application_route else 'job_application' }}?new/job_application={{ name }}"
+						href="/{{ job_application_route if job_application_route else 'job_application' }}?job={{ name }}"
 					>
 						{{ _("Apply Now") }}
 					</a>
