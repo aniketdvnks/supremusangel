@@ -3,7 +3,6 @@ from frappe import _
 from frappe.utils import cint, now_datetime, get_url
 import json
 
-
 # ============================================================
 # SESSION HOOK - REDIRECT TO ONBOARDING
 # ============================================================

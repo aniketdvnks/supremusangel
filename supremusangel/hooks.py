@@ -257,5 +257,5 @@ website_generators = ["Job Opening"]
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-# boot_session = "supremusangel.supremus_angel.boot.boot_session"
+boot_session = "supremusangel.supremus_angel.boot.boot_session"
 # on_login = "supremusangel.auth_hooks.on_login"

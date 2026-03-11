@@ -139,9 +139,61 @@ policy_compliance.show_next_policy = function() {
     policy_compliance.current_dialog = d;
 };
 
+policy_compliance.employee_onboarding = function(){
+        frappe.msgprint("Onboarding")
+        frappe.call({
+        method: 'supremusangel.supremus_angel.onboarding_api.check_onboarding_status', callback: function (r) {
+            if (r.message && r.message.required) { // Redirect to onboarding page 
+                window.location.href = '/app/onboarding';
+            }
+        }
+    });
+}
 // Run once desk is ready
+// $(document).on("app_ready", function() {
+//     if (frappe.session.user && frappe.session.user !== "Guest" && !frappe.boot.onboarding_status) {
+//         setTimeout(policy_compliance.load_policies_and_start, 500);
+//     }else if(frappe.session.user && frappe.session.user !== "Guest" && frappe.boot.onboarding_status){
+//         window.location.href = '/app/onboarding';
+//     }
+// });
+
 $(document).on("app_ready", function() {
-    if (frappe.session.user && frappe.session.user !== "Guest") {
+    // Skip for Guest and Administrator
+    if (!frappe.session.user || 
+        frappe.session.user === "Guest" || 
+        frappe.session.user === "Administrator") {
+        return;
+    }
+
+    const current_path = window.location.pathname;
+    const is_onboarding_page = current_path === "/app/onboarding";
+
+    // Handle onboarding requirement
+    if (frappe.boot.onboarding_status === true) {
+        // Onboarding is PENDING
+        if (!is_onboarding_page) {
+            // Redirect to onboarding - use replace to prevent back button issues
+            window.location.replace('/app/onboarding');
+            return; // Stop further execution
+        }
+        // Already on onboarding page - do nothing, let onboarding.bundle.js handle it
+        return;
+    }
+    
+    // Onboarding is COMPLETE (status is false or undefined)
+    if (is_onboarding_page) {
+        // Redirect away from onboarding page
+        frappe.show_alert({
+            message: __("Onboarding already completed"),
+            indicator: "green"
+        });
+        window.location.replace('/app');
+        return;
+    }
+
+    // Normal flow - proceed with policy compliance check
+    if (typeof policy_compliance !== "undefined" && policy_compliance.load_policies_and_start) {
         setTimeout(policy_compliance.load_policies_and_start, 500);
     }
 });

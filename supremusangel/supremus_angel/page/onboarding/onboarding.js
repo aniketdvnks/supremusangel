@@ -281,36 +281,6 @@ class EmployeeOnboarding {
                 </div>`;
     }
 
-    // render_document_step(step) {
-    //     let html = '<div class="document-upload-grid">';
-
-    //     step.fields.forEach(field => {
-    //         const requiredMark = field.reqd ? '<span class="text-danger">*</span>' : '';
-    //         const uploaded = this.form_data[field.fieldname];
-
-    //         html += `
-    //             <div class="document-upload-card ${uploaded ? 'uploaded' : ''}" data-field="${field.fieldname}">
-    //                 <div class="upload-icon">
-    //                     ${uploaded 
-    //                         ? '<svg class="icon icon-lg text-success"><use href="#icon-tick"></use></svg>'
-    //                         : '<svg class="icon icon-lg"><use href="#icon-upload"></use></svg>'
-    //                     }
-    //                 </div>
-    //                 <div class="upload-label">${field.label} ${requiredMark}</div>
-    //                 <div class="upload-status">
-    //                     ${uploaded ? __("Uploaded") : __("Click to upload")}
-    //                 </div>
-    //                 <input type="file" class="document-file-input" name="${field.fieldname}" 
-    //                        accept="${field.fieldtype === 'Attach Image' ? 'image/*' : '.pdf,.doc,.docx,.jpg,.jpeg,.png'}"
-    //                        style="display: none;" ${field.reqd ? 'required' : ''}>
-    //                 ${uploaded ? `<a href="${uploaded}" target="_blank" class="view-document">${__("View")}</a>` : ''}
-    //             </div>
-    //         `;
-    //     });
-
-    //     html += '</div>';
-    //     return html;
-    // }
 	render_document_step(step) {
 		let html = '<div class="document-upload-grid">';
 	
@@ -785,6 +755,8 @@ class EmployeeOnboarding {
             });
 
             if (r.message.success) {
+                // IMPORTANT: Update the boot flag immediately
+                frappe.boot.onboarding_status = false;
                 this.show_completion_dialog();
             } else {
                 throw new Error(r.message.message);

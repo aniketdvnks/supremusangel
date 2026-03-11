@@ -1,11 +1,10 @@
 import frappe
-from supremusangel.supremus_angel.api import policy_ack
-
+# from supremusangel.supremus_angel.api import policy_ack
+from supremusangel.supremus_angel.onboarding_api import check_onboarding_status
 
 def boot_session(bootinfo):
     user = frappe.session.user
     if user in ("Guest", "Administrator"):
         return
-
-    pending = policy_ack.get_pending_policies()
-    bootinfo.pending_policies = pending
+    onboarding_status = check_onboarding_status()
+    bootinfo.onboarding_status = onboarding_status.get("required")
