@@ -114,6 +114,35 @@ window.RMCommon = {
       if (s.includes('pending') || s.includes('review')) return 'rm-state-badge rm-state-warning';
       if (s.includes('rejected') || s.includes('cancel')) return 'rm-state-badge rm-state-danger';
       return 'rm-state-badge';
-    }
+    },
+    // Generic creator: Meeting / Call / Email
+  rm_create_activity(activity_type, reference_doctype, reference_name, opts = {}) {
+    const subject = opts.subject || null;
+    const description = opts.description || null;
+    const starts_on = opts.starts_on || null;   // 'YYYY-MM-DD HH:mm:ss'
+    const email = opts.email || null;
+
+    return frappe.call({
+      method: 'supremusangel.supremus_angel.api.create_rm_event.create_rm_even',
+      args: {
+        activity_type,
+        reference_doctype,
+        reference_name,
+        subject,
+        description,
+        starts_on,
+        email
+      },
+      freeze: true,
+      freeze_message: __('Creating {0}...', [activity_type])
+    }).then(r => {
+      frappe.show_alert({
+        message: __('{0} created: {1}', [activity_type, r.message.name]),
+        indicator: 'green'
+      });
+      return r.message;
+    });
+  }
+
   };
   

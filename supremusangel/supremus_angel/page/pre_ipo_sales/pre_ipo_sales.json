@@ -1,19 +1,16 @@
 {
  "content": null,
- "creation": "2026-02-24 17:51:02.416122",
+ "creation": "2026-02-22 12:24:20.182962",
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2026-02-24 17:51:02.416122",
+ "modified": "2026-03-09 16:17:56.401468",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
- "name": "rm-dashboard",
+ "name": "pre-ipo-sales",
  "owner": "Administrator",
- "page_name": "rm-dashboard",
+ "page_name": "pre-ipo-sales",
  "roles": [
-  {
-   "role": "Sales Manager"
-  },
   {
    "role": "Sales User"
   }
@@ -22,5 +19,5 @@
  "standard": "Yes",
  "style": null,
  "system_page": 0,
- "title": "RM Dashboard"
+ "title": "Pre Ipo Sales"
 }
