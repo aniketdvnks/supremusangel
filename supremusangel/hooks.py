@@ -43,7 +43,7 @@ web_include_js = [
 ]
 
 website_generators = ["Job Opening"]
-
+# on_session_creation = "supremusangel.supremus_angel.page.onboarding.onboarding.after_login"
 # include js, css files in header of web template
 # web_include_css = "/assets/supremusangel/css/supremusangel.css"
 # web_include_js = "/assets/supremusangel/js/supremusangel.js"
