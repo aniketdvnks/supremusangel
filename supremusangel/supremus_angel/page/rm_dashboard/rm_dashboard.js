@@ -16,7 +16,8 @@ class RMDashboardController {
 		this.current_customer = null;
 		this.current_lead_doc = null;
 		this.current_customer_doc = null;
-
+		
+		$(document.body).addClass('full-width')
 		this.init_start_mode();
 		this.init_sidebar();
 		this.bind_events();
@@ -426,6 +427,14 @@ class RMDashboardController {
 			.then((r) => {
 				this.current_lead = r.message;
 
+				$("#lead-status").text(`${this.current_lead.status}`);
+				if(this.current_lead.status === "Converted"){
+					$("#lead-status").addClass('btn-success');
+				}else{
+					$("#lead-status").addClass('btn-primary');
+
+				}
+
 				$("#lead-title").text(`Lead: ${this.current_lead.lead_name}`);
 				$("#lead_name").text(this.current_lead.lead_name || "-");
 				$("#lead_phone").text(this.current_lead.phone || "-");
@@ -445,7 +454,7 @@ class RMDashboardController {
 	update_lead_onboard_state() {
 		const lead = this.current_lead;
 		if (!lead) return;
-
+		console.log("this is lead -" +lead.name)
 		// If status is Converted, try to find linked customer
 		if (lead.status === "Converted") {
 			frappe
@@ -458,7 +467,7 @@ class RMDashboardController {
 					},
 				})
 				.then((r) => {
-					const cust = r.message && r.message.name;
+					const cust = r.message[0].name;
 
 					if (cust) {
 						this.current_customer = cust;
@@ -737,16 +746,18 @@ class RMDashboardController {
 					this.goto_view("customer");
 				});
 		} else if (this.current_customer) {
+			console.log("Updating Current cutomer")
 			// Update existing customer
 			const f = $("#customer-kyc-form");
 			const fields = {
 				mobile_no: f.find('[name="phone"]').val(),
 				whatsapp_no: f.find('[name="whatsapp_no"]').val(),
 				pan_card: f.find('[name="pan_card"]').val(),
-				aadhar_card: f.find('[name="aadhar_card"]').val(),
+				custom_aadhar_number: f.find('[name="aadhar_card"]').val(),
 				bank_account: f.find('[name="bank_account"]').val(),
 				bank_ifsc: f.find('[name="bank_ifsc"]').val(),
 			};
+			console.log(fields)
 			frappe
 				.call({
 					method: "frappe.client.set_value",
@@ -1077,6 +1088,5 @@ window.RMCommon = {
       </div>
     `;
   }
-  
 
 };

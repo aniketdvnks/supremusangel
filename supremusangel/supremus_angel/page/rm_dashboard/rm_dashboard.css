@@ -24,7 +24,13 @@
     max-height: 700px;
     overflow-y: auto;
   }
-  
+  @media (min-width: 768px) {
+    body.full-width .container {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
   /* Glass cards */
   .rm-section {
     background: linear-gradient(135deg, var(--rm-card) 0%, rgba(255, 255, 255, 0.96) 100%);
