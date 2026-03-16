@@ -10,8 +10,7 @@
   "question",
   "answer",
   "column_break_4",
-  "earned_points",
-  "max_points"
+  "points"
  ],
  "fields": [
   {
@@ -46,25 +45,17 @@
   },
   {
    "allow_on_submit": 1,
-   "fieldname": "earned_points",
+   "fieldname": "points",
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Earned Points"
-  },
-  {
-   "fetch_from": "question_link.points",
-   "fieldname": "max_points",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Max. Points",
-   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-02-27 15:13:21.500896",
+ "modified": "2026-03-15 23:10:09.057087",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Job Screening Answers",
