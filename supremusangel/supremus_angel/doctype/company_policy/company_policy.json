@@ -12,7 +12,8 @@
   "policy_content",
   "effective_from",
   "active",
-  "mandatory_for_new_joinee"
+  "mandatory_for_new_joinee",
+  "for_customer_portal"
  ],
  "fields": [
   {
@@ -52,6 +53,12 @@
    "fieldname": "policy_pdf",
    "fieldtype": "Attach",
    "label": "Policy PDF"
+  },
+  {
+   "default": "0",
+   "fieldname": "for_customer_portal",
+   "fieldtype": "Check",
+   "label": "For Customer Portal"
   }
  ],
  "grid_page_length": 50,
@@ -62,7 +69,7 @@
    "link_fieldname": "policy"
   }
  ],
- "modified": "2026-02-28 11:01:46.097520",
+ "modified": "2026-03-19 14:58:13.285492",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Company Policy",

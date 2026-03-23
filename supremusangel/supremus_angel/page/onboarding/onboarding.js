@@ -98,7 +98,7 @@ class EmployeeOnboarding {
                 <!-- Header -->
                 <div class="onboarding-header">
                     <div class="welcome-section">
-                        <h2>${__("Welcome to")} ${frappe.boot.sitename || __("the Company")}!</h2>
+                        <h2>${__("Welcome to")} ${frappe.defaults.get_default("company") || __("the Company")}!</h2>
                         <p class="text-muted">${__("Please complete your onboarding profile")}</p>
                     </div>
                     <div class="employee-info">
