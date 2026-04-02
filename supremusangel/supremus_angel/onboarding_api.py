@@ -1,7 +1,93 @@
+import json
+import re
+
 import frappe
 from frappe import _
-from frappe.utils import cint, now_datetime, get_url
-import json
+from frappe.utils import cint, cstr, now_datetime
+
+INDIA_STATES = [
+    "Andaman and Nicobar Islands",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Ladakh",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+]
+
+STATE_OPTIONS = "\n" + "\n".join(INDIA_STATES)
+ADDRESS_PART_PATTERNS = {
+    "city": re.compile(r"^city\s*:\s*(.+)$", re.IGNORECASE),
+    "state": re.compile(r"^state\s*:\s*(.+)$", re.IGNORECASE),
+    "pincode": re.compile(r"^(?:pin\s*code|pincode|pin)\s*:\s*(.+)$", re.IGNORECASE),
+}
+
+
+def parse_structured_address(address):
+    parsed = {"address": "", "city": "", "state": "", "pincode": ""}
+    lines = [line.strip() for line in cstr(address).splitlines() if line.strip()]
+
+    if not lines:
+        return parsed
+
+    remaining_lines = []
+
+    for line in lines:
+        matched = False
+        for key, pattern in ADDRESS_PART_PATTERNS.items():
+            match = pattern.match(line)
+            if match:
+                parsed[key] = match.group(1).strip()
+                matched = True
+                break
+
+        if not matched:
+            remaining_lines.append(line)
+
+    parsed["address"] = "\n".join(remaining_lines)
+    return parsed
+
+
+def build_structured_address(address, city=None, state=None, pincode=None):
+    lines = [line.strip() for line in cstr(address).splitlines() if line.strip()]
+
+    if city:
+        lines.append(f"City: {cstr(city).strip()}")
+    if state:
+        lines.append(f"State: {cstr(state).strip()}")
+    if pincode:
+        lines.append(f"PIN Code: {cstr(pincode).strip()}")
+
+    return "\n".join(lines)
 
 # ============================================================
 # SESSION HOOK - REDIRECT TO ONBOARDING
@@ -57,6 +143,8 @@ def get_employee_data():
     try:
         employee_name = get_current_employee()
         employee = frappe.get_doc("Employee", employee_name)
+        current_address = parse_structured_address(employee.current_address)
+        permanent_address = parse_structured_address(employee.permanent_address)
 
         return {
             "success": True,
@@ -73,11 +161,24 @@ def get_employee_data():
                 "personal_email": employee.personal_email or "",
                 "cell_number": employee.cell_number or "",
                 "emergency_phone_number": employee.emergency_phone_number or "",
-                "current_address": employee.current_address or "",
-                "permanent_address": employee.permanent_address or "",
+                "current_address": current_address["address"],
+                "current_city": current_address["city"],
+                "current_state": current_address["state"],
+                "current_pincode": current_address["pincode"],
+                "permanent_address": permanent_address["address"],
+                "permanent_city": permanent_address["city"],
+                "permanent_state": permanent_address["state"],
+                "permanent_pincode": permanent_address["pincode"],
+                "same_as_current": bool(
+                    employee.current_address
+                    and employee.current_address == employee.permanent_address
+                ),
                 "bank_name": employee.bank_name or "",
                 "bank_ac_no": employee.bank_ac_no or "",
                 "iban": employee.iban or "",
+                "ifsc_code": employee.ifsc_code or "",
+                "pan_number": employee.pan_number or "",
+                "provident_fund_account": employee.provident_fund_account or "",
                 "designation": employee.designation or "",
                 "department": employee.department or "",
                 "branch": employee.branch or "",
@@ -127,12 +228,12 @@ def get_step_config():
             "fields": [
                 {"fieldname": "current_address", "label": _("Current Address"), "fieldtype": "Small Text", "reqd": 1},
                 {"fieldname": "current_city", "label": _("City"), "fieldtype": "Data", "reqd": 1},
-                {"fieldname": "current_state", "label": _("State"), "fieldtype": "Data", "reqd": 1},
+                {"fieldname": "current_state", "label": _("State"), "fieldtype": "Select", "options": STATE_OPTIONS, "reqd": 1},
                 {"fieldname": "current_pincode", "label": _("PIN Code"), "fieldtype": "Data", "reqd": 1},
                 {"fieldname": "same_as_current", "label": _("Permanent address same as current"), "fieldtype": "Check", "reqd": 0},
                 {"fieldname": "permanent_address", "label": _("Permanent Address"), "fieldtype": "Small Text", "reqd": 0, "depends_on": "eval:!doc.same_as_current"},
                 {"fieldname": "permanent_city", "label": _("City"), "fieldtype": "Data", "reqd": 0, "depends_on": "eval:!doc.same_as_current"},
-                {"fieldname": "permanent_state", "label": _("State"), "fieldtype": "Data", "reqd": 0, "depends_on": "eval:!doc.same_as_current"},
+                {"fieldname": "permanent_state", "label": _("State"), "fieldtype": "Select", "options": STATE_OPTIONS, "reqd": 0, "depends_on": "eval:!doc.same_as_current"},
                 {"fieldname": "permanent_pincode", "label": _("PIN Code"), "fieldtype": "Data", "reqd": 0, "depends_on": "eval:!doc.same_as_current"}
             ]
         },
@@ -146,7 +247,7 @@ def get_step_config():
                 {"fieldname": "ifsc_code", "label": _("IFSC Code"), "fieldtype": "Data", "reqd": 1},
                 {"fieldname": "iban", "label": _("IBAN (if applicable)"), "fieldtype": "Data", "reqd": 0},
                 {"fieldname": "pan_number", "label": _("PAN Number"), "fieldtype": "Data", "reqd": 1},
-                {"fieldname": "uan_number", "label": _("UAN (PF Number)"), "fieldtype": "Data", "reqd": 0}
+                {"fieldname": "provident_fund_account", "label": _("UAN (PF Number)"), "fieldtype": "Data", "reqd": 0}
             ]
         },
         {
@@ -193,6 +294,26 @@ def save_step_data(step_id, data):
         employee_name = get_current_employee()
         employee = frappe.get_doc("Employee", employee_name)
 
+        if step_id == "address":
+            current_address = build_structured_address(
+                data.get("current_address"),
+                data.get("current_city"),
+                data.get("current_state"),
+                data.get("current_pincode"),
+            )
+            permanent_address = current_address if data.get("same_as_current") else build_structured_address(
+                data.get("permanent_address"),
+                data.get("permanent_city"),
+                data.get("permanent_state"),
+                data.get("permanent_pincode"),
+            )
+
+            data = {
+                **data,
+                "current_address": current_address,
+                "permanent_address": permanent_address,
+            }
+
         # Update the step_fields dictionary in save_step_data()
         step_fields = {
             "personal": [
@@ -201,15 +322,13 @@ def save_step_data(step_id, data):
                 "cell_number", "emergency_phone_number"
             ],
             "address": [
-                "current_address", "permanent_address",
-                "current_city", "current_state", "current_pincode",
-                "permanent_city", "permanent_state", "permanent_pincode"
+                "current_address", "permanent_address"
             ],
             "bank": [
                 "bank_name", "bank_ac_no", "iban",
                 "ifsc_code",
                 "pan_number",
-                "uan_number" 
+                "provident_fund_account"
             ]
         }
         allowed_fields = step_fields.get(step_id, [])
@@ -218,10 +337,6 @@ def save_step_data(step_id, data):
         for field in allowed_fields:
             if field in data and hasattr(employee, field):
                 setattr(employee, field, data[field])
-
-        # Handle address copy logic
-        if step_id == "address" and data.get("same_as_current"):
-            employee.permanent_address = employee.current_address
 
         employee.flags.ignore_mandatory = True
         employee.save(ignore_permissions=True)

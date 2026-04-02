@@ -51,11 +51,15 @@ class EmployeeOnboarding {
 
     show_loading() {
         this.wrapper.html(`
-            <div class="onboarding-loading text-center py-5">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">${__("Loading...")}</span>
+            <div class="onboarding-status-screen">
+                <div class="onboarding-status-card">
+                    <div class="onboarding-status-badge">${__("Preparing your workspace")}</div>
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">${__("Loading...")}</span>
+                    </div>
+                    <h3>${__("Loading your onboarding form...")}</h3>
+                    <p class="text-muted">${__("We are pulling your employee profile and arranging the guided steps.")}</p>
                 </div>
-                <p class="mt-3 text-muted">${__("Loading your onboarding form...")}</p>
             </div>
         `);
     }
@@ -94,46 +98,44 @@ class EmployeeOnboarding {
 
     get_template() {
         return `
-            <div class="employee-onboarding-container">
-                <!-- Header -->
-                <div class="onboarding-header">
-                    <div class="welcome-section">
-                        <h2>${__("Welcome to")} ${frappe.defaults.get_default("company") || __("the Company")}!</h2>
-                        <p class="text-muted">${__("Please complete your onboarding profile")}</p>
-                    </div>
-                    <div class="employee-info">
-                        <span class="employee-name">${this.employee_data.employee_name || ""}</span>
-                        <span class="employee-designation text-muted">${this.employee_data.designation || ""}</span>
-                    </div>
-                </div>
+            <div class="employee-onboarding-shell">
+                <div class="onboarding-orb onboarding-orb-primary"></div>
+                <div class="onboarding-orb onboarding-orb-secondary"></div>
 
-                <!-- Progress Steps -->
-                <div class="onboarding-progress">
-                    <div class="step-indicators" id="step-indicators"></div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-                    </div>
-                </div>
+                <div class="employee-onboarding-container">
+                    <div class="onboarding-stage">
+                        <div class="onboarding-progress">
+                            <div class="progress-copy">
+                                <span class="progress-badge">
+                                    ${__("Step")} <span id="progress-step-current">1</span> ${__("of")} <span id="progress-step-total">${this.steps.length}</span>
+                                </span>
+                                <p id="progress-step-label" class="text-muted"></p>
+                            </div>
+                            <div class="step-indicators" id="step-indicators"></div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
 
-                <!-- Form Content -->
-                <div class="onboarding-content">
-                    <div class="step-title-section">
-                        <h3 id="step-title"></h3>
-                        <p id="step-subtitle" class="text-muted"></p>
-                    </div>
-                    <div class="step-form-container" id="step-form-container"></div>
-                </div>
+                        <div class="onboarding-content">
+                            <div class="step-title-section">
+                                <h3 id="step-title"></h3>
+                                <p id="step-subtitle" class="text-muted"></p>
+                            </div>
+                            <div class="step-form-container" id="step-form-container"></div>
+                        </div>
 
-                <!-- Navigation -->
-                <div class="onboarding-navigation">
-                    <button class="btn btn-secondary btn-prev" id="btn-prev">
-                        <svg class="icon icon-sm"><use href="#icon-left"></use></svg>
-                        ${__("Previous")}
-                    </button>
-                    <button class="btn btn-primary btn-next" id="btn-next">
-                        ${__("Next")}
-                        <svg class="icon icon-sm"><use href="#icon-right"></use></svg>
-                    </button>
+                        <div class="onboarding-navigation">
+                            <button class="btn btn-secondary btn-prev" id="btn-prev">
+                                <svg class="icon icon-sm"><use href="#icon-left"></use></svg>
+                                ${__("Previous")}
+                            </button>
+                            <button class="btn btn-primary btn-next" id="btn-next">
+                                ${__("Next")}
+                                <svg class="icon icon-sm"><use href="#icon-right"></use></svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -169,6 +171,9 @@ class EmployeeOnboarding {
         // Update title
         this.wrapper.find("#step-title").text(step.title);
         this.wrapper.find("#step-subtitle").text(this.get_step_subtitle(step.id));
+        this.wrapper.find("#progress-step-current").text(this.current_step + 1);
+        this.wrapper.find("#progress-step-total").text(this.steps.length);
+        this.wrapper.find("#progress-step-label").text(step.title);
 
         // Update indicators
         this.wrapper.find(".step-indicator").removeClass("active completed");
@@ -186,6 +191,12 @@ class EmployeeOnboarding {
             $container.html(this.render_document_step(step));
         } else {
             $container.html(this.render_form_fields(step));
+        }
+
+        this.wrapper.find(".onboarding-content").toggleClass("is-confirm-step", step.id === "confirm");
+
+        if (step.id === "address") {
+            this.handle_address_copy(Boolean(this.form_data.same_as_current));
         }
 
         this.update_navigation_buttons();
@@ -210,28 +221,38 @@ class EmployeeOnboarding {
             const value = this.form_data[field.fieldname] || "";
             const required = field.reqd ? 'required' : '';
             const requiredMark = field.reqd ? '<span class="text-danger">*</span>' : '';
+            const isCheckbox = field.fieldtype === "Check";
 
-            html += `<div class="form-group ${field.fieldtype === 'Small Text' ? 'full-width' : ''}">`;
-            html += `<label class="form-label">${field.label} ${requiredMark}</label>`;
+            html += `<div class="form-group ${field.fieldtype === 'Small Text' ? 'full-width' : ''} ${isCheckbox ? 'is-checkbox-row' : ''}">`;
 
-            switch (field.fieldtype) {
-                case "Select":
-                    html += this.render_select_field(field, value, required);
-                    break;
-                case "Date":
-                    html += this.render_date_field(field, value, required);
-                    break;
-                case "Small Text":
-                    html += this.render_textarea_field(field, value, required);
-                    break;
-                case "Check":
-                    html += this.render_checkbox_field(field, value);
-                    break;
-                default:
-                    html += this.render_input_field(field, value, required);
+            if (isCheckbox) {
+                html += `<div class="field-control">`;
+                html += this.render_checkbox_field(field, value);
+                html += `<div class="field-error text-danger" id="error-${field.fieldname}"></div>`;
+                html += `</div>`;
+            } else {
+                html += `<div class="form-row-inline">`;
+                html += `<label class="form-label">${field.label} ${requiredMark}</label>`;
+                html += `<div class="field-control">`;
+
+                switch (field.fieldtype) {
+                    case "Select":
+                        html += this.render_select_field(field, value, required);
+                        break;
+                    case "Date":
+                        html += this.render_date_field(field, value, required);
+                        break;
+                    case "Small Text":
+                        html += this.render_textarea_field(field, value, required);
+                        break;
+                    default:
+                        html += this.render_input_field(field, value, required);
+                }
+
+                html += `<div class="field-error text-danger" id="error-${field.fieldname}"></div>`;
+                html += `</div>`;
+                html += `</div>`;
             }
-
-            html += `<div class="field-error text-danger" id="error-${field.fieldname}"></div>`;
             html += `</div>`;
         });
 
@@ -333,8 +354,8 @@ class EmployeeOnboarding {
 
         // Address Summary
         html += this.render_review_section(__("Address"), {
-            [__("Current Address")]: this.form_data.current_address || "-",
-            [__("Permanent Address")]: this.form_data.permanent_address || "-"
+            [__("Current Address")]: this.format_address_summary("current"),
+            [__("Permanent Address")]: this.format_address_summary("permanent")
         });
 
         // Bank Summary
@@ -379,6 +400,16 @@ class EmployeeOnboarding {
 
         html += `</div></div>`;
         return html;
+    }
+
+    format_address_summary(prefix) {
+        const address = this.form_data[`${prefix}_address`] || "";
+        const city = this.form_data[`${prefix}_city`] || "";
+        const state = this.form_data[`${prefix}_state`] || "";
+        const pincode = this.form_data[`${prefix}_pincode`] || "";
+        const locality = [city, state].filter(Boolean).join(", ");
+
+        return [address, locality, pincode].filter(Boolean).join(" | ") || "-";
     }
 
     update_navigation_buttons() {
@@ -433,6 +464,13 @@ class EmployeeOnboarding {
 
             // Clear error on change
             self.wrapper.find(`#error-${name}`).text("");
+
+            if (
+                self.form_data.same_as_current &&
+                ["current_address", "current_city", "current_state", "current_pincode"].includes(name)
+            ) {
+                self.sync_permanent_address_fields();
+            }
         });
 
         // Step indicator clicks (allow navigation to completed steps)
@@ -450,37 +488,35 @@ class EmployeeOnboarding {
 		});
     }
 	
-	// Add this new method to the class
 	handle_address_copy(is_same) {
+		this.form_data.same_as_current = is_same;
+
 		if (is_same) {
-			// Copy current address fields to permanent address fields
-			const current_address = this.form_data.current_address || 
-				this.wrapper.find("[name='current_address']").val();
-			const current_city = this.form_data.current_city || 
-				this.wrapper.find("[name='current_city']").val();
-			const current_state = this.form_data.current_state || 
-				this.wrapper.find("[name='current_state']").val();
-			const current_pincode = this.form_data.current_pincode || 
-				this.wrapper.find("[name='current_pincode']").val();
-
-			// Update form data
-			this.form_data.permanent_address = current_address;
-			this.form_data.permanent_city = current_city;
-			this.form_data.permanent_state = current_state;
-			this.form_data.permanent_pincode = current_pincode;
-
-			// Update UI fields
-			this.wrapper.find("[name='permanent_address']").val(current_address);
-			this.wrapper.find("[name='permanent_city']").val(current_city);
-			this.wrapper.find("[name='permanent_state']").val(current_state);
-			this.wrapper.find("[name='permanent_pincode']").val(current_pincode);
-
-			// Disable permanent fields when checkbox is checked
+			this.sync_permanent_address_fields();
 			this.toggle_permanent_address_fields(true);
 		} else {
-			// Re-enable permanent fields
 			this.toggle_permanent_address_fields(false);
 		}
+	}
+
+	sync_permanent_address_fields() {
+		const field_map = {
+			current_address: "permanent_address",
+			current_city: "permanent_city",
+			current_state: "permanent_state",
+			current_pincode: "permanent_pincode"
+		};
+
+		Object.entries(field_map).forEach(([source_field, target_field]) => {
+			const stored_value = this.form_data[source_field];
+			const value = stored_value !== undefined
+				? stored_value
+				: (this.wrapper.find(`[name='${source_field}']`).val() || "");
+
+			this.form_data[target_field] = value;
+			this.wrapper.find(`[name='${target_field}']`).val(value);
+			this.wrapper.find(`#error-${target_field}`).text("");
+		});
 	}
 
 	toggle_permanent_address_fields(disable) {
@@ -772,73 +808,96 @@ class EmployeeOnboarding {
     }
 
     show_completion_dialog() {
-        const d = new frappe.ui.Dialog({
-            title: __("🎉 Onboarding Complete!"),
-            primary_action_label: __("Set New Password"),
-            primary_action: () => {
-                d.hide();
-                // Trigger password reset
-                frappe.xcall("frappe.core.doctype.user.user.reset_password", {
-                    user: frappe.session.user
-                }).then(() => {
-                    frappe.msgprint(__("Password reset email sent. Please check your email."));
-                    setTimeout(() => {
-                        window.location.href = "/app";
-                    }, 2000);
-                });
-            },
-            secondary_action_label: __("Go to Home"),
-            secondary_action: () => {
-                d.hide();
-                window.location.href = "/app";
-            }
-        });
+        $("#employee-onboarding-completion-overlay").remove();
+        $("body").addClass("onboarding-overlay-open");
 
-        d.$body.html(`
-            <div class="text-center py-4">
-                <div class="completion-icon mb-3">
-                    <svg class="icon" style="width:64px;height:64px;color:var(--green-500)">
-                        <use href="#icon-tick"></use>
-                    </svg>
+        const $overlay = $(`
+            <div class="onboarding-overlay" id="employee-onboarding-completion-overlay">
+                <div class="onboarding-overlay-card">
+                    <div class="completion-eyebrow">${__("Profile Activated")}</div>
+                    <div class="completion-icon">
+                        <svg class="icon"><use href="#icon-tick"></use></svg>
+                    </div>
+                    <h3>${__("Welcome aboard!")}</h3>
+                    <p class="text-muted">
+                        ${__("Your onboarding is complete. Set a new password now or head straight to your workspace.")}
+                    </p>
+                    <div class="onboarding-overlay-actions">
+                        <button class="btn btn-primary" data-action="reset-password">
+                            ${__("Set New Password")}
+                        </button>
+                        <button class="btn btn-secondary" data-action="go-home">
+                            ${__("Go to Home")}
+                        </button>
+                    </div>
                 </div>
-                <h4>${__("Welcome aboard!")}</h4>
-                <p class="text-muted">
-                    ${__("Your onboarding is complete. We recommend setting a new password for security.")}
-                </p>
             </div>
         `);
 
-        d.show();
+        $overlay.find("[data-action='reset-password']").on("click", async () => {
+            const $button = $overlay.find("[data-action='reset-password']");
+            $button.prop("disabled", true).text(__("Sending..."));
+
+            try {
+                await frappe.xcall("frappe.core.doctype.user.user.reset_password", {
+                    user: frappe.session.user
+                });
+                frappe.show_alert({
+                    message: __("Password reset email sent. Please check your email."),
+                    indicator: "green"
+                });
+                setTimeout(() => {
+                    $("body").removeClass("onboarding-overlay-open");
+                    window.location.href = "/app";
+                }, 1500);
+            } catch (error) {
+                $button.prop("disabled", false).text(__("Set New Password"));
+                frappe.msgprint({
+                    title: __("Unable to send reset email"),
+                    message: error.message || __("Please try again."),
+                    indicator: "red"
+                });
+            }
+        });
+
+        $overlay.find("[data-action='go-home']").on("click", () => {
+            $("body").removeClass("onboarding-overlay-open");
+            window.location.href = "/app";
+        });
+
+        $("body").append($overlay);
     }
 
     show_already_completed() {
         this.wrapper.html(`
-            <div class="onboarding-completed text-center py-5">
-                <div class="completion-icon mb-4">
-                    <svg class="icon" style="width:80px;height:80px;color:var(--green-500)">
-                        <use href="#icon-tick"></use>
-                    </svg>
+            <div class="onboarding-status-screen">
+                <div class="onboarding-status-card">
+                    <div class="onboarding-status-badge">${__("Profile Ready")}</div>
+                    <div class="completion-icon">
+                        <svg class="icon"><use href="#icon-tick"></use></svg>
+                    </div>
+                    <h3>${__("Onboarding Already Completed")}</h3>
+                    <p class="text-muted">${__("You have already completed your onboarding process.")}</p>
+                    <a href="/app" class="btn btn-primary mt-3">${__("Go to Home")}</a>
                 </div>
-                <h3>${__("Onboarding Already Completed")}</h3>
-                <p class="text-muted">${__("You have already completed your onboarding process.")}</p>
-                <a href="/app" class="btn btn-primary mt-3">${__("Go to Home")}</a>
             </div>
         `);
     }
 
     show_error(message) {
         this.wrapper.html(`
-            <div class="onboarding-error text-center py-5">
-                <div class="error-icon mb-4">
-                    <svg class="icon" style="width:64px;height:64px;color:var(--red-500)">
-                        <use href="#icon-error"></use>
-                    </svg>
+            <div class="onboarding-status-screen">
+                <div class="onboarding-status-card is-error">
+                    <div class="onboarding-status-badge">${__("Setup Interrupted")}</div>
+                    <div class="error-icon">
+                        <svg class="icon"><use href="#icon-error"></use></svg>
+                    </div>
+                    <h3>${__("Something went wrong")}</h3>
+                    <p class="text-muted">${frappe.utils.escape_html(message)}</p>
+                    <button class="btn btn-primary mt-3" onclick="location.reload()">
+                        ${__("Try Again")}
+                    </button>
                 </div>
-                <h4>${__("Something went wrong")}</h4>
-                <p class="text-muted">${frappe.utils.escape_html(message)}</p>
-                <button class="btn btn-primary mt-3" onclick="location.reload()">
-                    ${__("Try Again")}
-                </button>
             </div>
         `);
     }
