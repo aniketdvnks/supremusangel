@@ -25,11 +25,11 @@ class EmployeeOnboarding {
 
     async init() {
         this.show_loading();
-        
+
         try {
             // Check onboarding status
             const status = await this.check_status();
-            
+
             if (!status.required) {
                 this.show_already_completed();
                 return;
@@ -82,7 +82,7 @@ class EmployeeOnboarding {
         const r = await frappe.call({
             method: "supremusangel.supremus_angel.onboarding_api.get_employee_data"
         });
-        
+
         if (r.message && r.message.success) {
             this.employee_data = r.message.data;
             this.form_data = { ...r.message.data };
@@ -143,9 +143,9 @@ class EmployeeOnboarding {
 
     render_step_indicators() {
         const $container = this.wrapper.find("#step-indicators");
-        
+
         let html = this.steps.map((step, index) => `
-            <div class="step-indicator ${index === 0 ? 'active' : ''} ${index < this.current_step ? 'completed' : ''}" 
+            <div class="step-indicator ${index === 0 ? 'active' : ''} ${index < this.current_step ? 'completed' : ''}"
                  data-step="${index}">
                 <div class="step-icon">
                     <span class="step-number">${index + 1}</span>
@@ -184,7 +184,7 @@ class EmployeeOnboarding {
 
         // Render form fields
         const $container = this.wrapper.find("#step-form-container");
-        
+
         if (step.id === "confirm") {
             $container.html(this.render_confirmation_step());
         } else if (step.id === "documents") {
@@ -262,7 +262,7 @@ class EmployeeOnboarding {
 
     render_input_field(field, value, required) {
         const type = field.options === "Email" ? "email" : "text";
-        return `<input type="${type}" class="form-control" name="${field.fieldname}" 
+        return `<input type="${type}" class="form-control" name="${field.fieldname}"
                        value="${frappe.utils.escape_html(value)}" ${required}
                        placeholder="${__("Enter")} ${field.label.toLowerCase()}">`;
     }
@@ -271,32 +271,32 @@ class EmployeeOnboarding {
         const options = (field.options || "").split("\n");
         let html = `<select class="form-control form-select" name="${field.fieldname}" ${required}>`;
         html += `<option value="">${__("Select")} ${field.label}</option>`;
-        
+
         options.forEach(opt => {
             if (opt.trim()) {
                 const selected = opt.trim() === value ? 'selected' : '';
                 html += `<option value="${opt.trim()}" ${selected}>${opt.trim()}</option>`;
             }
         });
-        
+
         html += `</select>`;
         return html;
     }
 
     render_date_field(field, value, required) {
-        return `<input type="date" class="form-control" name="${field.fieldname}" 
+        return `<input type="date" class="form-control" name="${field.fieldname}"
                        value="${value}" ${required}>`;
     }
 
     render_textarea_field(field, value, required) {
-        return `<textarea class="form-control" name="${field.fieldname}" rows="3" 
+        return `<textarea class="form-control" name="${field.fieldname}" rows="3"
                           ${required} placeholder="${__("Enter")} ${field.label.toLowerCase()}">${frappe.utils.escape_html(value)}</textarea>`;
     }
 
     render_checkbox_field(field, value) {
         const checked = value ? 'checked' : '';
         return `<div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="${field.fieldname}" 
+                    <input type="checkbox" class="form-check-input" name="${field.fieldname}"
                            id="${field.fieldname}" ${checked}>
                     <label class="form-check-label" for="${field.fieldname}">${field.label}</label>
                 </div>`;
@@ -304,16 +304,16 @@ class EmployeeOnboarding {
 
 	render_document_step(step) {
 		let html = '<div class="document-upload-grid">';
-	
+
 		step.fields.forEach(field => {
 			const requiredMark = field.reqd ? '<span class="text-danger">*</span>' : '';
 			const uploaded = this.form_data[field.fieldname];
-	
+
 			html += `
-				<div class="document-upload-card ${uploaded ? 'uploaded' : ''}" 
+				<div class="document-upload-card ${uploaded ? 'uploaded' : ''}"
 					 data-field="${field.fieldname}">
 					<div class="upload-icon">
-						${uploaded 
+						${uploaded
 							? '<svg class="icon icon-lg text-success"><use href="#icon-tick"></use></svg>'
 							: '<svg class="icon icon-lg"><use href="#icon-upload"></use></svg>'
 						}
@@ -326,7 +326,7 @@ class EmployeeOnboarding {
 				</div>
 			`;
 		});
-	
+
 		html += '</div>';
 		return html;
 	}
@@ -339,7 +339,7 @@ class EmployeeOnboarding {
                 </div>
                 <h4>${__("Almost Done!")}</h4>
                 <p class="text-muted">${__("Please review your information before submitting.")}</p>
-                
+
                 <div class="review-sections">
         `;
 
@@ -367,7 +367,7 @@ class EmployeeOnboarding {
 
         html += `
                 </div>
-                
+
                 <div class="agreement-section mt-4">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="confirm-agreement" required>
@@ -447,7 +447,7 @@ class EmployeeOnboarding {
 		// Document upload cards - direct trigger
 		this.wrapper.on("click", ".document-upload-card", function(e) {
 			if ($(e.target).hasClass("view-document")) return;
-			
+
 			const fieldname = $(this).data("field");
 			self.open_file_uploader(fieldname, $(this));
 		});
@@ -487,7 +487,7 @@ class EmployeeOnboarding {
 			self.handle_address_copy($(this).is(":checked"));
 		});
     }
-	
+
 	handle_address_copy(is_same) {
 		this.form_data.same_as_current = is_same;
 
@@ -521,12 +521,12 @@ class EmployeeOnboarding {
 
 	toggle_permanent_address_fields(disable) {
 		const permanent_fields = [
-			"permanent_address", 
-			"permanent_city", 
-			"permanent_state", 
+			"permanent_address",
+			"permanent_city",
+			"permanent_state",
 			"permanent_pincode"
 		];
-		
+
 		permanent_fields.forEach(fieldname => {
 			this.wrapper.find(`[name='${fieldname}']`)
 				.prop("disabled", disable)
@@ -539,29 +539,29 @@ class EmployeeOnboarding {
 		const $card = $input.closest(".document-upload-card");
 		const field = this.steps[this.current_step].fields.find(f => f.fieldname === fieldname);
 		const self = this;
-	
+
 		// Use Frappe's native FileUploader
 		new frappe.ui.FileUploader({
 			doctype: "Employee",
 			docname: this.employee_data.name,
 			folder: "Home/Attachments",
 			restrictions: {
-				allowed_file_types: field.fieldtype === "Attach Image" 
-					? ["image/*"] 
+				allowed_file_types: field.fieldtype === "Attach Image"
+					? ["image/*"]
 					: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"]
 			},
 			on_success: (file_doc) => {
 				const file_url = file_doc.file_url;
-				
+
 				self.form_data[fieldname] = file_url;
-				
+
 				// Update card UI
 				$card.removeClass("uploading").addClass("uploaded");
 				$card.find(".upload-icon").html(
 					'<svg class="icon icon-lg text-success"><use href="#icon-tick"></use></svg>'
 				);
 				$card.find(".upload-status").text(__("Uploaded"));
-				
+
 				// Add view link if not exists
 				if (!$card.find(".view-document").length) {
 					$card.append(
@@ -570,10 +570,10 @@ class EmployeeOnboarding {
 				} else {
 					$card.find(".view-document").attr("href", file_url);
 				}
-	
+
 				// Save to backend
 				self.save_document(fieldname, file_url);
-	
+
 				frappe.show_alert({
 					message: __("Document uploaded successfully"),
 					indicator: "green"
@@ -585,15 +585,15 @@ class EmployeeOnboarding {
 	open_file_uploader(fieldname, $card) {
 		const field = this.steps[this.current_step].fields.find(f => f.fieldname === fieldname);
 		const self = this;
-	
+
 		new frappe.ui.FileUploader({
 			doctype: "Employee",
 			docname: this.employee_data.name,
 			folder: "Home/Attachments",
 			make_attachments_public: 0,  // Keep documents private
 			restrictions: {
-				allowed_file_types: field.fieldtype === "Attach Image" 
-					? ["image/*"] 
+				allowed_file_types: field.fieldtype === "Attach Image"
+					? ["image/*"]
 					: [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"],
 				max_file_size: 10 * 1024 * 1024  // 10MB limit
 			},
@@ -602,17 +602,17 @@ class EmployeeOnboarding {
 			}
 		});
 	}
-	
+
 	handle_upload_success(fieldname, file_url, $card) {
 		this.form_data[fieldname] = file_url;
-		
+
 		// Update UI
 		$card.addClass("uploaded");
 		$card.find(".upload-icon").html(
 			'<svg class="icon icon-lg text-success"><use href="#icon-tick"></use></svg>'
 		);
 		$card.find(".upload-status").text(__("Uploaded"));
-		
+
 		// Update or add view link
 		let $viewLink = $card.find(".view-document");
 		if ($viewLink.length) {
@@ -620,7 +620,7 @@ class EmployeeOnboarding {
 		} else {
 			$card.append(`<a href="${file_url}" target="_blank" class="view-document">${__("View")}</a>`);
 		}
-	
+
 		// Persist to backend
 		frappe.call({
 			method: "supremusangel.supremus_angel.onboarding_api.upload_document",
@@ -629,7 +629,7 @@ class EmployeeOnboarding {
 				file_url: file_url
 			}
 		});
-	
+
 		frappe.show_alert({ message: __("Document uploaded"), indicator: "green" });
 	}
 
@@ -728,7 +728,7 @@ class EmployeeOnboarding {
 	validate_address_step(step) {
 		let is_valid = true;
 		const same_as_current = this.form_data.same_as_current;
-	
+
 		// Current address fields are always required
 		const current_required = ["current_address", "current_city", "current_state", "current_pincode"];
 		current_required.forEach(fieldname => {
@@ -738,7 +738,7 @@ class EmployeeOnboarding {
 				this.wrapper.find(`#error-${fieldname}`).text(__("This field is required"));
 			}
 		});
-	
+
 		// Permanent address fields required only if NOT same as current
 		if (!same_as_current) {
 			const permanent_required = ["permanent_address", "permanent_city", "permanent_state", "permanent_pincode"];
@@ -750,11 +750,11 @@ class EmployeeOnboarding {
 				}
 			});
 		}
-	
+
 		if (!is_valid) {
 			frappe.show_alert({ message: __("Please fill all required fields"), indicator: "orange" });
 		}
-	
+
 		return is_valid;
 	}
     async save_step(step_id) {
@@ -823,7 +823,7 @@ class EmployeeOnboarding {
                         ${__("Your onboarding is complete. Set a new password now or head straight to your workspace.")}
                     </p>
                     <div class="onboarding-overlay-actions">
-                        <button class="btn btn-primary" data-action="reset-password">
+                        <button class="btn btn-success" data-action="reset-password">
                             ${__("Set New Password")}
                         </button>
                         <button class="btn btn-secondary" data-action="go-home">
@@ -873,7 +873,7 @@ class EmployeeOnboarding {
             <div class="onboarding-status-screen">
                 <div class="onboarding-status-card">
                     <div class="onboarding-status-badge">${__("Profile Ready")}</div>
-                    <div class="completion-icon">
+                    <div>
                         <svg class="icon"><use href="#icon-tick"></use></svg>
                     </div>
                     <h3>${__("Onboarding Already Completed")}</h3>
