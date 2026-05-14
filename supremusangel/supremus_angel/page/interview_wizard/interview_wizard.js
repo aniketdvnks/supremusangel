@@ -131,9 +131,10 @@ class InterviewWizard {
 
             <!-- Applicant header -->
             <div class="iw-appl-header">
-                <div class="iw-av iw-av-lg">${(d.applicant_name || "?")[0].toUpperCase()}</div>
+                <div class="iw-av iw-av-lg">
+				 ${(d.applicant_name || "?")[0].toUpperCase()}</div>
                 <div class="iw-appl-info">
-                    <div class="iw-appl-name">${frappe.utils.escape_html(d.applicant_name)}</div>
+                    <div class="iw-appl-name"><a href="/app/job-applicant/${d.email_id}">${frappe.utils.escape_html(d.applicant_name)}</a></div>
                     <div class="iw-appl-meta">
                         ${d.email_id ? `<span>${frappe.utils.escape_html(d.email_id)}</span>` : ""}
                         ${d.phone_number ? `<span>${frappe.utils.escape_html(d.phone_number)}</span>` : ""}
@@ -141,7 +142,7 @@ class InterviewWizard {
                         ${d.designation ? `<span>${frappe.utils.escape_html(d.designation)}</span>` : ""}
                     </div>
                 </div>
-                <div class="iw-appl-actions">
+                <div class="iw-appl-actions">Status
                     <span class="iw-badge iw-badge-${status_color}">${__(d.status)}</span>
                     <button class="btn btn-xs btn-default iw-refresh-btn" title="${__("Refresh")}">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
