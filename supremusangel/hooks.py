@@ -257,5 +257,13 @@ website_generators = ["Job Opening"]
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+override_doctype_class = {
+    "Interview": "supremusangel.supremus_angel.custom.interview.CustomInterview"
+}
+
+fixtures = [
+    {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]}
+]
+
 boot_session = "supremusangel.supremus_angel.boot.boot_session"
 # on_login = "supremusangel.auth_hooks.on_login"

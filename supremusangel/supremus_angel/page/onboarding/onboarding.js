@@ -542,8 +542,6 @@ class EmployeeOnboarding {
 
 		// Use Frappe's native FileUploader
 		new frappe.ui.FileUploader({
-			doctype: "Employee",
-			docname: this.employee_data.name,
 			folder: "Home/Attachments",
 			restrictions: {
 				allowed_file_types: field.fieldtype === "Attach Image"
@@ -587,8 +585,6 @@ class EmployeeOnboarding {
 		const self = this;
 
 		new frappe.ui.FileUploader({
-			doctype: "Employee",
-			docname: this.employee_data.name,
 			folder: "Home/Attachments",
 			make_attachments_public: 0,  // Keep documents private
 			restrictions: {
