@@ -2,6 +2,10 @@
 
 Customisations for Supremus Angel
 
+### Documentation
+
+- [Reward and Incentive Rules for Sales Persons](supremusangel/docs/reward-and-incentive-rules.md)
+
 ### Installation
 
 You can install this app using the [bench](https://github.com/frappe/bench) CLI:
