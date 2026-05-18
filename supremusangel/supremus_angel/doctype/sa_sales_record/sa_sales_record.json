@@ -1,0 +1,145 @@
+{
+ "actions": [],
+ "autoname": "SA-SALE-.YYYY.-.#####",
+ "creation": "2026-05-18 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sales_person",
+  "posting_date",
+  "status",
+  "column_break_001",
+  "merchandise",
+  "unit_definition",
+  "is_variable_value",
+  "units_sold",
+  "unit_value_inr",
+  "total_sales_value",
+  "section_break_ref",
+  "reference_doctype",
+  "reference_name",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "sales_person",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sales Person",
+   "options": "Sales Person",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "Confirmed",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Confirmed\nCancelled\nReversed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_001",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "merchandise",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Merchandise",
+   "options": "SA Merchandise"
+  },
+  {
+   "fetch_from": "merchandise.unit_definition",
+   "fieldname": "unit_definition",
+   "fieldtype": "Small Text",
+   "label": "Unit Definition",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "merchandise.is_variable_value",
+   "fieldname": "is_variable_value",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Variable Value",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "units_sold",
+   "fieldtype": "Float",
+   "label": "Units Sold",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_variable_value",
+   "fieldname": "unit_value_inr",
+   "fieldtype": "Currency",
+   "label": "Unit Value (INR)",
+   "description": "Enter the INR value per unit for this sale."
+  },
+  {
+   "fieldname": "total_sales_value",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Sales Value (INR)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ref",
+   "fieldtype": "Section Break",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Document Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_doctype"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA Sales Record",
+ "naming_rule": "Expression (matches with #)",
+ "owner": "aniket@dvnks.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "posting_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

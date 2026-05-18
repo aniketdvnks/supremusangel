@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "autoname": "field:merchandise_name",
+ "creation": "2026-05-18 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "merchandise_name",
+  "unit_definition",
+  "column_break_001",
+  "unit_value_inr",
+  "is_variable_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "merchandise_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Merchandise Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "unit_definition",
+   "fieldtype": "Small Text",
+   "label": "Unit Definition",
+   "description": "e.g. 1 unit = INR 25,000 for Pre-IPO Shares"
+  },
+  {
+   "fieldname": "column_break_001",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "unit_value_inr",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Unit Value (INR)",
+   "description": "Fixed INR value per unit. Leave 0 if value varies per sale."
+  },
+  {
+   "default": "0",
+   "fieldname": "is_variable_value",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Variable Value",
+   "description": "If checked, unit value must be entered on each sales record."
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA Merchandise",
+ "naming_rule": "By fieldname",
+ "owner": "aniket@dvnks.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0
+}

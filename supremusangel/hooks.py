@@ -261,6 +261,13 @@ override_doctype_class = {
     "Interview": "supremusangel.supremus_angel.custom.interview.CustomInterview"
 }
 
+doc_events = {
+    "Sales Invoice": {
+        "on_submit": "supremusangel.supremus_angel.hooks.sales_invoice.on_submit",
+        "on_cancel": "supremusangel.supremus_angel.hooks.sales_invoice.on_cancel",
+    }
+}
+
 fixtures = [
     {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]}
 ]

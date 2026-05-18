@@ -1,0 +1,195 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"sa_h1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Quick Access</b></span>\",\"col\":12}},{\"id\":\"sa_s1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Sales Record\",\"col\":3}},{\"id\":\"sa_s2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Incentive Calculation\",\"col\":3}},{\"id\":\"sa_s3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Person Incentive Summary\",\"col\":3}},{\"id\":\"sa_s4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Sales Records Register\",\"col\":3}},{\"id\":\"sa_s5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Slab-wise Achievement Distribution\",\"col\":3}},{\"id\":\"sa_sp1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"sa_h2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Sales Incentives</b></span>\",\"col\":12}},{\"id\":\"sa_c1\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Transactions\",\"col\":4}},{\"id\":\"sa_c2\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Masters\",\"col\":4}},{\"id\":\"sa_c3\",\"type\":\"card\",\"data\":{\"card_name\":\"Meetings & Policy\",\"col\":4}},{\"id\":\"sa_c4\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Reports\",\"col\":4}}]",
+ "creation": "2026-05-18 10:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "star",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Supremus Angel",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Incentive Transactions",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SA Sales Record",
+   "link_count": 0,
+   "link_to": "SA Sales Record",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SA Incentive Calculation",
+   "link_count": 0,
+   "link_to": "SA Incentive Calculation",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Incentive Masters",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SA Merchandise",
+   "link_count": 0,
+   "link_to": "SA Merchandise",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SA Incentive Slab",
+   "link_count": 0,
+   "link_to": "SA Incentive Slab",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Incentive Reports",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sales Person Incentive Summary",
+   "link_count": 0,
+   "link_to": "Sales Person Incentive Summary",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "SA Sales Records Register",
+   "link_count": 0,
+   "link_to": "SA Sales Records Register",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Slab-wise Achievement Distribution",
+   "link_count": 0,
+   "link_to": "Slab-wise Achievement Distribution",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Meetings & Policy",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Meeting",
+   "link_count": 0,
+   "link_to": "Meeting",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Company Policy",
+   "link_count": 0,
+   "link_to": "Company Policy",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-05-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "Supremus Angel",
+ "number_cards": [],
+ "owner": "aniket@dvnks.com",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 99.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "format": "{} Records",
+   "label": "SA Sales Record",
+   "link_to": "SA Sales Record",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "format": "{} Calculations",
+   "label": "SA Incentive Calculation",
+   "link_to": "SA Incentive Calculation",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "label": "Sales Person Incentive Summary",
+   "link_to": "Sales Person Incentive Summary",
+   "type": "Report"
+  },
+  {
+   "color": "Purple",
+   "label": "SA Sales Records Register",
+   "link_to": "SA Sales Records Register",
+   "type": "Report"
+  },
+  {
+   "color": "Yellow",
+   "label": "Slab-wise Achievement Distribution",
+   "link_to": "Slab-wise Achievement Distribution",
+   "type": "Report"
+  }
+ ],
+ "title": "Supremus Angel",
+ "type": "Workspace"
+}

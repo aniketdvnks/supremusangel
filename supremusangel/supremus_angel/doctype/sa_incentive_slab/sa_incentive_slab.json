@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "autoname": "SA-SLAB-.#####",
+ "creation": "2026-05-18 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "slab_label",
+  "min_achievement",
+  "has_no_upper_limit",
+  "max_achievement",
+  "column_break_001",
+  "incentive_percent",
+  "reward_percent",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "slab_label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Slab Label",
+   "description": "e.g. 70% to below 80%"
+  },
+  {
+   "fieldname": "min_achievement",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Min Achievement % (Inclusive)",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "has_no_upper_limit",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "No Upper Limit (and above)"
+  },
+  {
+   "depends_on": "eval:!doc.has_no_upper_limit",
+   "fieldname": "max_achievement",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Max Achievement % (Exclusive)",
+   "description": "Leave 0 or tick 'No Upper Limit' for the topmost slab."
+  },
+  {
+   "fieldname": "column_break_001",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "incentive_percent",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Incentive % of Salary (x)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reward_percent",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Reward % on Sales Above 10x",
+   "description": "Applied on (total_sales - 10x) when achievement >= 100%."
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA Incentive Slab",
+ "naming_rule": "Expression (matches with #)",
+ "owner": "aniket@dvnks.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "min_achievement",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

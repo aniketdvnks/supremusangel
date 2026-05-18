@@ -1,0 +1,69 @@
+import frappe
+
+
+def create_incentive_data():
+	_create_merchandise()
+	_create_slabs()
+	frappe.db.commit()
+	print("Done — SA Merchandise and SA Incentive Slabs created.")
+
+
+def _create_merchandise():
+	items = [
+		{
+			"merchandise_name": "Pre-IPO Shares",
+			"unit_definition": "1 unit = INR 25,000",
+			"unit_value_inr": 25000,
+			"is_variable_value": 0,
+		},
+		{
+			"merchandise_name": "MIP Plan for Pre-IPO Shares",
+			"unit_definition": "1 unit = plan-specific INR value",
+			"unit_value_inr": 0,
+			"is_variable_value": 1,
+		},
+		{
+			"merchandise_name": "Fractional Ownership of Franchise",
+			"unit_definition": "1 unit = configured franchise fraction/value",
+			"unit_value_inr": 0,
+			"is_variable_value": 1,
+		},
+		{
+			"merchandise_name": "Neo Green Contract Farming Land",
+			"unit_definition": "1 unit = 0.75 land fraction/area unit",
+			"unit_value_inr": 0,
+			"is_variable_value": 1,
+		},
+	]
+
+	for item in items:
+		if frappe.db.exists("SA Merchandise", item["merchandise_name"]):
+			print(f"  Skip (exists): {item['merchandise_name']}")
+			continue
+		doc = frappe.get_doc({"doctype": "SA Merchandise", **item})
+		doc.insert(ignore_permissions=True)
+		print(f"  Created merchandise: {item['merchandise_name']}")
+
+
+def _create_slabs():
+	slabs = [
+		{"slab_label": "Below 70%",         "min_achievement": 0,   "max_achievement": 70,  "has_no_upper_limit": 0, "incentive_percent": 0,    "reward_percent": 0},
+		{"slab_label": "70% to below 80%",  "min_achievement": 70,  "max_achievement": 80,  "has_no_upper_limit": 0, "incentive_percent": 10,   "reward_percent": 0},
+		{"slab_label": "80% to below 90%",  "min_achievement": 80,  "max_achievement": 90,  "has_no_upper_limit": 0, "incentive_percent": 20,   "reward_percent": 0},
+		{"slab_label": "90% to below 100%", "min_achievement": 90,  "max_achievement": 100, "has_no_upper_limit": 0, "incentive_percent": 30,   "reward_percent": 0},
+		{"slab_label": "100% to below 140%","min_achievement": 100, "max_achievement": 140, "has_no_upper_limit": 0, "incentive_percent": 30,   "reward_percent": 10},
+		{"slab_label": "140% to below 200%","min_achievement": 140, "max_achievement": 200, "has_no_upper_limit": 0, "incentive_percent": 30,   "reward_percent": 11},
+		{"slab_label": "200% to below 300%","min_achievement": 200, "max_achievement": 300, "has_no_upper_limit": 0, "incentive_percent": 30,   "reward_percent": 12.5},
+		{"slab_label": "300% to below 400%","min_achievement": 300, "max_achievement": 400, "has_no_upper_limit": 0, "incentive_percent": 30,   "reward_percent": 14},
+		{"slab_label": "400% and above",    "min_achievement": 400, "max_achievement": 0,   "has_no_upper_limit": 1, "incentive_percent": 30,   "reward_percent": 15},
+	]
+
+	existing = frappe.db.count("SA Incentive Slab")
+	if existing:
+		print(f"  Skip slabs — {existing} already exist.")
+		return
+
+	for slab in slabs:
+		doc = frappe.get_doc({"doctype": "SA Incentive Slab", **slab})
+		doc.insert(ignore_permissions=True)
+		print(f"  Created slab: {slab['slab_label']}")

@@ -1,0 +1,195 @@
+{
+ "actions": [],
+ "autoname": "SA-INC-.YYYY.-.#####",
+ "creation": "2026-05-18 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "inputs_tab",
+  "sales_person",
+  "calculation_month",
+  "salary",
+  "column_break_001",
+  "from_date",
+  "to_date",
+  "status",
+  "results_tab",
+  "base_target",
+  "minimum_target",
+  "total_sales",
+  "achievement_percent",
+  "column_break_002",
+  "slab_applied",
+  "incentive_percent",
+  "incentive_amount",
+  "reward_percent",
+  "reward_amount",
+  "total_payout",
+  "sales_details_tab",
+  "sales_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "inputs_tab",
+   "fieldtype": "Tab Break",
+   "label": "Inputs"
+  },
+  {
+   "fieldname": "sales_person",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sales Person",
+   "options": "Sales Person",
+   "reqd": 1
+  },
+  {
+   "fieldname": "calculation_month",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Calculation Month",
+   "reqd": 1,
+   "description": "Format: YYYY-MM e.g. 2026-05"
+  },
+  {
+   "fieldname": "salary",
+   "fieldtype": "Currency",
+   "label": "Monthly Salary (x)",
+   "reqd": 1,
+   "description": "Sales person's fixed monthly salary."
+  },
+  {
+   "fieldname": "column_break_001",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "read_only": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nCalculated\nApproved\nPaid"
+  },
+  {
+   "fieldname": "results_tab",
+   "fieldtype": "Tab Break",
+   "label": "Results"
+  },
+  {
+   "fieldname": "base_target",
+   "fieldtype": "Currency",
+   "label": "Base Sales Target (10x)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "minimum_target",
+   "fieldtype": "Currency",
+   "label": "Minimum Eligible Target (7x)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_sales",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Eligible Sales",
+   "read_only": 1
+  },
+  {
+   "fieldname": "achievement_percent",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Achievement %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_002",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "slab_applied",
+   "fieldtype": "Link",
+   "label": "Slab Applied",
+   "options": "SA Incentive Slab",
+   "read_only": 1
+  },
+  {
+   "fieldname": "incentive_percent",
+   "fieldtype": "Float",
+   "label": "Incentive % of Salary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "incentive_amount",
+   "fieldtype": "Currency",
+   "label": "Incentive Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reward_percent",
+   "fieldtype": "Float",
+   "label": "Reward % on Sales Above 10x",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reward_amount",
+   "fieldtype": "Currency",
+   "label": "Additional Reward",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_payout",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Payout",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sales Details"
+  },
+  {
+   "fieldname": "sales_details",
+   "fieldtype": "Table",
+   "label": "Sales Details",
+   "options": "SA Incentive Calculation Detail",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA Incentive Calculation",
+ "naming_rule": "Expression (matches with #)",
+ "owner": "aniket@dvnks.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
