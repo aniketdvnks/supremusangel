@@ -17,6 +17,7 @@
   {
    "fieldname": "user",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "User",
    "options": "User"
   },
@@ -53,11 +54,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-11 16:45:19.600992",
- "modified_by": "Administrator",
+ "modified": "2026-05-22 15:43:58.103234",
+ "modified_by": "superadmin74@gmail.com",
  "module": "Supremus Angel",
  "name": "Company Policy Acknowledgement",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

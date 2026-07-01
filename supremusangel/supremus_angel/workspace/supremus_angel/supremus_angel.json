@@ -1,7 +1,7 @@
 {
  "charts": [],
  "content": "[{\"id\":\"sa_h1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Quick Access</b></span>\",\"col\":12}},{\"id\":\"sa_s1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Sales Record\",\"col\":3}},{\"id\":\"sa_s2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Incentive Calculation\",\"col\":3}},{\"id\":\"sa_s3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Person Incentive Summary\",\"col\":3}},{\"id\":\"sa_s4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Sales Records Register\",\"col\":3}},{\"id\":\"sa_s5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Slab-wise Achievement Distribution\",\"col\":3}},{\"id\":\"sa_sp1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"sa_h2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Sales Incentives</b></span>\",\"col\":12}},{\"id\":\"sa_c1\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Transactions\",\"col\":4}},{\"id\":\"sa_c2\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Masters\",\"col\":4}},{\"id\":\"sa_c3\",\"type\":\"card\",\"data\":{\"card_name\":\"Meetings & Policy\",\"col\":4}},{\"id\":\"sa_c4\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Reports\",\"col\":4}}]",
- "creation": "2026-05-18 10:00:00.000000",
+ "creation": "2026-05-18 10:00:00",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -144,16 +144,17 @@
    "type": "Link"
   }
  ],
- "modified": "2026-05-18 12:00:00.000000",
+ "modified": "2026-06-26 18:11:39.160939",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Supremus Angel",
  "number_cards": [],
  "owner": "aniket@dvnks.com",
+ "parent_page": "",
  "public": 1,
  "quick_lists": [],
  "roles": [],
- "sequence_id": 99.0,
+ "sequence_id": 11.0,
  "shortcuts": [
   {
    "color": "Blue",
@@ -175,21 +176,23 @@
    "color": "Orange",
    "label": "Sales Person Incentive Summary",
    "link_to": "Sales Person Incentive Summary",
+   "report_ref_doctype": "SA Incentive Calculation",
    "type": "Report"
   },
   {
    "color": "Purple",
    "label": "SA Sales Records Register",
    "link_to": "SA Sales Records Register",
+   "report_ref_doctype": "SA Sales Record",
    "type": "Report"
   },
   {
    "color": "Yellow",
    "label": "Slab-wise Achievement Distribution",
    "link_to": "Slab-wise Achievement Distribution",
+   "report_ref_doctype": "SA Incentive Calculation",
    "type": "Report"
   }
  ],
- "title": "Supremus Angel",
- "type": "Workspace"
+ "title": "Supremus Angel"
 }
