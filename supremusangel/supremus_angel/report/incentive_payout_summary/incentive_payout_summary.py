@@ -11,15 +11,35 @@ person's personal payout, team/branch commission and grand total in one place.
 
 import frappe
 
+# Roles that may see every person's payout. Anyone else is scoped to their own
+# Sales Person row so the report is safe to expose on the ESS dashboard.
+PRIVILEGED_ROLES = {"System Manager", "Sales Manager", "Accounts Manager"}
+
 
 def execute(filters=None):
 	filters = filters or {}
 	return get_columns(), get_data(filters)
 
 
+def _own_scope():
+	"""For non-privileged users, return their linked Sales Person so the data
+	can be restricted to their own rows. Returns None for privileged users."""
+	user = frappe.session.user
+	if PRIVILEGED_ROLES & set(frappe.get_roles(user)):
+		return None
+
+	from supremusangel.supremus_angel.api.sales_person_target import get_sales_person_for_user
+
+	# A non-privileged user with no linked Sales Person sees nothing.
+	return get_sales_person_for_user(user) or "__no_sales_person__"
+
+
 def get_columns():
 	return [
-		{"label": "Person", "fieldname": "person", "fieldtype": "Link", "options": "Sales Person", "width": 180},
+		# Kept as Data (not a Link to Sales Person) so the report can be exposed
+		# to non-privileged ESS users who have no read access to Sales Person --
+		# the report framework demands read on every Link-column doctype.
+		{"label": "Person", "fieldname": "person", "fieldtype": "Data", "width": 180},
 		{"label": "Role", "fieldname": "role", "fieldtype": "Data", "width": 120},
 		{"label": "Month", "fieldname": "calculation_month", "fieldtype": "Data", "width": 90},
 		{"label": "Salary", "fieldname": "salary", "fieldtype": "Currency", "width": 110},
@@ -50,6 +70,12 @@ def get_data(filters):
 	if filters.get("status"):
 		conditions.append("t.status = %(status)s")
 		values["status"] = filters["status"]
+
+	# Row-level restriction: non-privileged users only see their own payout.
+	own_person = _own_scope()
+	if own_person is not None:
+		conditions.append("t.person = %(own_person)s")
+		values["own_person"] = own_person
 
 	where = "WHERE " + " AND ".join(conditions)
 

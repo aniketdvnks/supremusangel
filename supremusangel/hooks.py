@@ -266,8 +266,51 @@ override_doctype_class = {
 # are needed to mirror invoices into a custom sales doctype.
 
 fixtures = [
-    {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]}
+    {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]},
+    # Dedicated incentive-scheme roles that drive the ESS commission dashboard
+    # view (consumed by ess/commission_api.py). Shipped so every site has them.
+    {"dt": "Role", "filters": [["name", "in", [
+        "Incentive Salesperson",
+        "Incentive Team Lead",
+        "Incentive Branch Manager",
+    ]]]},
+    # Investor-portal notifications (KYC verified/rejected, Purchase Note,
+    # Payment Received, Shares Transferred, Invoice Generated). Email + bell.
+    {"dt": "Notification", "filters": [["name", "in", [
+        "SA KYC Verified",
+        "SA KYC Rejected",
+        "SA Purchase Note",
+        "SA Payment Received",
+        "SA Shares Transferred",
+        "SA Invoice Generated",
+    ]]]},
 ]
 
+# Investor-portal notifications that can't be expressed as plain Notifications.
+# See supremus_angel/portal_notifications.py.
+doc_events = {
+    "User": {
+        "after_insert": "supremusangel.supremus_angel.portal_notifications.send_customer_welcome_email",
+    },
+    "Payment Entry": {
+        "on_cancel": "supremusangel.supremus_angel.portal_notifications.notify_payment_failed",
+    },
+    "Sales Invoice": {
+        "on_cancel": "supremusangel.supremus_angel.portal_notifications.notify_share_transfer_failed",
+    },
+}
+
+scheduler_events = {
+    "daily": [
+        "supremusangel.supremus_angel.portal_notifications.send_mip_due_reminders",
+    ],
+    # 1st of every month: auto-calculate the previous month's incentives for
+    # every eligible Sales Person (scheme chosen by their incentive role).
+    "monthly": [
+        "supremusangel.supremus_angel.incentive_tasks.run_monthly_incentives",
+    ],
+}
+
+on_login = "supremusangel.supremus_angel.portal_notifications.send_kyc_reminder_on_login"
+
 boot_session = "supremusangel.supremus_angel.boot.boot_session"
-# on_login = "supremusangel.auth_hooks.on_login"

@@ -1,0 +1,166 @@
+# Scheduled month-end incentive calculation.
+#
+# On the 1st of each month the scheduler runs `run_monthly_incentives` which,
+# for the just-finished month, creates and calculates the right incentive
+# document for every enabled Sales Person that has an active linked Employee.
+#
+# The *scheme* (Salesperson / Team Lead / Branch Manager) is decided by the
+# person's dedicated incentive Role -- the same roles the ESS commission
+# dashboard uses. Salespeople are processed before managers so that a manager's
+# team/branch target (which reads each member's SA Incentive Calculation) is
+# already in place.
+
+import frappe
+from frappe.utils import add_months, flt, get_first_day, getdate, nowdate
+
+# Dedicated incentive-scheme roles (shipped as supremusangel fixtures).
+ROLE_BM = "Incentive Branch Manager"
+ROLE_TL = "Incentive Team Lead"
+ROLE_SA = "Incentive Salesperson"
+
+SA_DT = "SA Incentive Calculation"
+TL_DT = "SA TL Incentive Calculation"
+BM_DT = "SA BM Incentive Calculation"
+
+
+def _previous_month(as_of=None):
+	"""Return the previous calendar month as 'YYYY-MM' (relative to today or
+	the given date)."""
+	first_of_this_month = get_first_day(getdate(as_of or nowdate()))
+	return add_months(first_of_this_month, -1).strftime("%Y-%m")
+
+
+def _month_end(month):
+	"""Last day of a 'YYYY-MM' month, as a date."""
+	from calendar import monthrange
+	from datetime import date
+
+	year, mon = int(month[:4]), int(month[5:7])
+	return date(year, mon, monthrange(year, mon)[1])
+
+
+def _scheme_for_user(user):
+	"""BM > TL > SA from the user's incentive roles. Anyone with a linked
+	employee but no incentive role defaults to Salesperson."""
+	roles = set(frappe.get_roles(user))
+	if ROLE_BM in roles:
+		return "BM"
+	if ROLE_TL in roles:
+		return "TL"
+	# default: treat a plain salesperson (with or without the explicit role)
+	return "SA"
+
+
+def _salary_for(employee, sales_person, month):
+	"""Monthly salary for the calc. Prefer the current Salary Structure
+	Assignment base as of month-end; fall back to the most recent prior
+	incentive calc's salary; else 0 (caller skips)."""
+	month_end = _month_end(month)
+
+	if frappe.db.table_exists("Salary Structure Assignment"):
+		rows = frappe.get_all(
+			"Salary Structure Assignment",
+			filters={"employee": employee, "docstatus": 1, "from_date": ["<=", month_end]},
+			fields=["base"],
+			order_by="from_date desc",
+			limit=1,
+		)
+		if rows and flt(rows[0].base):
+			return flt(rows[0].base)
+
+	# Carry forward the last salary this person's incentive was calculated with.
+	for dt, field in ((SA_DT, "sales_person"), (TL_DT, "team_lead"), (BM_DT, "branch_manager")):
+		prior = frappe.get_all(
+			dt,
+			filters={field: sales_person},
+			fields=["salary"],
+			order_by="calculation_month desc",
+			limit=1,
+		)
+		if prior and flt(prior[0].salary):
+			return flt(prior[0].salary)
+
+	return 0.0
+
+
+def _already_done(scheme, sales_person, month):
+	dt, field = {
+		"SA": (SA_DT, "sales_person"),
+		"TL": (TL_DT, "team_lead"),
+		"BM": (BM_DT, "branch_manager"),
+	}[scheme]
+	return bool(frappe.db.exists(dt, {field: sales_person, "calculation_month": month}))
+
+
+def _make_calc(scheme, sales_person, salary, month):
+	if scheme == "SA":
+		doc = frappe.new_doc(SA_DT)
+		doc.sales_person = sales_person
+	elif scheme == "TL":
+		doc = frappe.new_doc(TL_DT)
+		doc.team_lead = sales_person
+	else:
+		doc = frappe.new_doc(BM_DT)
+		doc.branch_manager = sales_person
+	doc.salary = salary
+	doc.calculation_month = month
+	doc.insert(ignore_permissions=True)
+	doc.calculate()
+	return doc.name
+
+
+def run_monthly_incentives(month=None):
+	"""Scheduler entry point. Calculates incentives for `month` (defaults to the
+	previous calendar month). Salespeople first, then TLs, then BMs."""
+	month = month or _previous_month()
+
+	# Collect (scheme, sales_person, employee) for every eligible person.
+	targets = []
+	for sp in frappe.get_all("Sales Person", filters={"enabled": 1}, fields=["name", "employee"]):
+		if not sp.employee:
+			continue
+		emp = frappe.db.get_value(
+			"Employee", sp.employee, ["status", "user_id"], as_dict=True
+		)
+		if not emp or emp.status != "Active" or not emp.user_id:
+			continue
+		scheme = _scheme_for_user(emp.user_id)
+		targets.append((scheme, sp.name, sp.employee))
+
+	# Order so managers run after their members' SA calcs exist.
+	order = {"SA": 0, "TL": 1, "BM": 2}
+	targets.sort(key=lambda t: order[t[0]])
+
+	created, skipped, failed = 0, 0, 0
+	for scheme, sales_person, employee in targets:
+		try:
+			if _already_done(scheme, sales_person, month):
+				skipped += 1
+				continue
+			salary = _salary_for(employee, sales_person, month)
+			if not salary:
+				skipped += 1
+				continue
+			_make_calc(scheme, sales_person, salary, month)
+			frappe.db.commit()
+			created += 1
+		except Exception:
+			failed += 1
+			frappe.db.rollback()
+			frappe.log_error(
+				title=f"Monthly incentive failed: {scheme} {sales_person} {month}",
+				message=frappe.get_traceback(),
+			)
+
+	frappe.logger("supremusangel").info(
+		f"run_monthly_incentives {month}: created={created} skipped={skipped} failed={failed}"
+	)
+	return {"month": month, "created": created, "skipped": skipped, "failed": failed}
+
+
+@frappe.whitelist()
+def trigger_monthly_incentives(month=None):
+	"""Manual trigger (button / API) for the same job, so admins can run or
+	re-run a month on demand."""
+	frappe.only_for(("System Manager", "Accounts Manager"))
+	return run_monthly_incentives(month)

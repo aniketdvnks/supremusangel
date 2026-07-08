@@ -12,8 +12,14 @@ frappe.query_reports["Incentive Payout Summary"] = {
 		{
 			fieldname: "person",
 			label: __("Person"),
-			fieldtype: "Link",
-			options: "Sales Person",
+			// A Link control needs Read/Select on Sales Person. ESS users
+			// (Branch Manager / Team Lead / Salesperson) only get report access
+			// and are row-scoped to their own data, so fall back to a plain text
+			// filter for them to avoid a permission error.
+			fieldtype: (frappe.boot.user.can_read || []).includes("Sales Person") ? "Link" : "Data",
+			options: (frappe.boot.user.can_read || []).includes("Sales Person")
+				? "Sales Person"
+				: undefined,
 		},
 		{
 			fieldname: "role",
