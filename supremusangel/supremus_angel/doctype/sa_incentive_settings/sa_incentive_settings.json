@@ -1,0 +1,157 @@
+{
+ "actions": [],
+ "creation": "2026-06-29 13:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "issingle": 1,
+ "field_order": [
+  "how_it_works_section",
+  "how_it_works",
+  "base_section",
+  "target_multiple",
+  "minimum_multiple",
+  "sp_section",
+  "salesperson_slabs",
+  "mgr_bonus_section",
+  "manager_bonus_slabs",
+  "mgr_band_section",
+  "manager_incentive_bands",
+  "team_section",
+  "team_commission_percent",
+  "team_commission_min_achievement",
+  "branch_section",
+  "branch_commission_min_achievement",
+  "branch_commission_on_target_percent",
+  "branch_commission_overachieved_percent"
+ ],
+ "fields": [
+  {
+   "fieldname": "how_it_works_section",
+   "fieldtype": "Section Break",
+   "label": "How the Incentive Works",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "how_it_works",
+   "fieldtype": "HTML",
+   "label": "How the Incentive Works",
+   "options": "<div style=\"border:1px solid #d1d8dd;border-radius:8px;overflow:hidden;font-size:13px;line-height:1.6\">\n  <div style=\"background:#1f272e;color:#fff;padding:10px 14px;font-size:15px;font-weight:600\">\n    \ud83d\udcb0 How the Incentive Engine Works\n  </div>\n  <div style=\"padding:14px 16px;background:#fff;color:#36414c\">\n    <p style=\"margin:0 0 10px\">\n      This single screen holds <b>all</b> incentive rules. Sales are read live from confirmed\n      <b>Sales Invoices</b> (via each invoice's <i>Sales Team</i> allocation). Three schemes share one base:\n    </p>\n    <div style=\"background:#f4f5f6;border-left:3px solid #5e64ff;padding:8px 12px;margin:0 0 12px;font-family:monospace;font-size:12.5px\">\n      base_target&nbsp;&nbsp;&nbsp;= Salary &times; Target Multiple (10)<br>\n      minimum_target = Salary &times; Minimum Multiple (7)<br>\n      achievement %&nbsp;= Total Sales &divide; base_target &times; 100\n    </div>\n    <table style=\"width:100%;border-collapse:collapse;margin:0 0 14px\">\n      <thead><tr style=\"background:#f4f5f6;text-align:left\">\n        <th style=\"padding:6px 8px;border:1px solid #e2e6e9\">Scheme</th>\n        <th style=\"padding:6px 8px;border:1px solid #e2e6e9\">Reads which table below</th>\n        <th style=\"padding:6px 8px;border:1px solid #e2e6e9\">Earns</th>\n      </tr></thead>\n      <tbody>\n        <tr><td style=\"padding:6px 8px;border:1px solid #e2e6e9\"><b>Salesperson</b></td>\n            <td style=\"padding:6px 8px;border:1px solid #e2e6e9\">Salesperson (RM) Slabs</td>\n            <td style=\"padding:6px 8px;border:1px solid #e2e6e9\">Incentive (% of salary) + Reward (% above target)</td></tr>\n        <tr><td style=\"padding:6px 8px;border:1px solid #e2e6e9\"><b>Team Lead</b></td>\n            <td style=\"padding:6px 8px;border:1px solid #e2e6e9\">Manager Bonus + Manager Bands</td>\n            <td style=\"padding:6px 8px;border:1px solid #e2e6e9\">Personal payout + Team Commission % of team sales</td></tr>\n        <tr><td style=\"padding:6px 8px;border:1px solid #e2e6e9\"><b>Branch Manager</b></td>\n            <td style=\"padding:6px 8px;border:1px solid #e2e6e9\">Manager Bonus + Manager Bands</td>\n            <td style=\"padding:6px 8px;border:1px solid #e2e6e9\">Personal payout + tiered Branch Commission</td></tr>\n      </tbody>\n    </table>\n    <div style=\"background:#eafaf1;border:1px solid #b7e4c7;border-radius:6px;padding:12px 14px;margin:6px 0 4px\">\n      <div style=\"font-weight:600;color:#1b5e20;margin-bottom:6px\">\ud83d\udccc Example \u2014 Salesperson \"Sneha\"</div>\n      <table style=\"width:100%;border-collapse:collapse;font-size:12.5px\">\n        <tr><td style=\"padding:3px 6px\">Salary</td><td style=\"padding:3px 6px;text-align:right\"><b>&#8377;25,000</b></td></tr>\n        <tr><td style=\"padding:3px 6px\">Base target (&times;10)</td><td style=\"padding:3px 6px;text-align:right\">&#8377;2,50,000</td></tr>\n        <tr><td style=\"padding:3px 6px\">Sales this month</td><td style=\"padding:3px 6px;text-align:right\">&#8377;3,00,000</td></tr>\n        <tr><td style=\"padding:3px 6px\">Achievement</td><td style=\"padding:3px 6px;text-align:right\"><b>120%</b> &rarr; \"100% to below 140%\" slab</td></tr>\n        <tr><td style=\"padding:3px 6px\">Incentive = 30% &times; salary</td><td style=\"padding:3px 6px;text-align:right\">&#8377;7,500</td></tr>\n        <tr><td style=\"padding:3px 6px\">Reward = (3,00,000 &minus; 2,50,000) &times; 10%</td><td style=\"padding:3px 6px;text-align:right\">&#8377;5,000</td></tr>\n        <tr style=\"border-top:2px solid #1b5e20\"><td style=\"padding:5px 6px;font-weight:700\">Total Payout</td><td style=\"padding:5px 6px;text-align:right;font-weight:700;color:#1b5e20\">&#8377;12,500</td></tr>\n      </table>\n    </div>\n    <p style=\"margin:10px 0 0;color:#7c7c7c;font-size:12px\">\n      Below 70% &rarr; no incentive. Reward only above 100%. Calculate sellers first, then TLs, then BM.\n    </p>\n  </div>\n</div>"
+  },
+  {
+   "fieldname": "base_section",
+   "fieldtype": "Section Break",
+   "label": "Base & Targets"
+  },
+  {
+   "fieldname": "target_multiple",
+   "fieldtype": "Float",
+   "label": "Target Multiple (base = salary x)",
+   "default": "10",
+   "reqd": 1
+  },
+  {
+   "fieldname": "minimum_multiple",
+   "fieldtype": "Float",
+   "label": "Minimum Multiple (minimum = salary x)",
+   "default": "7",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sp_section",
+   "fieldtype": "Section Break",
+   "label": "Salesperson (RM) Slabs"
+  },
+  {
+   "fieldname": "salesperson_slabs",
+   "fieldtype": "Table",
+   "label": "Salesperson Slabs",
+   "options": "SA Incentive Slab Row"
+  },
+  {
+   "fieldname": "mgr_bonus_section",
+   "fieldtype": "Section Break",
+   "label": "Manager Personal Bonus Slabs (TL & BM)"
+  },
+  {
+   "fieldname": "manager_bonus_slabs",
+   "fieldtype": "Table",
+   "label": "Manager Bonus Slabs",
+   "options": "SA Manager Bonus Slab Row"
+  },
+  {
+   "fieldname": "mgr_band_section",
+   "fieldtype": "Section Break",
+   "label": "Manager Personal Incentive Bands (TL & BM, marginal)"
+  },
+  {
+   "fieldname": "manager_incentive_bands",
+   "fieldtype": "Table",
+   "label": "Manager Incentive Bands",
+   "options": "SA Manager Incentive Band Row"
+  },
+  {
+   "fieldname": "team_section",
+   "fieldtype": "Section Break",
+   "label": "Team Commission (Team Lead)"
+  },
+  {
+   "fieldname": "team_commission_percent",
+   "fieldtype": "Float",
+   "label": "Team Commission % of Team Sales",
+   "default": "1"
+  },
+  {
+   "fieldname": "team_commission_min_achievement",
+   "fieldtype": "Float",
+   "label": "Min Team Achievement % to Pay",
+   "default": "70"
+  },
+  {
+   "fieldname": "branch_section",
+   "fieldtype": "Section Break",
+   "label": "Branch Commission (Branch Manager)"
+  },
+  {
+   "fieldname": "branch_commission_min_achievement",
+   "fieldtype": "Float",
+   "label": "Min Branch Achievement % to Pay",
+   "default": "70"
+  },
+  {
+   "fieldname": "branch_commission_on_target_percent",
+   "fieldtype": "Float",
+   "label": "Branch Commission % (70-100% on target)",
+   "default": "0.5"
+  },
+  {
+   "fieldname": "branch_commission_overachieved_percent",
+   "fieldtype": "Float",
+   "label": "Branch Commission % (above 100% overachieved)",
+   "default": "1"
+  }
+ ],
+ "links": [],
+ "modified": "2026-06-29 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA Incentive Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

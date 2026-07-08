@@ -359,6 +359,123 @@ supremusangel/supremus_angel/
 
 ---
 
+## 10A. Team Lead (TL) Incentive
+
+The TL scheme layers a **team commission** on top of a TL's personal incentive. A TL is a node in the ERPNext **Sales Person tree**; their team is every non-group Sales Person in their subtree.
+
+### 10A.1 Business Rules
+
+**Base structure (per TL):**
+
+| Item | Formula |
+|------|---------|
+| Personal target | `10 × salary` |
+| Minimum target | `7 × salary` |
+| Full team target | `Σ (member salary × 10)` for all members |
+| Teams target (threshold) | `70% × full team target` |
+
+**Personal Base Target Achievement Bonus** — flat % of the *personal target* (`SA TL Bonus Slab`):
+
+| Personal achievement | Bonus |
+|----------------------|-------|
+| Below 70% | 0 |
+| 70% to below 80% | 1% of target |
+| 80% to below 100% | 2% of target |
+| 100% and above | 3% of target |
+
+**Personal Incentive** — **marginal** across bands on personal sales above target (`SA TL Incentive Slab`), each band's % applied only to the portion of sales inside it:
+
+| Band (% of target) | Marginal rate |
+|--------------------|---------------|
+| 100% to below 140% | 10% |
+| 140% to below 200% | 11% |
+| 200% to below 300% | 12.5% |
+| 300% to below 400% | 14% |
+| 400% and above | 15% |
+
+**Team Commission** — flat **1% of the whole team's business**, paid only when team achievement (`team sales / full team target`) is **≥ 70%** (continues at 1% when overachieved). The TL's own personal sales are excluded from team business.
+
+```
+personal_payout = bonus_amount + personal_incentive (marginal)
+team_commission = 1% × team_sales       [only if team_achievement% >= 70]
+total_payout    = personal_payout + team_commission
+```
+
+### 10A.2 Worked Example (TL salary ₹50,000)
+
+| Item | Value |
+|------|-------|
+| Personal target (10x) | ₹5,00,000 |
+| Full team target (members) | ₹15,00,000 |
+| Teams target (70%) | ₹10,50,000 |
+
+If personal sales = ₹5,00,000 (100%): bonus = 3% × 5,00,000 = ₹15,000; personal incentive = ₹0 → personal payout ₹15,000.
+If the team books ₹12,00,000 (80% of full team target ≥ 70%): team commission = 1% × 12,00,000 = ₹12,000.
+**Total payout = ₹27,000.**
+
+### 10A.3 DocTypes
+
+- **SA TL Bonus Slab** — config for the personal bonus bands (% of target).
+- **SA TL Incentive Slab** — config for the marginal personal-incentive bands.
+- **SA TL Team Member Detail** — child table; per-member salary, target, sales, achievement.
+- **SA TL Incentive Calculation** — main doc (one per TL per month). **Calculate** button runs `calculate()`.
+
+Member salary/target are read from each member's existing **SA Incentive Calculation** for the month; member sales are read directly from **SA Sales Record**. Members lacking a calculation still contribute sales but are flagged (their target is excluded from the team target until calculated).
+
+### 10A.4 Seeding
+
+```bash
+bench --site scope_connect.com execute supremusangel.supremus_angel.setup.create_incentive_data
+```
+
+This now also seeds the TL bonus and incentive slabs (idempotent).
+
+---
+
+## 10B. Branch Manager (BM) Incentive
+
+The BM scheme is the **manager pattern applied one tier higher** — at the **branch** level. A BM is a node in the Sales Person tree whose subtree (the whole branch, spanning its teams) provides the branch revenue and target. The **personal** half is identical to the TL scheme and reuses the same configs (`SA TL Bonus Slab`, `SA TL Incentive Slab`). The only logic difference is a **tiered branch commission**.
+
+### 10B.1 Branch Commission (the only delta vs TL)
+
+Measured against the full branch target (`Σ members' 10×salary`):
+
+| Branch achievement | Commission |
+|--------------------|------------|
+| Below 70% | 0 |
+| 70% to 100% (on target) | **0.5%** of whole branch revenue |
+| Above 100% (overachieved) | **1%** of whole branch revenue |
+
+```
+branch_commission = rate% × branch_revenue       [rate from the tier above]
+total_payout       = personal_payout + branch_commission
+```
+
+The tiers are defined as constants in the controller
+(`BRANCH_COMMISSION_PERCENT_ON_TARGET = 0.5`, `BRANCH_COMMISSION_PERCENT_OVERACHIEVED = 1.0`,
+`BRANCH_COMMISSION_MIN_ACHIEVEMENT = 70`).
+
+### 10B.2 Worked Example (BM salary ₹70,000)
+
+| Item | Value |
+|------|-------|
+| Personal target (10x) | ₹7,00,000 |
+| Full branch target (members) | ₹40,00,000 |
+| Branch target (70%) | ₹28,00,000 |
+
+Personal at 100% → bonus 3% × 7,00,000 = ₹21,000.
+If branch books ₹32,00,000 (80% of full branch target → on-target tier): commission = 0.5% × 32,00,000 = ₹16,000.
+If branch instead books ₹44,00,000 (110% → overachieved): commission = 1% × 44,00,000 = ₹44,000.
+
+### 10B.3 DocType
+
+- **SA BM Incentive Calculation** — main doc (one per BM per month), **Calculate** button.
+- Reuses **SA TL Bonus Slab**, **SA TL Incentive Slab** (personal scheme) and **SA TL Team Member Detail** (branch breakdown child). No extra seeding required beyond `create_incentive_data`.
+
+Branch members = non-group Sales Person nodes in the BM's subtree; member salary/target read from each member's **SA Incentive Calculation** for the month; member sales read directly from **SA Sales Record** (same approach as TL).
+
+---
+
 ## 11. Open Policy Decisions
 
 The following points need business/finance confirmation before full production automation:

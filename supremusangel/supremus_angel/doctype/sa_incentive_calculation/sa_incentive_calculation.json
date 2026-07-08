@@ -118,9 +118,8 @@
   },
   {
    "fieldname": "slab_applied",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Slab Applied",
-   "options": "SA Incentive Slab",
    "read_only": 1
   },
   {

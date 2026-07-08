@@ -1,0 +1,275 @@
+{
+ "actions": [],
+ "autoname": "SA-TLINC-.YYYY.-.#####",
+ "creation": "2026-06-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "inputs_tab",
+  "team_lead",
+  "calculation_month",
+  "salary",
+  "column_break_001",
+  "from_date",
+  "to_date",
+  "status",
+  "personal_tab",
+  "personal_target",
+  "minimum_target",
+  "personal_sales",
+  "personal_achievement_percent",
+  "column_break_002",
+  "bonus_slab",
+  "bonus_percent",
+  "bonus_amount",
+  "personal_incentive_amount",
+  "personal_payout",
+  "team_tab",
+  "team_member_count",
+  "full_team_target",
+  "team_target",
+  "team_sales",
+  "column_break_003",
+  "team_achievement_percent",
+  "team_commission_percent",
+  "team_commission_amount",
+  "payout_section",
+  "total_payout",
+  "team_details_tab",
+  "team_details",
+  "personal_details_tab",
+  "personal_sales_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "inputs_tab",
+   "fieldtype": "Tab Break",
+   "label": "Inputs"
+  },
+  {
+   "fieldname": "team_lead",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Team Lead (Sales Person)",
+   "options": "Sales Person",
+   "reqd": 1,
+   "description": "Sales Person node whose subtree forms the team."
+  },
+  {
+   "fieldname": "calculation_month",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Calculation Month",
+   "reqd": 1,
+   "description": "Format: YYYY-MM e.g. 2026-05"
+  },
+  {
+   "fieldname": "salary",
+   "fieldtype": "Currency",
+   "label": "TL Monthly Salary (x)",
+   "reqd": 1,
+   "description": "Team Lead's fixed monthly salary."
+  },
+  {
+   "fieldname": "column_break_001",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "read_only": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nCalculated\nApproved\nPaid"
+  },
+  {
+   "fieldname": "personal_tab",
+   "fieldtype": "Tab Break",
+   "label": "Personal"
+  },
+  {
+   "fieldname": "personal_target",
+   "fieldtype": "Currency",
+   "label": "Personal Target (10x)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "minimum_target",
+   "fieldtype": "Currency",
+   "label": "Minimum Eligible Target (7x)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "personal_sales",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Personal Sales",
+   "read_only": 1
+  },
+  {
+   "fieldname": "personal_achievement_percent",
+   "fieldtype": "Float",
+   "label": "Personal Achievement %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_002",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bonus_slab",
+   "fieldtype": "Data",
+   "label": "Bonus Slab Applied",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bonus_percent",
+   "fieldtype": "Float",
+   "label": "Bonus % of Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bonus_amount",
+   "fieldtype": "Currency",
+   "label": "Base Target Achievement Bonus",
+   "read_only": 1
+  },
+  {
+   "fieldname": "personal_incentive_amount",
+   "fieldtype": "Currency",
+   "label": "Personal Incentive (Marginal)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "personal_payout",
+   "fieldtype": "Currency",
+   "label": "Personal Payout",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_tab",
+   "fieldtype": "Tab Break",
+   "label": "Team"
+  },
+  {
+   "fieldname": "team_member_count",
+   "fieldtype": "Int",
+   "label": "Team Member Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "full_team_target",
+   "fieldtype": "Currency",
+   "label": "Full Team Target (Sum of members' 10x)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_target",
+   "fieldtype": "Currency",
+   "label": "Teams Target (70% of Full Team Target)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_sales",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Whole Team Business",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_003",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "team_achievement_percent",
+   "fieldtype": "Float",
+   "label": "Team Achievement % (vs Full Team Target)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_commission_percent",
+   "fieldtype": "Float",
+   "label": "Team Commission %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_commission_amount",
+   "fieldtype": "Currency",
+   "label": "Team Commission Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payout_section",
+   "fieldtype": "Section Break",
+   "label": "Payout"
+  },
+  {
+   "fieldname": "total_payout",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Payout (Personal + Team Commission)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Team Breakdown"
+  },
+  {
+   "fieldname": "team_details",
+   "fieldtype": "Table",
+   "label": "Team Members",
+   "options": "SA TL Team Member Detail",
+   "read_only": 1
+  },
+  {
+   "fieldname": "personal_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Personal Sales Details"
+  },
+  {
+   "fieldname": "personal_sales_details",
+   "fieldtype": "Table",
+   "label": "Personal Sales Details",
+   "options": "SA Incentive Calculation Detail",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-06-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA TL Incentive Calculation",
+ "naming_rule": "Expression (matches with #)",
+ "owner": "aniket@dvnks.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -8,6 +8,8 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
 
+from supremusangel.supremus_angel.incentive_source import get_sales_rows, get_settings
+
 
 class SAIncentiveCalculation(Document):
 	def before_save(self):
@@ -23,32 +25,25 @@ class SAIncentiveCalculation(Document):
 		if not self.sales_person:
 			frappe.throw(frappe._("Please select a sales person."))
 
+		settings = get_settings()
 		salary = flt(self.salary)
-		base_target = salary * 10
-		minimum_target = base_target * 0.7
+		base_target = salary * flt(settings.target_multiple)
+		minimum_target = salary * flt(settings.minimum_multiple)
 
 		self.base_target = base_target
 		self.minimum_target = minimum_target
 
 		self._set_date_range()
 
-		records = frappe.get_all(
-			"SA Sales Record",
-			filters={
-				"sales_person": self.sales_person,
-				"posting_date": ["between", [self.from_date, self.to_date]],
-				"status": "Confirmed",
-			},
-			fields=["name", "posting_date", "merchandise", "units_sold", "total_sales_value"],
-		)
+		records = get_sales_rows(self.sales_person, self.from_date, self.to_date)
 
-		total_sales = sum(flt(r.total_sales_value) for r in records)
+		total_sales = sum(flt(r.credited_amount) for r in records)
 		self.total_sales = total_sales
 		self.achievement_percent = (total_sales / base_target * 100) if base_target else 0
 
-		slab = self._get_applicable_slab(self.achievement_percent)
+		slab = self._get_applicable_slab(settings, self.achievement_percent)
 		if slab:
-			self.slab_applied = slab.name
+			self.slab_applied = slab.slab_label
 			self.incentive_percent = flt(slab.incentive_percent)
 			self.reward_percent = flt(slab.reward_percent)
 		else:
@@ -69,11 +64,11 @@ class SAIncentiveCalculation(Document):
 			self.append(
 				"sales_details",
 				{
-					"sales_record": r.name,
+					"sales_invoice": r.sales_invoice,
 					"posting_date": r.posting_date,
-					"merchandise": r.merchandise,
-					"units_sold": r.units_sold,
-					"total_sales_value": r.total_sales_value,
+					"customer": r.customer,
+					"allocated_percentage": r.allocated_percentage,
+					"total_sales_value": r.credited_amount,
 				},
 			)
 
@@ -92,18 +87,9 @@ class SAIncentiveCalculation(Document):
 		except (ValueError, IndexError):
 			frappe.throw(frappe._("Invalid calculation month format. Use YYYY-MM."))
 
-	def _get_applicable_slab(self, achievement_percent):
-		slabs = frappe.get_all(
-			"SA Incentive Slab",
-			fields=[
-				"name",
-				"min_achievement",
-				"max_achievement",
-				"has_no_upper_limit",
-				"incentive_percent",
-				"reward_percent",
-			],
-			order_by="min_achievement desc",
+	def _get_applicable_slab(self, settings, achievement_percent):
+		slabs = sorted(
+			settings.salesperson_slabs, key=lambda s: flt(s.min_achievement), reverse=True
 		)
 		for slab in slabs:
 			if flt(achievement_percent) < flt(slab.min_achievement):

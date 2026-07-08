@@ -261,12 +261,9 @@ override_doctype_class = {
     "Interview": "supremusangel.supremus_angel.custom.interview.CustomInterview"
 }
 
-doc_events = {
-    "Sales Invoice": {
-        "on_submit": "supremusangel.supremus_angel.hooks.sales_invoice.on_submit",
-        "on_cancel": "supremusangel.supremus_angel.hooks.sales_invoice.on_cancel",
-    }
-}
+# Incentive sales are read live from core Sales Invoice + Sales Team at
+# calculate() time (see supremus_angel/incentive_source.py), so no doc_events
+# are needed to mirror invoices into a custom sales doctype.
 
 fixtures = [
     {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]}

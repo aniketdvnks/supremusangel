@@ -17,7 +17,7 @@ def get_columns():
         {"label": "Base Target (10x)", "fieldname": "base_target", "fieldtype": "Currency", "width": 150},
         {"label": "Total Sales", "fieldname": "total_sales", "fieldtype": "Currency", "width": 140},
         {"label": "Achievement %", "fieldname": "achievement_percent", "fieldtype": "Float", "width": 120},
-        {"label": "Slab", "fieldname": "slab_applied", "fieldtype": "Link", "options": "SA Incentive Slab", "width": 130},
+        {"label": "Slab", "fieldname": "slab_applied", "fieldtype": "Data", "width": 130},
         {"label": "Incentive %", "fieldname": "incentive_percent", "fieldtype": "Float", "width": 100},
         {"label": "Incentive Amt", "fieldname": "incentive_amount", "fieldtype": "Currency", "width": 130},
         {"label": "Reward %", "fieldname": "reward_percent", "fieldtype": "Float", "width": 90},

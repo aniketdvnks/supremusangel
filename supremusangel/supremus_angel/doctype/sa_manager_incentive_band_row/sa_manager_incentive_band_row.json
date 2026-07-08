@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "creation": "2026-06-29 13:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "slab_label",
+  "from_achievement",
+  "has_no_upper_limit",
+  "to_achievement",
+  "incentive_percent"
+ ],
+ "fields": [
+  {"fieldname": "slab_label", "fieldtype": "Data", "in_list_view": 1, "label": "Band Label", "columns": 3},
+  {"fieldname": "from_achievement", "fieldtype": "Float", "in_list_view": 1, "label": "From % of Target", "reqd": 1, "columns": 2},
+  {"default": "0", "fieldname": "has_no_upper_limit", "fieldtype": "Check", "in_list_view": 1, "label": "No Upper Limit", "columns": 2},
+  {"depends_on": "eval:!doc.has_no_upper_limit", "fieldname": "to_achievement", "fieldtype": "Float", "in_list_view": 1, "label": "To % of Target", "columns": 2},
+  {"fieldname": "incentive_percent", "fieldtype": "Float", "in_list_view": 1, "label": "Incentive % (marginal)", "reqd": 1, "columns": 2}
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-29 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Supremus Angel",
+ "name": "SA Manager Incentive Band Row",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

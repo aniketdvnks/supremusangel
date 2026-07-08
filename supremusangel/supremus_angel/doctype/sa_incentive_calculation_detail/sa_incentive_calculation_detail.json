@@ -5,19 +5,19 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "sales_record",
+  "sales_invoice",
   "posting_date",
-  "merchandise",
-  "units_sold",
+  "customer",
+  "allocated_percentage",
   "total_sales_value"
  ],
  "fields": [
   {
-   "fieldname": "sales_record",
+   "fieldname": "sales_invoice",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Sales Record",
-   "options": "SA Sales Record",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
    "read_only": 1
   },
   {
@@ -28,25 +28,25 @@
    "read_only": 1
   },
   {
-   "fieldname": "merchandise",
+   "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Merchandise",
-   "options": "SA Merchandise",
+   "label": "Customer",
+   "options": "Customer",
    "read_only": 1
   },
   {
-   "fieldname": "units_sold",
-   "fieldtype": "Float",
+   "fieldname": "allocated_percentage",
+   "fieldtype": "Percent",
    "in_list_view": 1,
-   "label": "Units Sold",
+   "label": "Allocated %",
    "read_only": 1
   },
   {
    "fieldname": "total_sales_value",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Total Sales Value (INR)",
+   "label": "Credited Sales (INR)",
    "read_only": 1
   }
  ],
