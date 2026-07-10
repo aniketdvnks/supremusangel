@@ -59,7 +59,10 @@ website_generators = ["Job Opening"]
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Customer": "public/js/customer.js",
+    "Sales Person": "public/js/sales_person.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -267,6 +270,12 @@ override_doctype_class = {
 
 fixtures = [
     {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]},
+    # Link back from a Sales Person to the Customer it was created from
+    # (Create Sales Person button on the Customer form).
+    {"dt": "Custom Field", "filters": [["name", "in", [
+        "Sales Person-custom_customer",
+        "Sales Person-custom_incentive_role",
+    ]]]},
     # Dedicated incentive-scheme roles that drive the ESS commission dashboard
     # view (consumed by ess/commission_api.py). Shipped so every site has them.
     {"dt": "Role", "filters": [["name", "in", [

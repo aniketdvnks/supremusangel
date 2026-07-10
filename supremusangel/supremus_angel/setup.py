@@ -2,10 +2,45 @@ import frappe
 
 
 def create_incentive_data():
+	ensure_sales_person_fields()
 	_create_merchandise()
 	_configure_settings()
 	frappe.db.commit()
 	print("Done — SA Merchandise and SA Incentive Settings configured.")
+
+
+def ensure_sales_person_fields():
+	"""Custom field linking a Sales Person back to the Customer it was created from
+	(via the Create Sales Person button on the Customer form). Idempotent."""
+	from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+	create_custom_fields(
+		{
+			"Sales Person": [
+				{
+					"fieldname": "custom_customer",
+					"label": "Customer",
+					"fieldtype": "Link",
+					"options": "Customer",
+					"insert_after": "employee",
+					"read_only": 1,
+					"no_copy": 1,
+					"description": "Customer this Sales Person was created from.",
+				},
+				{
+					"fieldname": "custom_incentive_role",
+					"label": "Incentive Role",
+					"fieldtype": "Data",
+					"insert_after": "is_group",
+					"read_only": 1,
+					"no_copy": 1,
+					"description": "RM / TL / BM — derived automatically from the tree position.",
+				},
+			]
+		},
+		ignore_validate=True,
+	)
+	print("  Ensured Sales Person custom fields.")
 
 
 def _create_merchandise():
@@ -66,11 +101,13 @@ def _configure_settings():
 			s.set(field, value)
 
 	if not s.salesperson_slabs:
+		# RM (Salesperson) — base target-achievement bonus as incentive_percent (% of salary =
+		# 10x the sheet's % of target), plus reward_percent on sales above target. Per the sheet:
+		# 70-80% -> 1%, 80-99% -> 2%, 100%+ -> 3% (i.e. incentive 10 / 20 / 30 % of salary).
 		for row in [
 			{"slab_label": "Below 70%",          "min_achievement": 0,   "max_achievement": 70,  "has_no_upper_limit": 0, "incentive_percent": 0,  "reward_percent": 0},
 			{"slab_label": "70% to below 80%",   "min_achievement": 70,  "max_achievement": 80,  "has_no_upper_limit": 0, "incentive_percent": 10, "reward_percent": 0},
-			{"slab_label": "80% to below 90%",   "min_achievement": 80,  "max_achievement": 90,  "has_no_upper_limit": 0, "incentive_percent": 20, "reward_percent": 0},
-			{"slab_label": "90% to below 100%",  "min_achievement": 90,  "max_achievement": 100, "has_no_upper_limit": 0, "incentive_percent": 30, "reward_percent": 0},
+			{"slab_label": "80% to below 100%",  "min_achievement": 80,  "max_achievement": 100, "has_no_upper_limit": 0, "incentive_percent": 20, "reward_percent": 0},
 			{"slab_label": "100% to below 140%", "min_achievement": 100, "max_achievement": 140, "has_no_upper_limit": 0, "incentive_percent": 30, "reward_percent": 10},
 			{"slab_label": "140% to below 200%", "min_achievement": 140, "max_achievement": 200, "has_no_upper_limit": 0, "incentive_percent": 30, "reward_percent": 11},
 			{"slab_label": "200% to below 300%", "min_achievement": 200, "max_achievement": 300, "has_no_upper_limit": 0, "incentive_percent": 30, "reward_percent": 12.5},
