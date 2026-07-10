@@ -9,11 +9,11 @@ frappe.ui.form.on("Customer", {
 	refresh(frm) {
 		if (frm.is_new()) return;
 
-		frm.add_custom_button(
-			__("Create Sales Person"),
-			() => open_create_sales_person_dialog(frm),
-			__("Create"),
+		// Top-level toolbar button (not tucked inside a group menu) so it's easy to find.
+		const btn = frm.add_custom_button(__("Create Sales Person"), () =>
+			open_create_sales_person_dialog(frm),
 		);
+		btn.addClass("btn-primary");
 	},
 });
 
