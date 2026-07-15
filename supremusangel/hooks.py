@@ -266,7 +266,10 @@ override_doctype_class = {
 
 # Incentive sales are read live from core Sales Invoice + Sales Team at
 # calculate() time (see supremus_angel/incentive_source.py), so no doc_events
-# are needed to mirror invoices into a custom sales doctype.
+# are needed to mirror invoices into a custom sales doctype. Submitting or
+# cancelling an invoice does trigger a live incentive recompute for the credited
+# people (see supremus_angel/incentive_realtime.py) so the ESS commission figures
+# stay current without waiting for the month-end scheduler job.
 
 fixtures = [
     {"dt": "Property Setter", "filters": [["doc_type", "=", "Interview"]]},
@@ -305,7 +308,11 @@ doc_events = {
         "on_cancel": "supremusangel.supremus_angel.portal_notifications.notify_payment_failed",
     },
     "Sales Invoice": {
-        "on_cancel": "supremusangel.supremus_angel.portal_notifications.notify_share_transfer_failed",
+        "on_submit": "supremusangel.supremus_angel.incentive_realtime.on_invoice_submit",
+        "on_cancel": [
+            "supremusangel.supremus_angel.portal_notifications.notify_share_transfer_failed",
+            "supremusangel.supremus_angel.incentive_realtime.on_invoice_cancel",
+        ],
     },
 }
 
