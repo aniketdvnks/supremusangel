@@ -10,7 +10,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": null,
- "modified": "2026-06-30 13:11:55.113284",
+ "modified": "2026-07-10 20:57:29.783067",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Incentive Payout Summary",
@@ -31,6 +31,18 @@
   },
   {
    "role": "Employee"
+  },
+  {
+   "role": "Relationship Manager"
+  },
+  {
+   "role": "Sales Manager"
+  },
+  {
+   "role": "Employee"
+  },
+  {
+   "role": "Projects User"
   }
  ],
  "timeout": 0

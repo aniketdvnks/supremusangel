@@ -26,7 +26,10 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/supremusangel/css/supremusangel.css"
-app_include_js = "/assets/supremusangel/js/policy_ack.bundle.js"
+app_include_js = [
+    "/assets/supremusangel/js/policy_ack.bundle.js",
+    "/assets/supremusangel/js/shortcut_single_fix.bundle.js",
+]
 
 # Web Routes
 website_route_rules = [

@@ -57,37 +57,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Incentive Masters",
-   "link_count": 0,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "SA Incentive Settings",
-   "link_count": 0,
-   "link_to": "SA Incentive Settings",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "SA Merchandise",
-   "link_count": 0,
-   "link_to": "SA Merchandise",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Incentive Reports",
    "link_count": 0,
    "link_type": "DocType",
@@ -157,9 +126,29 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Incentive Masters",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "SA Merchandise",
+   "link_count": 0,
+   "link_to": "SA Merchandise",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-06-29 13:41:52.616162",
+ "modified": "2026-07-08 14:45:52.346154",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Supremus Angel",
