@@ -18,7 +18,7 @@ frappe.ui.form.on("Sales Person", {
 					frm.doc.custom_incentive_role = label;
 					frm.refresh_field("custom_incentive_role");
 				}
-				const tone = { RM: "blue", TL: "green", BM: "orange", GROUP: "gray" }[r.message.role] || "gray";
+				const tone = { SA: "blue", TL: "green", BM: "orange" }[r.message.role] || "gray";
 				frm.dashboard.add_indicator(__("Incentive Role: {0}", [label]), tone);
 			},
 		});

@@ -18,36 +18,50 @@ Safeguards:
 import frappe
 from frappe import _
 
-# Incentive role labels, derived purely from the Sales Person tree (no manual field):
-#   leaf                         -> RM  (Relationship Manager)
-#   group of only leaves         -> TL  (Team Lead)
-#   group with a group under it  -> BM  (Branch Manager)
-# The top container (a group with no parent) is structural, not a person's role.
+def scheme_from_tree(sales_person):
+	"""Classify a Sales Person as SA / TL / BM purely from its position in the
+	Sales Person tree. This is the SINGLE SOURCE OF TRUTH for the incentive
+	scheme -- the month-end scheduler, the realtime recalc, this file's desk
+	role badge, and the ESS commission dashboard all resolve the scheme through
+	here so the calc that is generated always matches what is displayed.
+
+	  * leaf node (``is_group`` = 0)          -> "SA"  (an individual seller)
+	  * group with another group beneath it   -> "BM"  (managers under them),
+	    regardless of whether the node sits at the root of the tree
+	  * group whose children are all sellers  -> "TL"
+
+	The "has a group beneath me" test is what separates a Branch Manager from a
+	Team Lead, so a BM at the very top of the tree (no parent) is still a BM.
+
+	Returns None when the Sales Person can't be found.
+	"""
+	d = frappe.db.get_value("Sales Person", sales_person, ["is_group"], as_dict=True)
+	if not d:
+		return None
+	if not d.is_group:
+		return "SA"
+	if frappe.db.exists("Sales Person", {"parent_sales_person": sales_person, "is_group": 1}):
+		return "BM"  # has a manager (group) under them
+	return "TL"  # a group of individual salespeople
+
+
+# Desk badge labels for the scheme. "RM (Relationship Manager)" is just the
+# customer-facing name for the SA scheme shown on the Sales Person form.
 _ROLE_LABELS = {
-	"RM": "RM (Relationship Manager)",
+	"SA": "RM (Relationship Manager)",
 	"TL": "TL (Team Lead)",
 	"BM": "BM (Branch Manager)",
-	"GROUP": "Group (structure)",
 }
 
 
 @frappe.whitelist()
 def get_incentive_role(sales_person):
-	"""Classify a Sales Person as RM / TL / BM from its position in the tree."""
-	d = frappe.db.get_value(
-		"Sales Person", sales_person, ["is_group", "parent_sales_person"], as_dict=True
-	)
-	if not d:
+	"""Desk-facing wrapper around :func:`scheme_from_tree` -- returns the scheme
+	plus its display label for the Sales Person form badge."""
+	scheme = scheme_from_tree(sales_person)
+	if not scheme:
 		return None
-	if not d.is_group:
-		role = "RM"
-	elif not d.parent_sales_person:
-		role = "GROUP"  # top container, not an actual person's role
-	elif frappe.db.exists("Sales Person", {"parent_sales_person": sales_person, "is_group": 1}):
-		role = "BM"  # has a manager (group) under them
-	else:
-		role = "TL"  # a group of individual salespeople
-	return {"role": role, "label": _(_ROLE_LABELS[role])}
+	return {"role": scheme, "label": _(_ROLE_LABELS[scheme])}
 
 
 @frappe.whitelist()

@@ -5,18 +5,15 @@
 # document for every enabled Sales Person that has an active linked Employee.
 #
 # The *scheme* (Salesperson / Team Lead / Branch Manager) is decided by the
-# person's dedicated incentive Role -- the same roles the ESS commission
-# dashboard uses. Salespeople are processed before managers so that a manager's
-# team/branch target (which reads each member's SA Incentive Calculation) is
-# already in place.
+# person's position in the Sales Person tree (see ``scheme_from_tree``) -- the
+# same single source of truth the ESS commission dashboard uses. Salespeople are
+# processed before managers so that a manager's team/branch target (which reads
+# each member's SA Incentive Calculation) is already in place.
 
 import frappe
 from frappe.utils import add_months, flt, get_first_day, getdate, nowdate
 
-# Dedicated incentive-scheme roles (shipped as supremusangel fixtures).
-ROLE_BM = "Incentive Branch Manager"
-ROLE_TL = "Incentive Team Lead"
-ROLE_SA = "Incentive Salesperson"
+from supremusangel.supremus_angel.sales_person_create import scheme_from_tree
 
 SA_DT = "SA Incentive Calculation"
 TL_DT = "SA TL Incentive Calculation"
@@ -37,18 +34,6 @@ def _month_end(month):
 
 	year, mon = int(month[:4]), int(month[5:7])
 	return date(year, mon, monthrange(year, mon)[1])
-
-
-def _scheme_for_user(user):
-	"""BM > TL > SA from the user's incentive roles. Anyone with a linked
-	employee but no incentive role defaults to Salesperson."""
-	roles = set(frappe.get_roles(user))
-	if ROLE_BM in roles:
-		return "BM"
-	if ROLE_TL in roles:
-		return "TL"
-	# default: treat a plain salesperson (with or without the explicit role)
-	return "SA"
 
 
 def _salary_for(employee, sales_person, month):
@@ -124,7 +109,9 @@ def run_monthly_incentives(month=None):
 		)
 		if not emp or emp.status != "Active" or not emp.user_id:
 			continue
-		scheme = _scheme_for_user(emp.user_id)
+		scheme = scheme_from_tree(sp.name)
+		if not scheme:
+			continue  # unresolved / structural node -> nothing to calculate
 		targets.append((scheme, sp.name, sp.employee))
 
 	# Order so managers run after their members' SA calcs exist.

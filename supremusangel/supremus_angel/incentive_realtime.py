@@ -32,8 +32,8 @@ from supremusangel.supremus_angel.incentive_tasks import (
 	SA_DT,
 	TL_DT,
 	_salary_for,
-	_scheme_for_user,
 )
+from supremusangel.supremus_angel.sales_person_create import scheme_from_tree
 
 # Statuses whose calc must not be overwritten by a live recompute.
 LOCKED_STATUSES = {"Approved", "Paid"}
@@ -176,15 +176,10 @@ def _month_of(posting_date):
 
 
 def _scheme_of(sales_person):
-	"""BM > TL > SA from the Sales Person's linked (active) user's incentive
-	role; defaults to SA when there is no role or no linked user."""
-	employee = frappe.db.get_value("Sales Person", sales_person, "employee")
-	if not employee:
-		return "SA"
-	row = frappe.db.get_value("Employee", employee, ["status", "user_id"], as_dict=True)
-	if not row or row.status != "Active" or not row.user_id:
-		return "SA"
-	return _scheme_for_user(row.user_id)
+	"""BM / TL / SA from the Sales Person's position in the tree (single source
+	of truth). Falls back to SA for an unresolved node so a credited seller is
+	never dropped from the recompute."""
+	return scheme_from_tree(sales_person) or "SA"
 
 
 def _ancestors(sales_person):
