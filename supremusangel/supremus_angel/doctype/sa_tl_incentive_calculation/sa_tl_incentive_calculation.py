@@ -8,7 +8,12 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
 
-from supremusangel.supremus_angel.incentive_source import get_sales_rows, get_settings
+from supremusangel.supremus_angel.incentive_source import (
+	get_group_commission,
+	get_member_target,
+	get_sales_rows,
+	get_settings,
+)
 
 
 class SATLIncentiveCalculation(Document):
@@ -120,7 +125,7 @@ class SATLIncentiveCalculation(Document):
 
 		full_team_target = 0.0
 		team_sales = 0.0
-		missing_calc = []
+		no_target = []
 
 		for member in members:
 			member_sales = sum(
@@ -128,21 +133,13 @@ class SATLIncentiveCalculation(Document):
 			)
 			team_sales += member_sales
 
-			member_calc = frappe.get_all(
-				"SA Incentive Calculation",
-				filters={"sales_person": member, "calculation_month": self.calculation_month},
-				fields=["salary", "base_target"],
-				limit=1,
+			# Falls back to salary x target_multiple when the member has no calc
+			# yet, so the team target never silently collapses to 0.
+			member_target, member_salary, has_calc = get_member_target(
+				member, self.calculation_month, settings
 			)
-			if member_calc:
-				member_salary = flt(member_calc[0].salary)
-				member_target = flt(member_calc[0].base_target) or member_salary * flt(settings.target_multiple)
-				has_calc = 1
-			else:
-				member_salary = 0
-				member_target = 0
-				has_calc = 0
-				missing_calc.append(member)
+			if not member_target:
+				no_target.append(member)
 
 			full_team_target += member_target
 
@@ -161,47 +158,48 @@ class SATLIncentiveCalculation(Document):
 			)
 
 		min_achievement = flt(settings.team_commission_min_achievement)
-		commission_percent = flt(settings.team_commission_percent)
 
 		self.team_member_count = len(members)
 		self.full_team_target = full_team_target
 		self.team_target = full_team_target * (min_achievement / 100)
 		self.team_sales = team_sales
-		self.team_achievement_percent = (
-			(team_sales / full_team_target * 100) if full_team_target else 0
+
+		amount, rate, achievement = get_group_commission(
+			full_team_target,
+			team_sales,
+			min_achievement,
+			settings.team_commission_percent,
+			settings.team_commission_overachieved_percent,
 		)
+		self.team_achievement_percent = achievement
+		self.team_commission_percent = rate
+		self.team_commission_amount = amount
 
-		if flt(self.team_achievement_percent) >= min_achievement:
-			self.team_commission_percent = commission_percent
-			self.team_commission_amount = team_sales * (commission_percent / 100)
-		else:
-			self.team_commission_percent = 0
-			self.team_commission_amount = 0
-
-		if missing_calc:
+		if no_target:
 			frappe.msgprint(
 				frappe._(
-					"No SA Incentive Calculation found for {0} for {1}; their sales were counted "
-					"but their target could not be included in the team target. Calculate their "
-					"incentive first for an accurate team target."
-				).format(", ".join(missing_calc), self.calculation_month),
+					"No salary could be resolved for {0} for {1}; their sales were counted but "
+					"their target could not be included in the team target. Assign a Salary "
+					"Structure or calculate their incentive first for an accurate team target."
+				).format(", ".join(no_target), self.calculation_month),
 				indicator="orange",
 				title=frappe._("Team Target Incomplete"),
 			)
 
 	def _get_team_members(self):
-		"""All non-group Sales Person nodes in the team lead's subtree
-		(the 'whole team'), excluding the team lead itself."""
+		"""Everyone in the team lead's subtree (the 'whole team'), excluding the
+		team lead themselves.
+
+		Group nodes are included, not skipped -- each person in the tree counts
+		once, whatever their scheme. A TL normally has only salespeople beneath
+		them, but keeping this identical to the branch rule means a mis-shaped
+		tree can never silently drop people from the team target."""
 		tl = frappe.db.get_value("Sales Person", self.team_lead, ["lft", "rgt"], as_dict=True)
 		if not tl:
 			return []
 		members = frappe.get_all(
 			"Sales Person",
-			filters={
-				"lft": [">", tl.lft],
-				"rgt": ["<", tl.rgt],
-				"is_group": 0,
-			},
+			filters={"lft": [">", tl.lft], "rgt": ["<", tl.rgt]},
 			pluck="name",
 		)
 		return members

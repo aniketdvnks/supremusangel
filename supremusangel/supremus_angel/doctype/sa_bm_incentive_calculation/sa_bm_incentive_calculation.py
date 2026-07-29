@@ -8,7 +8,12 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
 
-from supremusangel.supremus_angel.incentive_source import get_sales_rows, get_settings
+from supremusangel.supremus_angel.incentive_source import (
+	get_group_commission,
+	get_member_target,
+	get_sales_rows,
+	get_settings,
+)
 
 
 class SABMIncentiveCalculation(Document):
@@ -120,7 +125,7 @@ class SABMIncentiveCalculation(Document):
 
 		full_branch_target = 0.0
 		branch_revenue = 0.0
-		missing_calc = []
+		no_target = []
 
 		for member in members:
 			member_sales = sum(
@@ -128,21 +133,13 @@ class SABMIncentiveCalculation(Document):
 			)
 			branch_revenue += member_sales
 
-			member_calc = frappe.get_all(
-				"SA Incentive Calculation",
-				filters={"sales_person": member, "calculation_month": self.calculation_month},
-				fields=["salary", "base_target"],
-				limit=1,
+			# Falls back to salary x target_multiple when the member has no calc
+			# yet, so the branch target never silently collapses to 0.
+			member_target, member_salary, has_calc = get_member_target(
+				member, self.calculation_month, settings
 			)
-			if member_calc:
-				member_salary = flt(member_calc[0].salary)
-				member_target = flt(member_calc[0].base_target) or member_salary * flt(settings.target_multiple)
-				has_calc = 1
-			else:
-				member_salary = 0
-				member_target = 0
-				has_calc = 0
-				missing_calc.append(member)
+			if not member_target:
+				no_target.append(member)
 
 			full_branch_target += member_target
 
@@ -160,52 +157,50 @@ class SABMIncentiveCalculation(Document):
 				},
 			)
 
+		min_achievement = flt(settings.branch_commission_min_achievement)
+
 		self.branch_member_count = len(members)
 		self.full_branch_target = full_branch_target
-		self.branch_target = full_branch_target * (flt(settings.branch_commission_min_achievement) / 100)
+		self.branch_target = full_branch_target * (min_achievement / 100)
 		self.branch_revenue = branch_revenue
-		self.branch_achievement_percent = (
-			(branch_revenue / full_branch_target * 100) if full_branch_target else 0
+
+		amount, rate, achievement = get_group_commission(
+			full_branch_target,
+			branch_revenue,
+			min_achievement,
+			settings.branch_commission_on_target_percent,
+			settings.branch_commission_overachieved_percent,
 		)
-
-		rate = self._branch_commission_rate(settings, self.branch_achievement_percent)
+		self.branch_achievement_percent = achievement
 		self.branch_commission_percent = rate
-		self.branch_commission_amount = branch_revenue * (rate / 100)
+		self.branch_commission_amount = amount
 
-		if missing_calc:
+		if no_target:
 			frappe.msgprint(
 				frappe._(
-					"No SA Incentive Calculation found for {0} for {1}; their sales were counted "
-					"but their target could not be included in the branch target. Calculate their "
-					"incentive first for an accurate branch target."
-				).format(", ".join(missing_calc), self.calculation_month),
+					"No salary could be resolved for {0} for {1}; their sales were counted but "
+					"their target could not be included in the branch target. Assign a Salary "
+					"Structure or calculate their incentive first for an accurate branch target."
+				).format(", ".join(no_target), self.calculation_month),
 				indicator="orange",
 				title=frappe._("Branch Target Incomplete"),
 			)
 
-	def _branch_commission_rate(self, settings, achievement_percent):
-		"""Tiered branch commission rate by branch achievement %:
-		below min -> 0; min to 100% -> on-target %; above 100% (overachieved) -> overachieved %."""
-		ach = flt(achievement_percent)
-		if ach < flt(settings.branch_commission_min_achievement):
-			return 0.0
-		if ach <= 100:
-			return flt(settings.branch_commission_on_target_percent)
-		return flt(settings.branch_commission_overachieved_percent)
-
 	def _get_branch_members(self):
-		"""All non-group Sales Person nodes in the branch manager's subtree
-		(the 'whole branch'), excluding the branch manager itself."""
+		"""Everyone in the branch manager's subtree (the 'whole branch'),
+		excluding the branch manager themselves.
+
+		Team Leads and nested Branch Managers are included alongside the
+		salespeople -- each person in the tree counts exactly once, whatever
+		their scheme, so a manager's own selling and their own target are part of
+		the branch they sit in. Their team/branch *commission* is separate money
+		and never enters branch revenue, so nothing is double-counted."""
 		bm = frappe.db.get_value("Sales Person", self.branch_manager, ["lft", "rgt"], as_dict=True)
 		if not bm:
 			return []
 		members = frappe.get_all(
 			"Sales Person",
-			filters={
-				"lft": [">", bm.lft],
-				"rgt": ["<", bm.rgt],
-				"is_group": 0,
-			},
+			filters={"lft": [">", bm.lft], "rgt": ["<", bm.rgt]},
 			pluck="name",
 		)
 		return members

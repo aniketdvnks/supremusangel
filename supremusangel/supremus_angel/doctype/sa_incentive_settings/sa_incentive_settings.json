@@ -18,6 +18,7 @@
   "manager_incentive_bands",
   "team_section",
   "team_commission_percent",
+  "team_commission_overachieved_percent",
   "team_commission_min_achievement",
   "branch_section",
   "branch_commission_min_achievement",
@@ -97,14 +98,20 @@
   {
    "fieldname": "team_commission_percent",
    "fieldtype": "Float",
-   "label": "Team Commission % of Team Sales",
+   "label": "Team Commission % (71-100% on target, marginal)",
+   "default": "1"
+  },
+  {
+   "fieldname": "team_commission_overachieved_percent",
+   "fieldtype": "Float",
+   "label": "Team Commission % (above 100% overachieved)",
    "default": "1"
   },
   {
    "fieldname": "team_commission_min_achievement",
    "fieldtype": "Float",
    "label": "Min Team Achievement % to Pay",
-   "default": "70"
+   "default": "71"
   },
   {
    "fieldname": "branch_section",
@@ -115,19 +122,19 @@
    "fieldname": "branch_commission_min_achievement",
    "fieldtype": "Float",
    "label": "Min Branch Achievement % to Pay",
-   "default": "70"
+   "default": "71"
   },
   {
    "fieldname": "branch_commission_on_target_percent",
    "fieldtype": "Float",
-   "label": "Branch Commission % (70-100% on target)",
+   "label": "Branch Commission % (71-100% on target, marginal)",
    "default": "0.5"
   },
   {
    "fieldname": "branch_commission_overachieved_percent",
    "fieldtype": "Float",
    "label": "Branch Commission % (above 100% overachieved)",
-   "default": "1"
+   "default": "0.5"
   }
  ],
  "links": [],

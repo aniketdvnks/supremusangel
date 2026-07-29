@@ -13,6 +13,7 @@
 import frappe
 from frappe.utils import add_months, flt, get_first_day, getdate, nowdate
 
+from supremusangel.supremus_angel.incentive_source import get_monthly_salary
 from supremusangel.supremus_angel.sales_person_create import scheme_from_tree
 
 SA_DT = "SA Incentive Calculation"
@@ -37,35 +38,10 @@ def _month_end(month):
 
 
 def _salary_for(employee, sales_person, month):
-	"""Monthly salary for the calc. Prefer the current Salary Structure
-	Assignment base as of month-end; fall back to the most recent prior
-	incentive calc's salary; else 0 (caller skips)."""
-	month_end = _month_end(month)
-
-	if frappe.db.table_exists("Salary Structure Assignment"):
-		rows = frappe.get_all(
-			"Salary Structure Assignment",
-			filters={"employee": employee, "docstatus": 1, "from_date": ["<=", month_end]},
-			fields=["base"],
-			order_by="from_date desc",
-			limit=1,
-		)
-		if rows and flt(rows[0].base):
-			return flt(rows[0].base)
-
-	# Carry forward the last salary this person's incentive was calculated with.
-	for dt, field in ((SA_DT, "sales_person"), (TL_DT, "team_lead"), (BM_DT, "branch_manager")):
-		prior = frappe.get_all(
-			dt,
-			filters={field: sales_person},
-			fields=["salary"],
-			order_by="calculation_month desc",
-			limit=1,
-		)
-		if prior and flt(prior[0].salary):
-			return flt(prior[0].salary)
-
-	return 0.0
+	"""Monthly salary for the calc. Thin wrapper over the shared resolver in
+	``incentive_source`` so the scheduler, the realtime recalc, the team/branch
+	target roll-up and the ESS dashboard all read the same salary."""
+	return get_monthly_salary(sales_person, month, employee=employee)
 
 
 def _already_done(scheme, sales_person, month):

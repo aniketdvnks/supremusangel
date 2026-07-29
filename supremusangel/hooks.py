@@ -29,6 +29,7 @@ app_license = "mit"
 app_include_js = [
     "/assets/supremusangel/js/policy_ack.bundle.js",
     "/assets/supremusangel/js/shortcut_single_fix.bundle.js",
+    "/assets/supremusangel/js/notification_sound.bundle.js",
 ]
 
 # Web Routes
