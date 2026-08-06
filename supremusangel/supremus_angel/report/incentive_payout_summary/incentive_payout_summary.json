@@ -10,7 +10,11 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": null,
+<<<<<<< Updated upstream
  "modified": "2026-08-06 12:00:00.000000",
+=======
+ "modified": "2026-08-01 18:02:06.365010",
+>>>>>>> Stashed changes
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Incentive Payout Summary",
@@ -43,6 +47,9 @@
   },
   {
    "role": "Projects User"
+  },
+  {
+   "role": "HR Manager"
   }
  ],
  "timeout": 0
