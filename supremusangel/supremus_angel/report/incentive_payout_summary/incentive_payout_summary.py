@@ -11,9 +11,11 @@ person's personal payout, team/branch commission and grand total in one place.
 
 import frappe
 
-# Roles that may see every person's payout. Anyone else is scoped to their own
-# Sales Person row so the report is safe to expose on the ESS dashboard.
-PRIVILEGED_ROLES = {"System Manager", "Sales Manager", "Accounts Manager"}
+# Roles that may see every person's payout -- salary is on this report, so the
+# unrestricted view is deliberately limited to HR and system administrators.
+# Sales/Accounts managers are NOT privileged here: they are scored by the same
+# incentive schemes, so they get the same subtree scoping as any other manager.
+PRIVILEGED_ROLES = {"System Manager", "HR Manager", "HR User"}
 
 
 def execute(filters=None):
@@ -21,17 +23,39 @@ def execute(filters=None):
 	return get_columns(), get_data(filters)
 
 
-def _own_scope():
-	"""For non-privileged users, return their linked Sales Person so the data
-	can be restricted to their own rows. Returns None for privileged users."""
+def _visible_persons():
+	"""Which Sales Persons the caller is allowed to see.
+
+	  * ``None``  -- unrestricted (HR / System Manager).
+	  * ``[...]`` -- the caller plus everyone in their Sales Person subtree, so a
+	    Team Lead sees their sellers and a Branch Manager sees their whole branch
+	    -- exactly what the ESS commission card already shows them, and nothing
+	    from a sibling branch.
+	  * ``[]``    -- nothing (no linked Sales Person).
+	"""
 	user = frappe.session.user
-	if PRIVILEGED_ROLES & set(frappe.get_roles(user)):
+	if user == "Administrator" or PRIVILEGED_ROLES & set(frappe.get_roles(user)):
 		return None
 
 	from supremusangel.supremus_angel.api.sales_person_target import get_sales_person_for_user
 
-	# A non-privileged user with no linked Sales Person sees nothing.
-	return get_sales_person_for_user(user) or "__no_sales_person__"
+	sales_person = get_sales_person_for_user(user)
+	if not sales_person:
+		return []
+
+	visible = [sales_person]
+
+	node = frappe.db.get_value("Sales Person", sales_person, ["lft", "rgt"], as_dict=True)
+	if node and node.lft is not None and (node.rgt or 0) - node.lft > 1:
+		# get_all ignores permissions: an ESS user has no read on Sales Person,
+		# but they are allowed to know who sits under them.
+		visible += frappe.get_all(
+			"Sales Person",
+			filters={"lft": [">", node.lft], "rgt": ["<", node.rgt]},
+			pluck="name",
+		)
+
+	return visible
 
 
 def get_columns():
@@ -55,8 +79,18 @@ def get_columns():
 
 
 def get_data(filters):
+	# Row-level restriction first: a non-HR user only ever sees their own subtree,
+	# and no filter combination can widen that.
+	visible = _visible_persons()
+	if visible is not None and not visible:
+		return []
+
 	conditions = ["t.status != 'Draft'"]
 	values = {}
+
+	if visible is not None:
+		conditions.append("t.person IN %(visible)s")
+		values["visible"] = tuple(visible)
 
 	if filters.get("calculation_month"):
 		conditions.append("t.calculation_month = %(calculation_month)s")
@@ -70,12 +104,6 @@ def get_data(filters):
 	if filters.get("status"):
 		conditions.append("t.status = %(status)s")
 		values["status"] = filters["status"]
-
-	# Row-level restriction: non-privileged users only see their own payout.
-	own_person = _own_scope()
-	if own_person is not None:
-		conditions.append("t.person = %(own_person)s")
-		values["own_person"] = own_person
 
 	where = "WHERE " + " AND ".join(conditions)
 
