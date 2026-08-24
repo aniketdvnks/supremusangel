@@ -1,0 +1,25 @@
+{
+ "cards": [
+  {"card": "RM Green Today"},
+  {"card": "RM Red Today"},
+  {"card": "RM Logged Nothing Today"},
+  {"card": "RM Avg Compliance This Month"}
+ ],
+ "charts": [
+  {"chart": "RM Flag Distribution", "width": "Half"},
+  {"chart": "RM Green Days Trend", "width": "Half"},
+  {"chart": "RM KPI Wise Compliance", "width": "Full"}
+ ],
+ "creation": "2026-08-19 10:00:00.000000",
+ "dashboard_name": "RM Performance",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2026-08-19 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "RM Performance",
+ "name": "RM Performance",
+ "owner": "Administrator"
+}
