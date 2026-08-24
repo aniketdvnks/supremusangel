@@ -268,6 +268,18 @@ override_doctype_class = {
     "Interview": "supremusangel.supremus_angel.custom.interview.CustomInterview"
 }
 
+# RM EOD scorecards are readable by every Employee so a reporting manager needs
+# no special role; these keep each user's rows limited to their own reporting
+# tree (HR and System Manager see everything). See rm_performance/scoping.py.
+permission_query_conditions = {
+    "RM Daily Scorecard": "supremusangel.rm_performance.scoping.scorecard_query_conditions",
+    "RM Monthly Rating": "supremusangel.rm_performance.scoping.rating_query_conditions",
+}
+
+has_permission = {
+    "RM Daily Scorecard": "supremusangel.rm_performance.scoping.scorecard_has_permission",
+}
+
 # Incentive sales are read live from core Sales Invoice + Sales Team at
 # calculate() time (see supremus_angel/incentive_source.py), so no doc_events
 # are needed to mirror invoices into a custom sales doctype. Submitting or
@@ -305,6 +317,11 @@ fixtures = [
 # Investor-portal notifications that can't be expressed as plain Notifications.
 # See supremus_angel/portal_notifications.py.
 doc_events = {
+    # Mirror the newest contact-log row back onto the legacy Lead call fields so
+    # the telecalling desk and its reports keep working.
+    "Lead": {
+        "validate": "supremusangel.rm_performance.lead_hooks.sync_contact_log",
+    },
     "User": {
         "after_insert": "supremusangel.supremus_angel.portal_notifications.send_customer_welcome_email",
     },
@@ -323,6 +340,8 @@ doc_events = {
 scheduler_events = {
     "daily": [
         "supremusangel.supremus_angel.portal_notifications.send_mip_due_reminders",
+        # Snapshot yesterday's RM EOD scorecard once the day has closed.
+        "supremusangel.rm_performance.kpi_engine.build_yesterday",
     ],
     # 1st of every month: auto-calculate the previous month's incentives for
     # every eligible Sales Person (scheme chosen by their incentive role).

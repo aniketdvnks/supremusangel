@@ -1,0 +1,602 @@
+{
+ "actions": [],
+ "creation": "2026-08-19 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "autoname": "format:RMSC-{employee}-{scorecard_date}",
+ "naming_rule": "Expression",
+ "field_order": [
+  "identity_section",
+  "employee",
+  "employee_name",
+  "scorecard_date",
+  "column_break_i1",
+  "branch",
+  "reports_to",
+  "designation",
+  "date_of_joining",
+  "result_section",
+  "flag",
+  "points_met",
+  "column_break_r1",
+  "total_points",
+  "compliance_percent",
+  "evaluation_mode",
+  "kpi_section",
+  "kpi1_sb",
+  "kpi1_actual",
+  "kpi1_target",
+  "kpi1_cb",
+  "kpi1_met",
+  "kpi1_period",
+  "kpi2a_sb",
+  "kpi2a_actual",
+  "kpi2a_target",
+  "kpi2a_cb",
+  "kpi2a_met",
+  "kpi2a_period",
+  "kpi2b_sb",
+  "kpi2b_actual",
+  "kpi2b_target",
+  "kpi2b_cb",
+  "kpi2b_met",
+  "kpi2b_period",
+  "kpi3_sb",
+  "kpi3_actual",
+  "kpi3_target",
+  "kpi3_cb",
+  "kpi3_met",
+  "kpi3_period",
+  "kpi4_sb",
+  "kpi4_actual",
+  "kpi4_target",
+  "kpi4_cb",
+  "kpi4_met",
+  "kpi4_period",
+  "kpi5_sb",
+  "kpi5_actual",
+  "kpi5_target",
+  "kpi5_cb",
+  "kpi5_met",
+  "kpi5_period",
+  "kpi6_sb",
+  "kpi6_actual",
+  "kpi6_target",
+  "kpi6_cb",
+  "kpi6_met",
+  "kpi6_period",
+  "qual_section",
+  "kpi7_met",
+  "kpi7_rating",
+  "column_break_q1",
+  "kpi8_met",
+  "kpi8_rating",
+  "monthly_rating",
+  "attendance_section",
+  "attendance_status",
+  "first_checkin",
+  "column_break_a1",
+  "last_checkout",
+  "working_hours",
+  "meta_section",
+  "generated_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Identity"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "fetch_from": "employee.employee_name",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "scorecard_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_i1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "reports_to",
+   "fieldtype": "Link",
+   "label": "Reporting Manager",
+   "options": "Employee",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date_of_joining",
+   "fieldtype": "Date",
+   "label": "Date of Joining",
+   "read_only": 1
+  },
+  {
+   "fieldname": "result_section",
+   "fieldtype": "Section Break",
+   "label": "Result"
+  },
+  {
+   "fieldname": "flag",
+   "fieldtype": "Select",
+   "label": "Flag",
+   "options": "Red\nOrange\nGreen",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "points_met",
+   "fieldtype": "Int",
+   "label": "Points Met",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_r1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_points",
+   "fieldtype": "Int",
+   "label": "Points Applicable",
+   "read_only": 1
+  },
+  {
+   "fieldname": "compliance_percent",
+   "fieldtype": "Percent",
+   "label": "Compliance %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "evaluation_mode",
+   "fieldtype": "Data",
+   "label": "Evaluation Mode",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi_section",
+   "fieldtype": "Section Break",
+   "label": "Measured KPIs"
+  },
+  {
+   "fieldname": "kpi1_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 1 \u2014 Daily Potential Clients",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi1_actual",
+   "fieldtype": "Int",
+   "label": "Prospects Today",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kpi1_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi1_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi1_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi1_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Daily"
+  },
+  {
+   "fieldname": "kpi2a_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 2a \u2014 Self Hosted Meetings",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi2a_actual",
+   "fieldtype": "Int",
+   "label": "Self Hosted Meetings",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "kpi2a_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi2a_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi2a_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi2a_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Week to date"
+  },
+  {
+   "fieldname": "kpi2b_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 2b \u2014 Meetings With Support",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi2b_actual",
+   "fieldtype": "Int",
+   "label": "Meetings With Support",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "kpi2b_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi2b_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi2b_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi2b_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Month to date"
+  },
+  {
+   "fieldname": "kpi3_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 3 \u2014 Office Meetings",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi3_actual",
+   "fieldtype": "Int",
+   "label": "Office Meetings",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "kpi3_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi3_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi3_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi3_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Month to date"
+  },
+  {
+   "fieldname": "kpi4_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 4 \u2014 Seminar Attendees",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi4_actual",
+   "fieldtype": "Int",
+   "label": "Seminar Attendees",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "kpi4_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi4_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi4_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi4_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Month to date"
+  },
+  {
+   "fieldname": "kpi5_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 5 \u2014 Team Meetings",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi5_actual",
+   "fieldtype": "Int",
+   "label": "Team Meetings Attended",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "kpi5_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi5_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi5_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi5_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Month to date"
+  },
+  {
+   "fieldname": "kpi6_sb",
+   "fieldtype": "Section Break",
+   "label": "KPI 6 \u2014 Team Expansion",
+   "collapsible": 0
+  },
+  {
+   "fieldname": "kpi6_actual",
+   "fieldtype": "Int",
+   "label": "Additions",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "kpi6_target",
+   "fieldtype": "Int",
+   "label": "Target",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi6_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi6_met",
+   "fieldtype": "Check",
+   "label": "Met",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi6_period",
+   "fieldtype": "Data",
+   "label": "Period",
+   "read_only": 1,
+   "default": "Month to date"
+  },
+  {
+   "fieldname": "qual_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 7 & 8 \u2014 Manager Rated"
+  },
+  {
+   "fieldname": "kpi7_met",
+   "fieldtype": "Check",
+   "label": "KPI 7 \u2014 Office Activities",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi7_rating",
+   "fieldtype": "Data",
+   "label": "Rating",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_q1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi8_met",
+   "fieldtype": "Check",
+   "label": "KPI 8 \u2014 Initiatives & Ideas",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kpi8_rating",
+   "fieldtype": "Data",
+   "label": "Rating",
+   "read_only": 1
+  },
+  {
+   "fieldname": "monthly_rating",
+   "fieldtype": "Link",
+   "label": "Source Rating",
+   "options": "RM Monthly Rating",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attendance_section",
+   "fieldtype": "Section Break",
+   "label": "Attendance"
+  },
+  {
+   "fieldname": "attendance_status",
+   "fieldtype": "Data",
+   "label": "Attendance Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "first_checkin",
+   "fieldtype": "Datetime",
+   "label": "First Check-in",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_a1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_checkout",
+   "fieldtype": "Datetime",
+   "label": "Last Check-out",
+   "read_only": 1
+  },
+  {
+   "fieldname": "working_hours",
+   "fieldtype": "Float",
+   "label": "Working Hours",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "meta_section",
+   "fieldtype": "Section Break",
+   "label": "Meta"
+  },
+  {
+   "fieldname": "generated_on",
+   "fieldtype": "Datetime",
+   "label": "Generated On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-19 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "RM Performance",
+ "name": "RM Daily Scorecard",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Branch Manager"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee"
+  }
+ ],
+ "sort_field": "scorecard_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "title_field": "employee_name",
+ "show_title_field_in_link": 1
+}

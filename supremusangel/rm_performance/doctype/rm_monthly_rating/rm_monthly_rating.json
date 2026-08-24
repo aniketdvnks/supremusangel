@@ -1,0 +1,232 @@
+{
+ "actions": [],
+ "creation": "2026-08-19 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "autoname": "format:RMR-{employee}-{month_key}",
+ "naming_rule": "Expression",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "month_key",
+  "column_break_1",
+  "branch",
+  "reports_to",
+  "designation",
+  "rating_section",
+  "kpi7_rating",
+  "kpi7_met",
+  "column_break_2",
+  "kpi8_rating",
+  "kpi8_met",
+  "notes_section",
+  "initiative_note",
+  "manager_remark",
+  "meta_section",
+  "rated_by",
+  "column_break_3",
+  "rated_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "fetch_from": "employee.employee_name",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "month_key",
+   "fieldtype": "Data",
+   "label": "Month",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Format YYYY-MM, e.g. 2026-08"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "fetch_from": "employee.branch",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "reports_to",
+   "fieldtype": "Link",
+   "label": "Reporting Manager",
+   "options": "Employee",
+   "fetch_from": "employee.reports_to",
+   "read_only": 1,
+   "ignore_user_permissions": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation",
+   "fetch_from": "employee.designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rating_section",
+   "fieldtype": "Section Break",
+   "label": "Manager Rating"
+  },
+  {
+   "fieldname": "kpi7_rating",
+   "fieldtype": "Select",
+   "label": "KPI 7 \u2014 Contribution to Office Activities",
+   "options": "Not Rated\nPoor\nAverage\nGood\nExcellent",
+   "default": "Not Rated",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kpi7_met",
+   "fieldtype": "Check",
+   "label": "KPI 7 Met",
+   "read_only": 1,
+   "description": "Set automatically \u2014 Average or better counts as met."
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi8_rating",
+   "fieldtype": "Select",
+   "label": "KPI 8 \u2014 Initiatives & Ideas",
+   "options": "Not Rated\nPoor\nAverage\nGood\nExcellent",
+   "default": "Not Rated",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kpi8_met",
+   "fieldtype": "Check",
+   "label": "KPI 8 Met",
+   "read_only": 1,
+   "description": "Set automatically \u2014 Average or better counts as met."
+  },
+  {
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "initiative_note",
+   "fieldtype": "Small Text",
+   "label": "Initiatives Submitted by RM"
+  },
+  {
+   "fieldname": "manager_remark",
+   "fieldtype": "Small Text",
+   "label": "Manager Remark"
+  },
+  {
+   "fieldname": "meta_section",
+   "fieldtype": "Section Break",
+   "label": "Meta"
+  },
+  {
+   "fieldname": "rated_by",
+   "fieldtype": "Link",
+   "label": "Rated By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rated_on",
+   "fieldtype": "Datetime",
+   "label": "Rated On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-19 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "RM Performance",
+ "name": "RM Monthly Rating",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Branch Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name"
+}

@@ -1,0 +1,295 @@
+{
+ "actions": [],
+ "creation": "2026-08-19 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "general_section",
+  "enabled",
+  "rm_designation",
+  "column_break_g1",
+  "evaluation_mode",
+  "include_left_employees",
+  "flag_section",
+  "green_min_points",
+  "column_break_f1",
+  "orange_min_points",
+  "kpi1_section",
+  "kpi1_enabled",
+  "kpi1_target",
+  "column_break_k1",
+  "kpi1_count_mode",
+  "kpi2_section",
+  "kpi2_enabled",
+  "kpi2_self_hosted_target",
+  "column_break_k2",
+  "kpi2_with_support_target",
+  "kpi3_section",
+  "kpi3_enabled",
+  "kpi3_target",
+  "kpi4_section",
+  "kpi4_enabled",
+  "kpi4_target",
+  "kpi5_section",
+  "kpi5_enabled",
+  "kpi5_target",
+  "kpi6_section",
+  "kpi6_enabled",
+  "kpi6_target",
+  "kpi78_section",
+  "kpi7_enabled",
+  "column_break_k7",
+  "kpi8_enabled",
+  "qualitative_note"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1",
+   "description": "Turn the whole EOD scorecard engine on or off."
+  },
+  {
+   "fieldname": "rm_designation",
+   "fieldtype": "Data",
+   "label": "RM Designation",
+   "default": "Wealth Relationship Manager",
+   "description": "Employees with this designation are scored. Comma-separate for more than one."
+  },
+  {
+   "fieldname": "column_break_g1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "evaluation_mode",
+   "fieldtype": "Select",
+   "label": "Evaluation Mode",
+   "options": "Observation Only\nConsequential",
+   "default": "Observation Only",
+   "description": "Observation Only shows flags without treating them as an official record."
+  },
+  {
+   "fieldname": "include_left_employees",
+   "fieldtype": "Check",
+   "label": "Include Left / Inactive Employees",
+   "default": "0"
+  },
+  {
+   "fieldname": "flag_section",
+   "fieldtype": "Section Break",
+   "label": "Flag Thresholds"
+  },
+  {
+   "fieldname": "green_min_points",
+   "fieldtype": "Int",
+   "label": "Green \u2014 Minimum Points",
+   "default": "8"
+  },
+  {
+   "fieldname": "column_break_f1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "orange_min_points",
+   "fieldtype": "Int",
+   "label": "Orange \u2014 Minimum Points",
+   "default": "4"
+  },
+  {
+   "fieldname": "kpi1_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 1 \u2014 Daily Potential Client Count"
+  },
+  {
+   "fieldname": "kpi1_enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi1_target",
+   "fieldtype": "Int",
+   "label": "Prospects Per Day",
+   "default": "5"
+  },
+  {
+   "fieldname": "column_break_k1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi1_count_mode",
+   "fieldtype": "Select",
+   "label": "Count Mode",
+   "options": "Any Outcome\nConnected Only",
+   "default": "Any Outcome",
+   "description": "Connected Only counts a prospect solely when the conversation actually happened."
+  },
+  {
+   "fieldname": "kpi2_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 2 \u2014 Client Meetings"
+  },
+  {
+   "fieldname": "kpi2_enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi2_self_hosted_target",
+   "fieldtype": "Int",
+   "label": "Self Hosted Meetings Per Week",
+   "default": "2"
+  },
+  {
+   "fieldname": "column_break_k2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi2_with_support_target",
+   "fieldtype": "Int",
+   "label": "Meetings With Support Per Month",
+   "default": "2"
+  },
+  {
+   "fieldname": "kpi3_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 3 \u2014 Client Meetings at Office"
+  },
+  {
+   "fieldname": "kpi3_enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi3_target",
+   "fieldtype": "Int",
+   "label": "Office Meetings Per Month",
+   "default": "2"
+  },
+  {
+   "fieldname": "kpi4_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 4 \u2014 Monthly Seminar Participation"
+  },
+  {
+   "fieldname": "kpi4_enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi4_target",
+   "fieldtype": "Int",
+   "label": "Seminar Attendees Per Month",
+   "default": "7"
+  },
+  {
+   "fieldname": "kpi5_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 5 \u2014 Weekly Team Meetings"
+  },
+  {
+   "fieldname": "kpi5_enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi5_target",
+   "fieldtype": "Int",
+   "label": "Team Meetings Per Month",
+   "default": "4"
+  },
+  {
+   "fieldname": "kpi6_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 6 \u2014 Team Expansion"
+  },
+  {
+   "fieldname": "kpi6_enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi6_target",
+   "fieldtype": "Int",
+   "label": "Additions Per Month",
+   "default": "1"
+  },
+  {
+   "fieldname": "kpi78_section",
+   "fieldtype": "Section Break",
+   "label": "KPI 7 & 8 \u2014 Manager Rated"
+  },
+  {
+   "fieldname": "kpi7_enabled",
+   "fieldtype": "Check",
+   "label": "KPI 7 \u2014 Contribution to Office Activities",
+   "default": "1"
+  },
+  {
+   "fieldname": "column_break_k7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kpi8_enabled",
+   "fieldtype": "Check",
+   "label": "KPI 8 \u2014 Initiatives & Ideas",
+   "default": "1"
+  },
+  {
+   "fieldname": "qualitative_note",
+   "fieldtype": "Small Text",
+   "label": "Note",
+   "read_only": 1,
+   "default": "KPI 7 and 8 cannot be measured from system data. They are carried from the RM Monthly Rating record filled in by the reporting manager. If no rating exists for the month, both count as not met."
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-08-19 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "RM Performance",
+ "name": "RM KPI Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

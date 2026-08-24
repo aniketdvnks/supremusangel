@@ -1,0 +1,335 @@
+{
+ "charts": [],
+ "content": "[{\"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Today</b></span>\", \"col\": 12}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"RM Green Today\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"RM Red Today\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"RM Logged Nothing Today\", \"col\": 3}}, {\"type\": \"number_card\", \"data\": {\"number_card_name\": \"RM Avg Compliance This Month\", \"col\": 3}}, {\"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Open</b></span>\", \"col\": 12}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"RM EOD Desk\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"My Daily Prospects\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"RM EOD Scorecard\", \"col\": 3}}, {\"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"RM KPI Settings\", \"col\": 3}}, {\"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"RM Flag Distribution\", \"col\": 6}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"RM Green Days Trend\", \"col\": 6}}, {\"type\": \"chart\", \"data\": {\"chart_name\": \"RM KPI Wise Compliance\", \"col\": 12}}, {\"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Reports &amp; Scorecards</b></span>\", \"col\": 12}}, {\"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"type\": \"card\", \"data\": {\"card_name\": \"Scorecards & Ratings\", \"col\": 4}}, {\"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}, {\"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Where each pointer's data lives</b></span>\", \"col\": 12}}, {\"type\": \"paragraph\", \"data\": {\"text\": \"Every pointer is counted live from these doctypes \\u2014 nothing is duplicated into the scorecard.\", \"col\": 12}}, {\"type\": \"card\", \"data\": {\"card_name\": \"KPI 1 \\u2014 Prospects\", \"col\": 4}}, {\"type\": \"card\", \"data\": {\"card_name\": \"KPI 2 & 3 \\u2014 Client Meetings\", \"col\": 4}}, {\"type\": \"card\", \"data\": {\"card_name\": \"KPI 4 & 5 \\u2014 Seminars & Team\", \"col\": 4}}, {\"type\": \"card\", \"data\": {\"card_name\": \"KPI 6 \\u2014 Team Expansion\", \"col\": 4}}, {\"type\": \"card\", \"data\": {\"card_name\": \"Attendance\", \"col\": 4}}]",
+ "creation": "2026-08-19 10:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "dashboard",
+ "idx": 0,
+ "indicator_color": "orange",
+ "is_hidden": 0,
+ "label": "RM Performance",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "RM EOD Scorecard",
+   "link_count": 0,
+   "link_to": "RM EOD Scorecard",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": "RM Daily Scorecard"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "RM Monthly Summary",
+   "link_count": 0,
+   "link_to": "RM Monthly Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": "RM Daily Scorecard"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "RM Activity Trail",
+   "link_count": 0,
+   "link_to": "RM Activity Trail",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": "Employee"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Scorecards & Ratings",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "RM Daily Scorecard",
+   "link_count": 0,
+   "link_to": "RM Daily Scorecard",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "RM Monthly Rating",
+   "link_count": 0,
+   "link_to": "RM Monthly Rating",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "KPI 1 \u2014 Prospects",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lead",
+   "link_count": 0,
+   "link_to": "Lead",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Telecalling Leads",
+   "link_count": 0,
+   "link_to": "Telecalling Leads",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": "Lead"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "KPI 2 & 3 \u2014 Client Meetings",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Event",
+   "link_count": 0,
+   "link_to": "Event",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Lead Event Register",
+   "link_count": 0,
+   "link_to": "Lead Event Register",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": "Event"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "KPI 4 & 5 \u2014 Seminars & Team",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Event Booking",
+   "link_count": 0,
+   "link_to": "Event Booking",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Buzz Event",
+   "link_count": 0,
+   "link_to": "Buzz Event",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Scope Meeting",
+   "link_count": 0,
+   "link_to": "Scope Meeting",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "KPI 6 \u2014 Team Expansion",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Job Applicant",
+   "link_count": 0,
+   "link_to": "Job Applicant",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Person",
+   "link_count": 0,
+   "link_to": "Sales Person",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance",
+   "link_count": 0,
+   "link_to": "Attendance",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Checkin",
+   "link_count": 0,
+   "link_to": "Employee Checkin",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setup",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "RM KPI Settings",
+   "link_count": 0,
+   "link_to": "RM KPI Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee",
+   "link_count": 0,
+   "link_to": "Employee",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Branch",
+   "link_count": 0,
+   "link_to": "Branch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link",
+   "dependencies": ""
+  }
+ ],
+ "modified": "2026-08-19 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "RM Performance",
+ "name": "RM Performance",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 40.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "",
+   "label": "RM EOD Desk",
+   "link_to": "rm-eod-desk",
+   "type": "Page"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "My Daily Prospects",
+   "link_to": "rm-daily-entry",
+   "type": "Page"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "RM EOD Scorecard",
+   "link_to": "RM EOD Scorecard",
+   "type": "Report",
+   "report_ref_doctype": "RM Daily Scorecard",
+   "kanban_board": ""
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "RM KPI Settings",
+   "link_to": "RM KPI Settings",
+   "type": "DocType"
+  }
+ ],
+ "title": "RM Performance",
+ "type": "Workspace"
+}
