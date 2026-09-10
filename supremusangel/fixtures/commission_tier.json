@@ -1,0 +1,91 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Commission Tier",
+  "level": 1,
+  "modified": "2026-09-09 08:57:19.322481",
+  "name": "Associate",
+  "overrides": [],
+  "own_commission_percent": 20.0,
+  "promotion_criteria": "Administrator promotion after review of team performance.",
+  "tier_name": "Associate"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Commission Tier",
+  "level": 2,
+  "modified": "2026-09-09 08:57:19.338331",
+  "name": "Sr. Associate",
+  "overrides": [
+   {
+    "from_tier": "Associate",
+    "parent": "Sr. Associate",
+    "parentfield": "overrides",
+    "parenttype": "Commission Tier",
+    "percent": 5.0
+   }
+  ],
+  "own_commission_percent": 20.0,
+  "promotion_criteria": "Administrator promotion after review of team performance.",
+  "tier_name": "Sr. Associate"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Commission Tier",
+  "level": 3,
+  "modified": "2026-09-09 08:57:19.344554",
+  "name": "Team Lead",
+  "overrides": [
+   {
+    "from_tier": "Sr. Associate",
+    "parent": "Team Lead",
+    "parentfield": "overrides",
+    "parenttype": "Commission Tier",
+    "percent": 5.0
+   },
+   {
+    "from_tier": "Associate",
+    "parent": "Team Lead",
+    "parentfield": "overrides",
+    "parenttype": "Commission Tier",
+    "percent": 3.0
+   }
+  ],
+  "own_commission_percent": 20.0,
+  "promotion_criteria": "Administrator promotion after review of team performance.",
+  "tier_name": "Team Lead"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Commission Tier",
+  "level": 4,
+  "modified": "2026-09-09 08:57:19.349322",
+  "name": "City Partner",
+  "overrides": [
+   {
+    "from_tier": "Team Lead",
+    "parent": "City Partner",
+    "parentfield": "overrides",
+    "parenttype": "Commission Tier",
+    "percent": 5.0
+   },
+   {
+    "from_tier": "Sr. Associate",
+    "parent": "City Partner",
+    "parentfield": "overrides",
+    "parenttype": "Commission Tier",
+    "percent": 3.0
+   },
+   {
+    "from_tier": "Associate",
+    "parent": "City Partner",
+    "parentfield": "overrides",
+    "parenttype": "Commission Tier",
+    "percent": 2.0
+   }
+  ],
+  "own_commission_percent": 20.0,
+  "promotion_criteria": "Administrator promotion after review of team performance.",
+  "tier_name": "City Partner"
+ }
+]

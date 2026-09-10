@@ -1,6 +1,11 @@
 {
- "charts": [],
- "content": "[{\"id\":\"qa_h\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Quick Access</b></span>\",\"col\":12}},{\"id\":\"qa1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Incentive Calculation\",\"col\":3}},{\"id\":\"qa2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA TL Incentive Calculation\",\"col\":3}},{\"id\":\"qa3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA BM Incentive Calculation\",\"col\":3}},{\"id\":\"qa4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SA Incentive Settings\",\"col\":3}},{\"id\":\"qa5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Incentive Payout Summary\",\"col\":3}},{\"id\":\"qa6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Person Incentive Summary\",\"col\":3}},{\"id\":\"qa7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Slab-wise Achievement Distribution\",\"col\":3}},{\"id\":\"sp1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"si_h\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Sales Incentives</b></span>\",\"col\":12}},{\"id\":\"c1\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Transactions\",\"col\":4}},{\"id\":\"c2\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Masters\",\"col\":4}},{\"id\":\"c3\",\"type\":\"card\",\"data\":{\"card_name\":\"Incentive Reports\",\"col\":4}},{\"id\":\"c4\",\"type\":\"card\",\"data\":{\"card_name\":\"Meetings & Policy\",\"col\":4}}]",
+ "charts": [
+  {
+   "chart_name": "SA Weekly Transaction Value",
+   "label": "Weekly Transaction Value"
+  }
+ ],
+ "content": "[{\"id\": \"shares_header\", \"type\": \"header\", \"data\": {\"text\": \"<b>Unlisted Shares</b>\", \"col\": 12}}, {\"id\": \"shares_card_sa_total_transactions\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Total Transactions\", \"col\": 3}}, {\"id\": \"shares_card_sa_total_customers\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Total Customers\", \"col\": 3}}, {\"id\": \"shares_card_sa_active_deals\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active Deals\", \"col\": 3}}, {\"id\": \"shares_card_sa_pending_payment_requests\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Pending Payment Requests\", \"col\": 3}}, {\"id\": \"shares_shortcut_agents\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Agents\", \"col\": 3}}, {\"id\": \"shares_shortcut_deals\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deals\", \"col\": 3}}, {\"id\": \"shares_shortcut_customers\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Customers\", \"col\": 3}}, {\"id\": \"shares_shortcut_transactions\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Transactions\", \"col\": 3}}, {\"id\": \"shares_shortcut_commission_tiers\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Commission Tiers\", \"col\": 3}}, {\"id\": \"shares_shortcut_withdrawals\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Withdrawals\", \"col\": 3}}, {\"id\": \"shares_shortcut_withdrawal_requests\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Withdrawal Requests\", \"col\": 3}}, {\"id\": \"shares_shortcut_pending_approvals\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Pending Approvals\", \"col\": 3}}, {\"id\": \"shares_chart\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Weekly Transaction Value\", \"col\": 12}}, {\"id\": \"shares_group_agent_network\", \"type\": \"card\", \"data\": {\"card_name\": \"Agent Network\", \"col\": 4}}, {\"id\": \"shares_group_sales\", \"type\": \"card\", \"data\": {\"card_name\": \"Sales\", \"col\": 4}}, {\"id\": \"shares_group_share_commission_reports\", \"type\": \"card\", \"data\": {\"card_name\": \"Share Commission Reports\", \"col\": 4}}, {\"id\": \"qa_h\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Quick Access</b></span>\", \"col\": 12}}, {\"id\": \"qa1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"SA Incentive Calculation\", \"col\": 3}}, {\"id\": \"qa2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"SA TL Incentive Calculation\", \"col\": 3}}, {\"id\": \"qa3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"SA BM Incentive Calculation\", \"col\": 3}}, {\"id\": \"qa4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"SA Incentive Settings\", \"col\": 3}}, {\"id\": \"qa5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Incentive Payout Summary\", \"col\": 3}}, {\"id\": \"qa6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Person Incentive Summary\", \"col\": 3}}, {\"id\": \"qa7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Slab-wise Achievement Distribution\", \"col\": 3}}, {\"id\": \"sp1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"si_h\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Sales Incentives</b></span>\", \"col\": 12}}, {\"id\": \"c1\", \"type\": \"card\", \"data\": {\"card_name\": \"Incentive Transactions\", \"col\": 4}}, {\"id\": \"c2\", \"type\": \"card\", \"data\": {\"card_name\": \"Incentive Masters\", \"col\": 4}}, {\"id\": \"c3\", \"type\": \"card\", \"data\": {\"card_name\": \"Incentive Reports\", \"col\": 4}}, {\"id\": \"c4\", \"type\": \"card\", \"data\": {\"card_name\": \"Meetings & Policy\", \"col\": 4}}]",
  "creation": "2026-05-18 10:00:00",
  "custom_blocks": [],
  "docstatus": 0,
@@ -16,7 +21,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Incentive Transactions",
-   "link_count": 0,
+   "link_count": 3,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -58,7 +63,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Incentive Reports",
-   "link_count": 0,
+   "link_count": 3,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -100,7 +105,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Meetings & Policy",
-   "link_count": 0,
+   "link_count": 2,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -137,22 +142,215 @@
    "type": "Card Break"
   },
   {
-   "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "SA Merchandise",
+   "label": "Sales Person",
    "link_count": 0,
-   "link_to": "SA Merchandise",
+   "link_to": "Sales Person",
    "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Agent Network",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Person",
+   "link_count": 0,
+   "link_to": "Sales Person",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Commission Tier",
+   "link_count": 0,
+   "link_to": "Commission Tier",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales",
+   "link_count": 5,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payment Entry",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Withdrawal Request",
+   "link_count": 0,
+   "link_to": "Withdrawal Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Share Commission Reports",
+   "link_count": 8,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Agent-wise Commission Summary",
+   "link_count": 0,
+   "link_to": "Agent-wise Commission Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Tier-wise Business Report",
+   "link_count": 0,
+   "link_to": "Tier-wise Business Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Pending Approvals Report",
+   "link_count": 0,
+   "link_to": "Pending Approvals Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Top Customers by Value",
+   "link_count": 0,
+   "link_to": "Top Customers by Value",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Referral Chain Drill-down",
+   "link_count": 0,
+   "link_to": "Referral Chain Drill-down",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "My Sales and Commission",
+   "link_count": 0,
+   "link_to": "My Sales and Commission",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "My Downline Performance",
+   "link_count": 0,
+   "link_to": "My Downline Performance",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "My Withdrawal History",
+   "link_count": 0,
+   "link_to": "My Withdrawal History",
+   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2026-07-08 14:45:52.346154",
+ "modified": "2026-09-09 09:23:48.683126",
  "modified_by": "Administrator",
  "module": "Supremus Angel",
  "name": "Supremus Angel",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Total Transactions",
+   "number_card_name": "SA Total Transactions"
+  },
+  {
+   "label": "Total Customers",
+   "number_card_name": "SA Total Customers"
+  },
+  {
+   "label": "Active Deals",
+   "number_card_name": "SA Active Deals"
+  },
+  {
+   "label": "Pending Payment Requests",
+   "number_card_name": "SA Pending Payment Requests"
+  }
+ ],
  "owner": "aniket@dvnks.com",
  "parent_page": "",
  "public": 1,
@@ -214,6 +412,70 @@
    "link_to": "Slab-wise Achievement Distribution",
    "report_ref_doctype": "SA Incentive Calculation",
    "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "Tree",
+   "label": "Agents",
+   "link_to": "Sales Person",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Deals",
+   "link_to": "Item",
+   "stats_filter": "[[\"Item\", \"item_group\", \"=\", \"Unlisted Shares\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Customers",
+   "link_to": "Customer",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Transactions",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[[\"Sales Invoice\", \"custom_unlisted_shares\", \"=\", 1]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Commission Tiers",
+   "link_to": "Commission Tier",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Withdrawals",
+   "link_to": "Payment Entry",
+   "stats_filter": "[[\"Payment Entry\", \"custom_sales_person\", \"is\", \"set\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Withdrawal Requests",
+   "link_to": "Withdrawal Request",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Pending Approvals",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[[\"Sales Invoice\", \"workflow_state\", \"=\", \"Pending Approval\"]]",
+   "type": "DocType"
   }
  ],
  "title": "Supremus Angel"

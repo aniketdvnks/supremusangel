@@ -161,6 +161,7 @@ def get_sales_rows(sales_person, from_date, to_date):
 		WHERE st.parenttype = 'Sales Invoice'
 		  AND st.sales_person = %(sp)s
 		  AND si.docstatus = 1
+		  AND coalesce(si.custom_unlisted_shares, 0) = 0
 		  AND si.posting_date BETWEEN %(fd)s AND %(td)s
 		ORDER BY si.posting_date ASC
 		""",

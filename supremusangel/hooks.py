@@ -353,3 +353,38 @@ scheduler_events = {
 on_login = "supremusangel.supremus_angel.portal_notifications.send_kyc_reminder_on_login"
 
 boot_session = "supremusangel.supremus_angel.boot.boot_session"
+
+# Version-controlled share-sale commissions. Preserve existing app integrations.
+after_install = "supremusangel.unlisted_shares.install.setup"
+after_migrate = "supremusangel.unlisted_shares.install.setup"
+doc_events["Payment Entry"]["validate"] = "supremusangel.unlisted_shares.payments.validate"
+doc_events["Sales Invoice"].update({
+    "before_validate": "supremusangel.unlisted_shares.commission_engine.prepare",
+    "validate": ["supremusangel.unlisted_shares.commission_engine.calculate", "supremusangel.unlisted_shares.install.mark_pending"],
+    "before_submit": "supremusangel.unlisted_shares.commission_engine.calculate",
+    "before_update_after_submit": "supremusangel.unlisted_shares.commission_engine.protect_submitted",
+    "on_submit": ["supremusangel.unlisted_shares.commission_engine.on_submit", "supremusangel.supremus_angel.incentive_realtime.on_invoice_submit"],
+})
+for _dt, _function in {"Sales Invoice": "invoice", "Customer": "customer", "Sales Person": "person",
+                       "Payment Entry": "payment", "Withdrawal Request": "withdrawal"}.items():
+    permission_query_conditions[_dt] = f"supremusangel.unlisted_shares.permissions.{_function}_query"
+    has_permission[_dt] = "supremusangel.unlisted_shares.permissions.has_permission"
+
+_share_fields = ["Sales Person-custom_tier", "Sales Person-custom_agent_user", "Item-custom_logo",
+                 "Customer-custom_sales_person", "Sales Invoice-custom_unlisted_shares", "Sales Invoice-custom_primary_agent",
+                 "Sales Invoice-custom_pending_since", "Sales Invoice-workflow_state", "Sales Team-custom_commission_tier",
+                 "Payment Entry-custom_sales_person", "Payment Entry-custom_withdrawal_request", "Withdrawal Request-workflow_state"]
+for _fixture in fixtures:
+    if _fixture["dt"] == "Custom Field":
+        _fixture["filters"][0][2].extend(_share_fields)
+    if _fixture["dt"] == "Role":
+        _fixture["filters"][0][2].extend(["Agent", "Admin"])
+fixtures.extend([
+    {"dt": "Item Group", "filters": [["name", "=", "Unlisted Shares"]]},
+    {"dt": "Commission Tier", "filters": [["name", "in", ["Associate", "Sr. Associate", "Team Lead", "City Partner"]]]},
+    {"dt": "Workflow", "filters": [["name", "in", ["SA Share Purchase Approval", "SA Withdrawal Approval"]]]},
+    {"dt": "Workflow State", "filters": [["name", "in", ["Draft", "Pending Approval", "Approved", "Rejected", "Cancelled"]]]},
+    {"dt": "Workflow Action Master", "filters": [["name", "in", ["Request Approval", "Approve", "Reject", "Revise", "Cancel", "Submit"]]]},
+    {"dt": "Number Card", "filters": [["name", "in", ["SA Total Transactions", "SA Total Customers", "SA Active Deals", "SA Pending Payment Requests"]]]},
+    {"dt": "Dashboard Chart", "filters": [["name", "=", "SA Weekly Transaction Value"]]},
+])
