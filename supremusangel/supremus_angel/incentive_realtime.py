@@ -57,6 +57,8 @@ def on_invoice_cancel(doc, method=None):
 
 
 def _enqueue_recalc(doc):
+	if doc.get("custom_unlisted_shares"):
+		return
 	persons = _sales_persons_on_invoice(doc)
 	if not persons:
 		return
