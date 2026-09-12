@@ -93,6 +93,19 @@ def build_chain(seller):
 def calculate(doc, method=None):
     if not doc.get("custom_unlisted_shares"):
         return
+    if doc.get("custom_direct_sales_mandate"):
+        amount = flt(doc.base_net_total)
+        if amount <= 0:
+            fail("Share invoice net value must be greater than zero.")
+        doc.set("sales_team", [{
+            "sales_person": doc.custom_primary_agent,
+            "allocated_percentage": 100,
+            "allocated_amount": amount,
+            "commission_rate": "0",
+            "incentives": flt(doc.get("custom_direct_sales_partner_earning"), 2),
+            "custom_commission_tier": frappe.db.get_value("Sales Person", doc.custom_primary_agent, "custom_tier"),
+        }])
+        return
     if method == "before_submit":
         from supremusangel.unlisted_shares.permissions import is_admin
         if not is_admin() or doc.get("workflow_state") != "Approved":

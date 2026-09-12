@@ -1,0 +1,26 @@
+{
+  "doctype": "DocType",
+  "name": "Direct Sales Rate Revision",
+  "module": "Unlisted Shares",
+  "autoname": "format:SA-DSR-{#####}",
+  "engine": "InnoDB",
+  "is_submittable": 1,
+  "track_changes": 1,
+  "field_order": ["mandate_section", "mandate", "effective_date", "rate_section", "company_settlement_rate", "minimum_selling_rate", "maximum_selling_rate", "reason", "amended_from"],
+  "fields": [
+    {"fieldname": "mandate_section", "label": "Mandate", "fieldtype": "Section Break"},
+    {"fieldname": "mandate", "label": "Mandate", "fieldtype": "Link", "options": "Direct Sales Mandate", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "effective_date", "label": "Effective Date", "fieldtype": "Date", "default": "Today", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "rate_section", "label": "Rate Range", "fieldtype": "Section Break"},
+    {"fieldname": "company_settlement_rate", "label": "Company Settlement Rate / Share", "fieldtype": "Currency", "reqd": 1},
+    {"fieldname": "minimum_selling_rate", "label": "Minimum Selling Rate / Share", "fieldtype": "Currency", "reqd": 1},
+    {"fieldname": "maximum_selling_rate", "label": "Maximum Selling Rate / Share", "fieldtype": "Currency", "reqd": 1},
+    {"fieldname": "reason", "label": "Reason", "fieldtype": "Small Text"},
+    {"fieldname": "amended_from", "label": "Amended From", "fieldtype": "Link", "options": "Direct Sales Rate Revision", "read_only": 1, "no_copy": 1}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1, "amend": 1, "report": 1},
+    {"role": "Admin", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1, "amend": 1, "report": 1},
+    {"role": "Agent", "read": 1, "report": 1}
+  ]
+}

@@ -28,8 +28,14 @@ def query(doctype, user=None):
         return "1=0"
     if doctype == "Sales Person":
         return f"name = {agent}"
+    if doctype == "Direct Sales Rate Revision":
+        return (
+            f"`tabDirect Sales Rate Revision`.`mandate` in "
+            f"(select name from `tabDirect Sales Mandate` where sales_partner = {agent})"
+        )
     field = {"Sales Invoice": "custom_primary_agent", "Customer": "custom_sales_person",
-             "Payment Entry": "custom_sales_person", "Withdrawal Request": "sales_person"}[doctype]
+             "Payment Entry": "custom_sales_person", "Withdrawal Request": "sales_person",
+             "Direct Sales Mandate": "sales_partner"}[doctype]
     return f"`tab{doctype}`.`{field}` = {agent}"
 
 
@@ -38,6 +44,8 @@ def customer_query(user=None): return query("Customer", user)
 def person_query(user=None): return query("Sales Person", user)
 def payment_query(user=None): return query("Payment Entry", user)
 def withdrawal_query(user=None): return query("Withdrawal Request", user)
+def direct_sales_mandate_query(user=None): return query("Direct Sales Mandate", user)
+def direct_sales_rate_revision_query(user=None): return query("Direct Sales Rate Revision", user)
 
 
 def has_permission(doc, user=None, permission_type=None):
@@ -47,6 +55,9 @@ def has_permission(doc, user=None, permission_type=None):
         agent = linked_agent(user)
     except frappe.PermissionError:
         return False
+    if doc.doctype == "Direct Sales Rate Revision":
+        return frappe.db.get_value("Direct Sales Mandate", doc.mandate, "sales_partner") == agent
     field = {"Sales Invoice": "custom_primary_agent", "Customer": "custom_sales_person",
-             "Payment Entry": "custom_sales_person", "Withdrawal Request": "sales_person"}.get(doc.doctype)
+             "Payment Entry": "custom_sales_person", "Withdrawal Request": "sales_person",
+             "Direct Sales Mandate": "sales_partner"}.get(doc.doctype)
     return (doc.name if doc.doctype == "Sales Person" else doc.get(field)) == agent

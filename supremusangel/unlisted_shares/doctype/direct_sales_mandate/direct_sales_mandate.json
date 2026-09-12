@@ -1,0 +1,30 @@
+{
+  "doctype": "DocType",
+  "name": "Direct Sales Mandate",
+  "module": "Unlisted Shares",
+  "autoname": "format:SA-DSM-{#####}",
+  "engine": "InnoDB",
+  "is_submittable": 1,
+  "track_changes": 1,
+  "field_order": ["mandate_details_section", "sales_partner", "deal", "company", "mandate_date", "quantity_section", "reserved_quantity", "sold_quantity", "remaining_quantity", "pricing_section", "price_list", "status", "amended_from"],
+  "fields": [
+    {"fieldname": "mandate_details_section", "label": "Mandate Details", "fieldtype": "Section Break"},
+    {"fieldname": "sales_partner", "label": "Sales Partner", "fieldtype": "Link", "options": "Sales Person", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "deal", "label": "Deal", "fieldtype": "Link", "options": "Item", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "company", "label": "Company", "fieldtype": "Link", "options": "Company", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "mandate_date", "label": "Mandate Date", "fieldtype": "Date", "default": "Today", "reqd": 1},
+    {"fieldname": "quantity_section", "label": "Quantity Status", "fieldtype": "Section Break"},
+    {"fieldname": "reserved_quantity", "label": "Reserved Quantity", "fieldtype": "Float", "reqd": 1, "in_list_view": 1},
+    {"fieldname": "sold_quantity", "label": "Sold Quantity", "fieldtype": "Float", "read_only": 1, "in_list_view": 1},
+    {"fieldname": "remaining_quantity", "label": "Remaining Quantity", "fieldtype": "Float", "read_only": 1, "in_list_view": 1},
+    {"fieldname": "pricing_section", "label": "Pricing", "fieldtype": "Section Break"},
+    {"fieldname": "price_list", "label": "Dedicated Price List", "fieldtype": "Link", "options": "Price List", "read_only": 1},
+    {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "Draft\nActive\nCancelled\nCompleted", "read_only": 1, "in_list_view": 1},
+    {"fieldname": "amended_from", "label": "Amended From", "fieldtype": "Link", "options": "Direct Sales Mandate", "read_only": 1, "no_copy": 1}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1, "amend": 1, "report": 1},
+    {"role": "Admin", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1, "amend": 1, "report": 1},
+    {"role": "Agent", "read": 1, "report": 1}
+  ]
+}
