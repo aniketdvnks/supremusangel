@@ -6,7 +6,7 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 MODULE = "Unlisted Shares"
 REPORTS = ["Agent-wise Commission Summary", "Tier-wise Business Report", "Pending Approvals Report",
            "Top Customers by Value", "Referral Chain Drill-down", "My Sales and Commission",
-           "My Downline Performance", "My Withdrawal History"]
+           "My Downline Performance", "My Withdrawal History", "Direct Sales Partner Summary"]
 
 
 def field(name, label, kind="Link", options=None, **kwargs):
@@ -24,7 +24,11 @@ def setup():
         "Item": [field("custom_logo", "Company Logo", "Attach Image")],
         "Sales Invoice": [field("custom_unlisted_shares", "Unlisted Shares", "Check", read_only=1, default="0"),
                           field("custom_primary_agent", "Primary Agent", options="Sales Person"),
-                          field("custom_pending_since", "Pending Since", "Datetime", read_only=1)],
+                          field("custom_pending_since", "Pending Since", "Datetime", read_only=1),
+                          field("custom_direct_sales_mandate", "Direct Sales Mandate", options="Direct Sales Mandate"),
+                          field("custom_direct_sales_rate_revision", "Direct Sales Rate Revision", options="Direct Sales Rate Revision", read_only=1),
+                          field("custom_company_settlement_rate", "Company Settlement Rate / Share", "Currency", read_only=1),
+                          field("custom_direct_sales_partner_earning", "Direct Sales Partner Earning", "Currency", read_only=1)],
         "Sales Team": [field("custom_commission_tier", "Commission Tier at Sale", options="Commission Tier", read_only=1)],
         "Payment Entry": [field("custom_sales_person", "Commission Agent", options="Sales Person", read_only=1),
                           field("custom_withdrawal_request", "Withdrawal Request", options="Withdrawal Request", read_only=1)],
@@ -62,7 +66,8 @@ def setup_permissions():
         if frappe.db.exists("DocType", dt):
             add_permission(dt, "Admin", 0)
             update_permission_property(dt, "Admin", 0, "read", 1)
-    for dt in ["Sales Invoice", "Customer", "Sales Person", "Item", "Payment Entry", "Commission Tier", "Withdrawal Request"]:
+    for dt in ["Sales Invoice", "Customer", "Sales Person", "Item", "Payment Entry", "Commission Tier", "Withdrawal Request",
+               "Direct Sales Mandate", "Direct Sales Rate Revision"]:
         for role in ["Agent", "Admin"]:
             add_permission(dt, role, 0)
             rights = ["read", "report", "print"]
@@ -152,6 +157,8 @@ def setup_dashboard():
         blocks.append(dict(id="shares_card_" + frappe.scrub(name), type="number_card", data=dict(number_card_name=name[3:], col=3)))
     shortcuts = [("Agents", "Sales Person", "Tree", []), ("Deals", "Item", "List", [["Item", "item_group", "=", "Unlisted Shares"]]),
                  ("Customers", "Customer", "List", []), ("Transactions", "Sales Invoice", "List", [["Sales Invoice", "custom_unlisted_shares", "=", 1]]),
+                 ("Direct Sales Mandates", "Direct Sales Mandate", "List", []),
+                 ("Direct Sales Rate Revisions", "Direct Sales Rate Revision", "List", []),
                  ("Commission Tiers", "Commission Tier", "List", []), ("Withdrawals", "Payment Entry", "List", [["Payment Entry", "custom_sales_person", "is", "set"]]),
                  ("Withdrawal Requests", "Withdrawal Request", "List", []),
                  ("Pending Approvals", "Sales Invoice", "List", [["Sales Invoice", "workflow_state", "=", "Pending Approval"]])]
@@ -161,7 +168,7 @@ def setup_dashboard():
     if not any(r.chart_name == "SA Weekly Transaction Value" for r in ws.charts): ws.append("charts", dict(chart_name="SA Weekly Transaction Value", label="Weekly Transaction Value"))
     blocks.append(dict(id="shares_chart", type="chart", data=dict(chart_name="Weekly Transaction Value", col=12)))
     groups = {"Agent Network": [("Sales Person", "DocType"), ("Commission Tier", "DocType")],
-              "Sales": [(n, "DocType") for n in ("Item", "Customer", "Sales Invoice", "Payment Entry", "Withdrawal Request")],
+              "Sales": [(n, "DocType") for n in ("Item", "Customer", "Sales Invoice", "Direct Sales Mandate", "Direct Sales Rate Revision", "Payment Entry", "Withdrawal Request")],
               "Share Commission Reports": [(n, "Report") for n in REPORTS]}
     retained, owned_group = [], False
     for row in ws.links:

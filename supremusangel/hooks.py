@@ -360,19 +360,24 @@ after_migrate = "supremusangel.unlisted_shares.install.setup"
 doc_events["Payment Entry"]["validate"] = "supremusangel.unlisted_shares.payments.validate"
 doc_events["Sales Invoice"].update({
     "before_validate": "supremusangel.unlisted_shares.commission_engine.prepare",
-    "validate": ["supremusangel.unlisted_shares.commission_engine.calculate", "supremusangel.unlisted_shares.install.mark_pending"],
-    "before_submit": "supremusangel.unlisted_shares.commission_engine.calculate",
+    "validate": ["supremusangel.unlisted_shares.direct_sales.validate_invoice", "supremusangel.unlisted_shares.commission_engine.calculate", "supremusangel.unlisted_shares.install.mark_pending"],
+    "before_submit": ["supremusangel.unlisted_shares.direct_sales.validate_invoice", "supremusangel.unlisted_shares.commission_engine.calculate"],
     "before_update_after_submit": "supremusangel.unlisted_shares.commission_engine.protect_submitted",
-    "on_submit": ["supremusangel.unlisted_shares.commission_engine.on_submit", "supremusangel.supremus_angel.incentive_realtime.on_invoice_submit"],
+    "on_submit": ["supremusangel.unlisted_shares.commission_engine.on_submit", "supremusangel.unlisted_shares.direct_sales.on_submit_invoice", "supremusangel.supremus_angel.incentive_realtime.on_invoice_submit"],
 })
+doc_events["Sales Invoice"]["on_cancel"].append("supremusangel.unlisted_shares.direct_sales.on_cancel_invoice")
 for _dt, _function in {"Sales Invoice": "invoice", "Customer": "customer", "Sales Person": "person",
-                       "Payment Entry": "payment", "Withdrawal Request": "withdrawal"}.items():
+                       "Payment Entry": "payment", "Withdrawal Request": "withdrawal",
+                       "Direct Sales Mandate": "direct_sales_mandate",
+                       "Direct Sales Rate Revision": "direct_sales_rate_revision"}.items():
     permission_query_conditions[_dt] = f"supremusangel.unlisted_shares.permissions.{_function}_query"
     has_permission[_dt] = "supremusangel.unlisted_shares.permissions.has_permission"
 
 _share_fields = ["Sales Person-custom_tier", "Sales Person-custom_agent_user", "Item-custom_logo",
                  "Customer-custom_sales_person", "Sales Invoice-custom_unlisted_shares", "Sales Invoice-custom_primary_agent",
-                 "Sales Invoice-custom_pending_since", "Sales Invoice-workflow_state", "Sales Team-custom_commission_tier",
+                 "Sales Invoice-custom_pending_since", "Sales Invoice-custom_direct_sales_mandate",
+                 "Sales Invoice-custom_direct_sales_rate_revision", "Sales Invoice-custom_company_settlement_rate",
+                 "Sales Invoice-custom_direct_sales_partner_earning", "Sales Invoice-workflow_state", "Sales Team-custom_commission_tier",
                  "Payment Entry-custom_sales_person", "Payment Entry-custom_withdrawal_request", "Withdrawal Request-workflow_state"]
 for _fixture in fixtures:
     if _fixture["dt"] == "Custom Field":

@@ -20,7 +20,13 @@ def run_report(kind, filters=None):
     f.to_date = getdate(f.get("to_date") or today())
     if f.from_date > f.to_date:
         frappe.throw("From Date must be before To Date.")
-    if kind.startswith("my_"):
+    if kind == "direct_sales":
+        if not is_admin():
+            agent = linked_agent()
+            if f.get("sales_person") and f.sales_person != agent:
+                frappe.throw("You cannot view another agent's direct sales.", frappe.PermissionError)
+            f.sales_person = agent
+    elif kind.startswith("my_"):
         if is_admin():
             if not f.get("sales_person"):
                 frappe.throw("Select a Sales Person to preview an agent report.")
@@ -108,6 +114,42 @@ def my_sales(f):
         st.commission_rate percent,st.incentives commission """ + BASE + " and st.sales_person=%(sales_person)s order by si.posting_date desc", f)
     return [INVOICE, DATE, col("Customer", "customer", "Link", "Customer"), col("Own Sales", "own_sales"),
             col("Type", "kind", "Data"), col("Commission (%)", "percent", "Percent"), col("Commission", "commission")], rows
+
+
+def direct_sales(f):
+    extra = ""
+    if f.get("sales_person"):
+        extra += " and dsm.sales_partner=%(sales_person)s"
+    if f.get("deal"):
+        extra += " and dsm.deal=%(deal)s"
+    rows = sql("""select dsm.name mandate,dsm.sales_partner,dsm.deal,dsm.company,dsm.mandate_date,
+        dsm.reserved_quantity,dsm.sold_quantity,dsm.remaining_quantity,dsm.status,
+        dsr.name rate_revision,dsr.effective_date,dsr.company_settlement_rate,
+        dsr.minimum_selling_rate,dsr.maximum_selling_rate,
+        count(distinct si.name) invoices,coalesce(sum(si.base_net_total),0) sales_value,
+        coalesce(sum(si.custom_direct_sales_partner_earning),0) partner_earning,
+        coalesce(sum(si.base_net_total - si.custom_direct_sales_partner_earning),0) company_earning
+        from `tabDirect Sales Mandate` dsm
+        left join `tabDirect Sales Rate Revision` dsr on dsr.name=(
+            select name from `tabDirect Sales Rate Revision`
+            where mandate=dsm.name and docstatus=1
+            order by effective_date desc, creation desc limit 1
+        )
+        left join `tabSales Invoice` si on si.custom_direct_sales_mandate=dsm.name
+            and si.docstatus=1 and si.posting_date between %(from_date)s and %(to_date)s
+        where dsm.docstatus=1 """ + extra + """
+        group by dsm.name order by dsm.modified desc""", f)
+    return [
+        col("Mandate", "mandate", "Link", "Direct Sales Mandate", 170), AGENT,
+        col("Deal", "deal", "Link", "Item", 170), col("Company", "company", "Link", "Company", 170),
+        col("Mandate Date", "mandate_date", "Date"), col("Reserved Qty", "reserved_quantity", "Float"),
+        col("Sold Qty", "sold_quantity", "Float"), col("Remaining Qty", "remaining_quantity", "Float"),
+        col("Status", "status", "Data"), col("Rate Revision", "rate_revision", "Link", "Direct Sales Rate Revision", 170),
+        col("Effective Date", "effective_date", "Date"), col("Company Rate", "company_settlement_rate"),
+        col("Min Selling Rate", "minimum_selling_rate"), col("Max Selling Rate", "maximum_selling_rate"),
+        col("Invoices", "invoices", "Int"), col("Sales Value", "sales_value"),
+        col("Company Earning", "company_earning"), col("Partner Earning", "partner_earning"),
+    ], rows
 
 
 def my_downline(f):
